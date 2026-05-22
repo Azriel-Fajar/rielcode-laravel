@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /contact
+Disallow: /_ignition/
+Disallow: /storage/
+
+Sitemap: https://rielcode.com/sitemap.xml

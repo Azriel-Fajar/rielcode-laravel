@@ -1,0 +1,110 @@
+/* ============================================================
+ * Rielcode Phase 2 — global base styles
+ * Consumes tokens from tokens.css. Sets up font-face,
+ * reset, and body defaults. Component styles live in
+ * each .astro component.
+ * ============================================================ */
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/Fraunces-VariableFont.woff2') format('woff2-variations');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/Fraunces-Italic-VariableFont.woff2') format('woff2-variations');
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-VariableFont.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--rc-bg);
+  color: var(--rc-text);
+}
+
+body {
+  margin: 0;
+  font-family: var(--rc-font-body);
+  font-size: var(--fs-body-md);
+  line-height: var(--lh-body-md);
+  background: var(--rc-bg);
+  color: var(--rc-text);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--rc-font-display);
+  font-weight: 400;
+  margin: 0;
+  color: var(--rc-text);
+}
+
+h1 { font-size: var(--fs-display-lg); line-height: var(--lh-display-lg); letter-spacing: -0.02em; }
+h2 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: -0.015em; }
+h3 { font-size: var(--fs-h2); line-height: var(--lh-h2); }
+h4 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+
+p { margin: 0 0 var(--space-4) 0; }
+
+a {
+  color: var(--rc-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover { color: var(--rc-accent-hover); }
+
+img, svg { display: block; max-width: 100%; height: auto; }
+
+.rc-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-inline: var(--container-pad);
+}
+
+.rc-label {
+  font-family: var(--rc-font-body);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--rc-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
+}
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}

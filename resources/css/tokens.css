@@ -1,0 +1,134 @@
+/**
+ * ============================================================
+ *  Rielcode Design Tokens — shared source of truth
+ *  Phase 1 / Track 1D: extracted from current Rielcode style.
+ *  Consumed by Astro (this project) AND PHP (linked from cPanel
+ *  public_html/design-system/tokens.css in production).
+ *
+ *  Phase 2 will introduce light-primary + dark-toggle themes and
+ *  finalize the accent. For now the current dark navy is the
+ *  default so the migrated site looks identical.
+ * ============================================================
+ */
+
+:root {
+  /* ── Color: brand ── */
+  --rc-cream:               #f4f1ea;
+  --rc-cream-elev:          #ebe7dc;
+  --rc-cream-50:            #faf8f3;
+  --rc-ink:                 #1a1a1a;
+  --rc-ink-900:             #0a0a0a;
+  --rc-forest:              #2d4a3a;
+  --rc-forest-mid:          #4a6b58;
+  --rc-forest-pale:         #8ba88f;
+
+  /* ── Color: semantic (light theme default) ── */
+  --rc-bg:                  var(--rc-cream);
+  --rc-bg-elev:             var(--rc-cream-elev);
+  --rc-text:                var(--rc-ink);
+  --rc-text-muted:          rgba(26, 26, 26, 0.72);
+  --rc-text-faint:          rgba(26, 26, 26, 0.62);
+  --rc-accent:              var(--rc-forest);
+  --rc-accent-hover:        var(--rc-forest-mid);
+  --rc-accent-pale:         var(--rc-forest-pale);
+  --rc-on-accent:           var(--rc-cream);
+  --rc-border:              rgba(26, 26, 26, 0.12);
+  --rc-border-strong:       rgba(26, 26, 26, 0.24);
+
+  /* ── Typography: families ── */
+  --rc-font-display:        'Fraunces', Georgia, 'Times New Roman', serif;
+  --rc-font-body:           'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --rc-font-mono:           'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  /* ── Typography: scale (kept from Phase 1) ── */
+  --fs-display-xl:          72px;
+  --fs-display-lg:          56px;
+  --fs-h1:                  40px;
+  --fs-h2:                  32px;
+  --fs-h3:                  24px;
+  --fs-h4:                  20px;
+  --fs-body-lg:             18px;
+  --fs-body-md:             16px;
+  --fs-body-sm:             14px;
+  --fs-label:               12px;
+  --fs-code:                14px;
+
+  /* ── Typography: line heights ── */
+  --lh-display-xl:          1.05;
+  --lh-display-lg:          1.10;
+  --lh-h1:                  1.15;
+  --lh-h2:                  1.20;
+  --lh-h3:                  1.30;
+  --lh-h4:                  1.40;
+  --lh-body-lg:             1.65;
+  --lh-body-md:             1.60;
+  --lh-body-sm:             1.55;
+  --lh-label:               1.40;
+  --lh-code:                1.50;
+
+  --ls-label:               0.12em;
+
+  /* ── Spacing (base-8) ── */
+  --space-1:                4px;
+  --space-2:                8px;
+  --space-3:                12px;
+  --space-4:                16px;
+  --space-6:                24px;
+  --space-8:                32px;
+  --space-12:               48px;
+  --space-16:               64px;
+  --space-24:               96px;
+  --space-32:               128px;
+
+  /* ── Radii ── */
+  --radius-sm:              4px;
+  --radius-md:              8px;
+  --radius-lg:              16px;
+  --radius-pill:            999px;
+
+  /* ── Shadows ── */
+  --shadow-card:            0 8px 24px rgba(26, 26, 26, 0.08);
+  --shadow-card-hover:      0 12px 32px rgba(26, 26, 26, 0.12);
+
+  /* ── Motion ── */
+  --ease-out:               cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out:            cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-fast:               160ms;
+  --dur-base:               240ms;
+  --dur-slow:               420ms;
+  --transition-fast:        var(--dur-fast) var(--ease-out);
+  --transition-base:        var(--dur-base) var(--ease-out);
+
+  /* ── Layout ── */
+  --z-nav:                  1050;
+  --z-overlay:              10000;
+  --container-max:          1240px;
+  --container-pad:          24px;
+  --section-py-desktop:     120px;
+  --section-py-mobile:      72px;
+}
+
+[data-theme="dark"] {
+  --rc-bg:                  var(--rc-ink);
+  --rc-bg-elev:             #242424;
+  --rc-text:                var(--rc-cream);
+  --rc-text-muted:          rgba(244, 241, 234, 0.78);
+  --rc-text-faint:          rgba(244, 241, 234, 0.70);
+  --rc-border:              rgba(244, 241, 234, 0.14);
+  --rc-border-strong:       rgba(244, 241, 234, 0.28);
+  --shadow-card:            0 8px 24px rgba(0, 0, 0, 0.40);
+  --shadow-card-hover:      0 12px 32px rgba(0, 0, 0, 0.55);
+  /* forest accent unchanged for brand continuity */
+}
+
+/* ── Reduced motion: cut transforms, keep opacity fades for comprehension. ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
