@@ -1,0 +1,141 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+/* Rielcode design tokens */
+:root {
+    --rc-cream: #f4f1ea;
+    --rc-ink: #1a1a1a;
+    --rc-forest: #2d4a3a;
+    --rc-forest-mid: #4a6b58;
+    --rc-forest-pale: #8ba88f;
+    --rc-font-display: 'Fraunces', Georgia, serif;
+    --rc-font-body: 'Inter', system-ui, sans-serif;
+    --rc-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Typography */
+h1, h2, h3,
+.fi-header-heading,
+.fi-topbar-breadcrumbs .fi-breadcrumb-item:last-child,
+.fi-page-header-heading {
+    font-family: var(--rc-font-display) !important;
+    letter-spacing: -0.02em;
+}
+
+body,
+.fi-sidebar,
+.fi-topbar,
+.fi-main {
+    font-family: var(--rc-font-body) !important;
+}
+
+.fi-ta-header-cell-label,
+code, kbd, pre,
+.fi-badge {
+    font-family: var(--rc-font-mono) !important;
+    font-size: 0.78rem;
+}
+
+/* Sidebar -- ink bg */
+.fi-sidebar {
+    background-color: var(--rc-ink) !important;
+}
+
+.fi-sidebar .fi-sidebar-nav-groups {
+    gap: 0.25rem;
+}
+
+.fi-sidebar-item-label {
+    color: rgba(244, 241, 234, 0.72) !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-label,
+.fi-sidebar-item:hover .fi-sidebar-item-label {
+    color: var(--rc-cream) !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-icon,
+.fi-sidebar-item:hover .fi-sidebar-item-icon {
+    color: var(--rc-forest-pale) !important;
+}
+
+.fi-sidebar-item-icon {
+    color: rgba(244, 241, 234, 0.48) !important;
+}
+
+.fi-sidebar-group-label {
+    color: rgba(244, 241, 234, 0.4) !important;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Active nav item pill */
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    background-color: rgba(45, 74, 58, 0.4) !important;
+    border-radius: 8px;
+}
+
+/* Top bar */
+.fi-topbar {
+    background-color: var(--rc-cream) !important;
+    border-bottom: 1px solid rgba(26,26,26,0.1) !important;
+}
+
+/* Main content area */
+.fi-main {
+    background-color: #f8f6f0 !important;
+}
+
+/* Cards / panels */
+.fi-section,
+.fi-card,
+.fi-widget {
+    border-radius: 12px !important;
+    border: 1px solid rgba(26,26,26,0.1) !important;
+    background-color: var(--rc-cream) !important;
+}
+
+/* Buttons -- primary */
+.fi-btn-color-primary {
+    background-color: var(--rc-forest) !important;
+    color: var(--rc-cream) !important;
+    border-radius: 8px !important;
+}
+
+.fi-btn-color-primary:hover {
+    background-color: var(--rc-forest-mid) !important;
+}
+
+/* Table rows */
+.fi-ta-row:hover td {
+    background-color: rgba(45, 74, 58, 0.04) !important;
+}
+
+/* Badges */
+.fi-badge-color-success {
+    background-color: rgba(45, 74, 58, 0.12) !important;
+    color: var(--rc-forest) !important;
+}
+
+/* Brand logo area */
+.fi-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0.75rem;
+}
+
+.fi-logo img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.fi-logo-text {
+    font-family: var(--rc-font-display) !important;
+    color: var(--rc-cream) !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+}

@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'token.gate'     => \App\Http\Middleware\TokenGate::class,
+            'rate.chat'      => \App\Http\Middleware\RateLimitChat::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

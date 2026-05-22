@@ -18,7 +18,7 @@
             </h1>
             <p class="rc-hero__body">A solo studio building editorial-grade sites, landing pages, and simple e-commerce — designed and developed end-to-end from Salatiga, Indonesia.</p>
             <div class="rc-hero__ctas">
-                <a class="rc-btn rc-btn--fill rc-btn--lg" href="/contact">Start a project</a>
+                <a class="rc-btn rc-btn--fill rc-btn--lg" href="/order">Start a project</a>
                 <a class="rc-btn rc-btn--underline rc-btn--md" href="/work">See the work</a>
             </div>
             <div class="rc-hero__chips">
@@ -40,7 +40,7 @@
                 @foreach ($featuredWork as $i => $project)
                     <a class="rc-workcard rc-workcard--{{ $i === 0 ? 'lg' : 'sm' }}" href="/work/{{ $project->slug }}">
                         <div class="rc-workcard__media">
-                            <img src="{{ $project->image_path }}" alt="{{ $project->title }}" loading="lazy" />
+                            <img src="{{ $project->image_path ? asset('storage/' . $project->image_path) : asset('IMG/og-default.png') }}" alt="{{ $project->title }}" loading="lazy" />
                         </div>
                         <div class="rc-workcard__meta">
                             <span class="rc-label">{{ substr($project->created_at, 0, 4) }} · {{ $project->tags_array[0] ?? 'Custom website' }}</span>
@@ -68,7 +68,11 @@
         <div class="rc-container">
             <div class="rc-home-studio">
                 <div class="rc-home-studio__media">
-                    <div class="rc-home-studio__portrait" aria-hidden="true"></div>
+                    @if ($studioPortraitImage)
+                        <img class="rc-home-studio__portrait" src="{{ $studioPortraitImage }}" alt="Azriel — Rielcode Studio" loading="lazy" />
+                    @else
+                        <div class="rc-home-studio__portrait" aria-hidden="true"></div>
+                    @endif
                 </div>
                 <div class="rc-home-studio__copy">
                     <span class="rc-label">The studio</span>
@@ -126,20 +130,49 @@
         </div>
     </section>
 
-    {{-- Testimonial --}}
-    @if ($testimonial)
+    {{-- Testimonials --}}
+    @if ($testimonials->isNotEmpty())
         <section class="rc-section rc-section--bg-default rc-section--pad-default" id="testimonials">
             <div class="rc-container">
-                <figure class="rc-home-quote">
-                    <blockquote class="rc-home-quote__body">
-                        <p><em>"{{ $testimonial->headline }}"</em></p>
-                        <p class="rc-home-quote__detail">{{ $testimonial->recommendation }}</p>
-                    </blockquote>
-                    <figcaption class="rc-home-quote__cite">
-                        <strong>{{ $testimonial->client_name }}</strong>
-                        <span>{{ $testimonial->role_title }}, {{ $testimonial->business_name }}</span>
-                    </figcaption>
-                </figure>
+                @if ($testimonials->count() === 1)
+                    @php $t = $testimonials->first() @endphp
+                    <figure class="rc-home-quote">
+                        <blockquote class="rc-home-quote__body">
+                            <p><em>"{{ $t->headline }}"</em></p>
+                            <p class="rc-home-quote__detail">{{ $t->recommendation }}</p>
+                        </blockquote>
+                        <figcaption class="rc-home-quote__cite">
+                            <strong>{{ $t->client_name }}</strong>
+                            <span>{{ $t->role_title }}, {{ $t->business_name }}</span>
+                        </figcaption>
+                    </figure>
+                @else
+                    <div class="rc-testimonial-slider" id="testimonialSlider" data-autoplay="6000">
+                        <div class="rc-testimonial-slider__track">
+                            @foreach ($testimonials as $t)
+                            <figure class="rc-home-quote rc-testimonial-slider__slide">
+                                <blockquote class="rc-home-quote__body">
+                                    <p><em>"{{ $t->headline }}"</em></p>
+                                    <p class="rc-home-quote__detail">{{ $t->recommendation }}</p>
+                                </blockquote>
+                                <figcaption class="rc-home-quote__cite">
+                                    <strong>{{ $t->client_name }}</strong>
+                                    <span>{{ $t->role_title }}, {{ $t->business_name }}</span>
+                                </figcaption>
+                            </figure>
+                            @endforeach
+                        </div>
+                        <div class="rc-testimonial-slider__controls">
+                            <button class="rc-testimonial-slider__arrow rc-testimonial-slider__arrow--prev" aria-label="Previous">&larr;</button>
+                            <div class="rc-testimonial-slider__dots">
+                                @foreach ($testimonials as $i => $t)
+                                    <button class="rc-testimonial-slider__dot{{ $i === 0 ? ' rc-testimonial-slider__dot--active' : '' }}" data-index="{{ $i }}" aria-label="Testimonial {{ $i + 1 }}"></button>
+                                @endforeach
+                            </div>
+                            <button class="rc-testimonial-slider__arrow rc-testimonial-slider__arrow--next" aria-label="Next">&rarr;</button>
+                        </div>
+                    </div>
+                @endif
             </div>
         </section>
     @endif
@@ -149,7 +182,7 @@
         <div class="rc-container rc-ctaband__inner">
             <span class="rc-label rc-ctaband__eyebrow">Booking Q3 2026</span>
             <h2 class="rc-ctaband__heading">Have a project in mind? Let's make it well.</h2>
-            <a class="rc-ctaband__cta" href="/contact">
+            <a class="rc-ctaband__cta" href="/order">
                 Start a project
                 <span aria-hidden="true">→</span>
             </a>

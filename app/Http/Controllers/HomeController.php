@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\SiteSetting;
 use App\Models\Testimonial;
 
 class HomeController extends Controller
@@ -15,8 +16,9 @@ class HomeController extends Controller
             ->limit(2)
             ->get();
 
-        $testimonial = Testimonial::approved()->orderBy('id')->first();
+        $testimonials = Testimonial::approved()->orderBy('reviewed_at', 'desc')->get();
+        $studioPortraitImage = SiteSetting::get('studio.portrait_image');
 
-        return view('pages.home', compact('featuredWork', 'testimonial'));
+        return view('pages.home', compact('featuredWork', 'testimonials', 'studioPortraitImage'));
     }
 }

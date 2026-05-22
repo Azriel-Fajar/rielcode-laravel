@@ -12,6 +12,11 @@
             <p class="rc-studio-hero__body">
                 Rielcode is run by Azriel — a developer and informatics engineering student who treats each website as an editorial product, not a template fill.
             </p>
+            @if ($studioHeroImage)
+                <div class="rc-studio-hero__media">
+                    <img src="{{ $studioHeroImage }}" alt="Rielcode Studio" loading="lazy" />
+                </div>
+            @endif
         </div>
     </section>
 
@@ -82,11 +87,11 @@
                 @foreach ($faqs as $item)
                     <details class="rc-faq__item">
                         <summary class="rc-faq__q">
-                            <span>{{ $item['q'] }}</span>
+                            <span>{{ $item->question }}</span>
                             <span class="rc-faq__icon" aria-hidden="true">+</span>
                         </summary>
                         <div class="rc-faq__a">
-                            <p>{{ $item['a'] }}</p>
+                            <p>{{ $item->answer }}</p>
                         </div>
                     </details>
                 @endforeach

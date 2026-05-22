@@ -53,7 +53,7 @@
         <div class="rc-container rc-ctaband__inner">
             <span class="rc-label rc-ctaband__eyebrow">Work with Rielcode</span>
             <h2 class="rc-ctaband__heading">Want a site built with this much care?</h2>
-            <a class="rc-ctaband__cta" href="/contact">
+            <a class="rc-ctaband__cta" href="/order">
                 Start a project
                 <span aria-hidden="true">→</span>
             </a>

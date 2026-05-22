@@ -52,6 +52,7 @@
         {{ $slot }}
     </main>
     <x-footer />
+    <x-chatbot />
     @stack('scripts')
 </body>
 </html>
