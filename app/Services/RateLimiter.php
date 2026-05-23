@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\SiteSetting;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use Throwable;
@@ -12,8 +13,15 @@ class RateLimiter
     const LIMIT_DAY_MAX    = 200;
     const LIMIT_TOKENS_MAX = 30000;
 
+    public static function isEnabled(): bool
+    {
+        return SiteSetting::get('chat.rate_limit_enabled', '1') !== '0';
+    }
+
     public static function check(string $ip): void
     {
+        if (!static::isEnabled()) return;
+
         $hourWindow = now()->format('Y-m-d H:00:00');
         $dayWindow  = now()->format('Y-m-d 00:00:00');
 
@@ -54,6 +62,8 @@ class RateLimiter
 
     public static function checkTokens(string $ip): void
     {
+        if (!static::isEnabled()) return;
+
         $dayWindow = now()->format('Y-m-d 00:00:00');
 
         $cur = (int) DB::table('rate_limits')

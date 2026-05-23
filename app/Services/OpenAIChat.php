@@ -50,6 +50,7 @@ class OpenAIChat
             'messages'    => $messages,
             'max_tokens'  => $this->maxTokens,
             'temperature' => $this->temperature,
+            'store'       => true,
         ];
 
         $ch = curl_init('https://api.openai.com/v1/chat/completions');
@@ -112,6 +113,7 @@ class OpenAIChat
             'temperature'    => $this->temperature,
             'stream'         => true,
             'stream_options' => ['include_usage' => true],
+            'store'          => true,
         ];
 
         $this->sseSend('start', ['ok' => true]);

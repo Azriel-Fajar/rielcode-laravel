@@ -14,7 +14,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/IMG/Rielcode Logo Square Transparent Icon.png" />
+    <link rel="apple-touch-icon" href="/IMG/Rielcode Logo Square Transparent Icon.png" />
     <link rel="canonical" href="{{ $canonical }}" />
 
     <title>{{ $title }}</title>

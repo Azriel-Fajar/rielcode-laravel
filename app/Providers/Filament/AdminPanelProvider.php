@@ -37,7 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Rielcode Studio')
             ->brandLogo(asset('IMG/Rielcode Logo Square Transparent.svg'))
             ->brandLogoHeight('2rem')
-            ->favicon(asset('favicon.ico'))
+            ->favicon(asset('IMG/Rielcode Logo Square Transparent Icon.png'))
             ->darkMode(false)
             ->spa()
             ->theme(asset('css/filament/admin/theme.css'))

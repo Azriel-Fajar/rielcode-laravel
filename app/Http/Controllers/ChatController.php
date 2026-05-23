@@ -32,7 +32,9 @@ class ChatController extends Controller
 
         // Identity shortcut — no API call needed
         if ($this->chat->isIdentityQuestion($message)) {
-            return response()->json(['ok' => true, 'reply' => $this->chat->identityReply()]);
+            $reply = $this->chat->identityReply();
+            $this->logChat($message, $reply, [], $ip, 'identity');
+            return response()->json(['ok' => true, 'reply' => $reply]);
         }
 
         $history  = $this->sessionHistory($request);
@@ -72,9 +74,11 @@ class ChatController extends Controller
         }
 
         if ($this->chat->isIdentityQuestion($message)) {
-            return new StreamedResponse(function () {
+            $reply = $this->chat->identityReply();
+            $this->logChat($message, $reply, [], $ip, 'identity');
+            return new StreamedResponse(function () use ($reply) {
                 echo "event: start\ndata: {\"ok\":true}\n\n";
-                echo 'event: delta\ndata: ' . json_encode(['v' => $this->chat->identityReply()]) . "\n\n";
+                echo "event: delta\ndata: " . json_encode(['v' => $reply]) . "\n\n";
                 echo "event: done\ndata: {\"ok\":true}\n\n";
                 @ob_flush(); @flush();
             }, 200, $this->sseHeaders());
@@ -105,7 +109,7 @@ class ChatController extends Controller
     private function sessionHistory(Request $request): array
     {
         $history = $request->session()->get('rielbot_memory', []);
-        if (count($history) > 20) {
+        if (count($history) > 6) {
             $history = array_slice($history, -20);
         }
         return $history;
@@ -116,7 +120,7 @@ class ChatController extends Controller
         $history   = $request->session()->get('rielbot_memory', []);
         $history[] = ['role' => 'user',      'content' => $userMsg];
         $history[] = ['role' => 'assistant', 'content' => $botReply];
-        if (count($history) > 20) {
+        if (count($history) > 6) {
             $history = array_slice($history, -20);
         }
         $request->session()->put('rielbot_memory', $history);
@@ -133,7 +137,6 @@ class ChatController extends Controller
                 'output_tokens' => $usage['out'] ?? null,
                 'tag'           => $tag,
                 'created_at'    => now(),
-                'updated_at'    => now(),
             ]);
         } catch (\Throwable $e) {
             AuditLogger::log('CHAT_LOG_INSERT_FAIL', 'error', $ip, ['err' => $e->getMessage()]);

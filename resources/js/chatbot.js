@@ -1,4 +1,4 @@
-// Chatbot boot — deferred to idle so first paint isn't blocked by ~33KB parse + DOM injection.
+// Chatbot boot - deferred to idle so first paint isn't blocked by ~33KB parse + DOM injection.
 (function rielChatbotBoot() {
   const __initChatbot = function () {
   const chatbotHTML = `
@@ -11,7 +11,7 @@
 
 <!-- Greeting bubble above chatbot icon -->
 <div id="chatbot-greeting" class="chatbot-greeting">
-  👋 Hi! Anything I can help with?
+  Hi, anything I can help with?
   <button id="chatbot-greeting-close" class="chatbot-greeting-close">×</button>
 </div>
 
@@ -40,10 +40,10 @@
   <!-- Quick Reply Dropup -->
   <div id="quick-replies" class="quick-replies-dropup">
     <div id="quick-menu" class="quick-menu">
-      <button class="quick-chip" data-msg="What packages do you offer?">📦 View Packages</button>
-      <button class="quick-chip" data-msg="How much does a Rielcode package cost?">💰 Check Pricing</button>
-      <button class="quick-chip" data-msg="Tell me about the Custom Plan presets (Copy Website and E-Commerce)">⚡ Custom Plan</button>
-      <button class="quick-chip" data-msg="How do I order a website?">🚀 How to Order</button>
+      <button class="quick-chip" data-msg="What packages do you offer?">View Packages</button>
+      <button class="quick-chip" data-msg="How much does a Rielcode package cost?">Check Pricing</button>
+      <button class="quick-chip" data-msg="Tell me about the Custom Plan presets (Copy Website and E-Commerce)">Custom Plan</button>
+      <button class="quick-chip" data-msg="How do I order a website?">How to Order</button>
     </div>
     <button id="quick-toggle" class="quick-toggle" title="Quick questions">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
@@ -69,7 +69,7 @@
 
   const promo = document.querySelector(".rc-promo--bottom-bar");
 
-  // Start widget at base corner position — lifted by updateChatbotOffset once promo mounts
+  // Start widget at base corner position - lifted by updateChatbotOffset once promo mounts
   const _initBase = window.innerWidth <= 500 ? 16 : 25;
   document.getElementById("chatbot-icon").style.bottom = _initBase + "px";
   document.getElementById("chatbot-greeting").style.bottom = (_initBase + 68) + "px";
@@ -142,7 +142,7 @@
           setTimeout(() => {
             typingDiv.classList.remove("typing");
             typingDiv.innerHTML =
-              "👋 Hi! I'm <strong>RielBot</strong>, Rielcode's virtual assistant.<br><br>Want to ask about packages, pricing, or how to order? Just ask — or click one of the buttons below! 😊";
+              "Hi, I'm <strong>RielBot</strong>, Rielcode's virtual assistant.<br><br>Ask me about packages, pricing, or how to get started. Or use the quick buttons below.";
             messages.scrollTop = messages.scrollHeight;
           }, 1200);
         }, 300);
@@ -210,6 +210,13 @@
     if (e.key === "Enter") sendMessage();
   });
 
+  function setInputLocked(locked) {
+    input.disabled = locked;
+    sendBtn.disabled = locked;
+    sendBtn.style.opacity = locked ? "0.4" : "";
+    sendBtn.style.cursor = locked ? "not-allowed" : "";
+  }
+
   // ─── Message rendering ────────────────────────────────────────────────────
   function addMessage(sender, text) {
     const div = document.createElement("div");
@@ -241,7 +248,10 @@
   }
 
   // ─── Send & fetch ─────────────────────────────────────────────────────────
+  let isBotReplying = false;
+
   async function sendMessage() {
+    if (isBotReplying) return;
     const text = input.value.trim();
     if (!text) return;
     input.value = "";
@@ -253,19 +263,13 @@
       });
     }
 
-    // Local identity shortcut (no API call needed)
-    if (text.toLowerCase().includes("rielbot")) {
-      addMessage(
-        "bot",
-        "Hi! I'm RielBot, Rielcode's virtual assistant. How can I help?",
-      );
-      return;
-    }
-
     addMessage("user", text);
     const botMsgDiv = addMessage("bot", "");
     botMsgDiv.classList.add("typing");
     botMsgDiv.innerHTML = "<span></span><span></span><span></span>";
+
+    isBotReplying = true;
+    setInputLocked(true);
 
     // Highlight discounts in pricing-related replies
     function highlightPromo(replyText) {
@@ -288,7 +292,7 @@
       if (err && err.code === "NO_CHUNKS") {
         // Streaming likely buffered by Apache/FastCGI. Fall back to blocking JSON.
         sessionStorage.setItem("rc_stream_ok", "0");
-        console.warn("[RielBot] Streaming watchdog tripped — falling back to blocking JSON.");
+        console.warn("[RielBot] Streaming watchdog tripped - falling back to blocking JSON.");
         try {
           await sendBlocking(text, botMsgDiv, highlightPromo);
         } catch (err2) {
@@ -297,6 +301,10 @@
       } else {
         renderClientError(botMsgDiv, err);
       }
+    } finally {
+      isBotReplying = false;
+      setInputLocked(false);
+      input.focus();
     }
   }
 
@@ -338,17 +346,16 @@
       throw e;
     }
 
-    // Server didn't honor SSE — fall back.
+    // Server didn't honor SSE - fall back.
     const ct = (res.headers.get("content-type") || "").toLowerCase();
-    console.log("[RielBot] stream response status=" + res.status + " ct=" + ct + " body=" + (res.body ? "ok" : "NULL"));
     if (!ct.includes("text/event-stream") && res.status !== 429) {
       clearTimeout(firstChunkTimer);
       clearTimeout(hardTimer);
-      console.warn("[RielBot] CT mismatch → fallback");
+      console.warn("[RielBot] CT mismatch - fallback");
       throw { code: "NO_CHUNKS" };
     }
 
-    // 429 in SSE shape still gets emitted as event: error frames — handled below.
+    // 429 in SSE shape still gets emitted as event: error frames - handled below.
     // Guard: Opera and some browsers return null body for streamed responses.
     if (!res.body) {
       clearTimeout(firstChunkTimer);
@@ -414,7 +421,7 @@
     div.innerHTML = parseMarkdown(highlightPromo(assembled));
   }
 
-  // ─── Blocking send (JSON) — original path, used as fallback ─────────────
+  // ─── Blocking send (JSON) - original path, used as fallback ─────────────
   async function sendBlocking(text, div, highlightPromo) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -431,7 +438,7 @@
       clearTimeout(timeoutId);
     }
 
-    // 4xx/5xx still carry a JSON body with .reply/.code — render it instead of throwing.
+    // 4xx/5xx still carry a JSON body with .reply/.code - render it instead of throwing.
     let data;
     try { data = await res.json(); }
     catch (e) {
