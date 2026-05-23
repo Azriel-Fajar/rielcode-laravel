@@ -6,6 +6,8 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
 use App\Filament\Widgets\ChatVolumeWidget;
 use App\Filament\Widgets\OrderStatusWidget;
 use App\Filament\Widgets\PendingTestimonialsWidget;
@@ -39,6 +41,10 @@ class AdminPanelProvider extends PanelProvider
             ->darkMode(false)
             ->spa()
             ->theme(asset('css/filament/admin/theme.css'))
+            ->renderHook(
+                PanelsRenderHook::BODY_END,
+                fn () => view('filament.admin.skeleton-loader')
+            )
             ->colors([
                 'primary' => Color::hex('#2d4a3a'),
             ])
