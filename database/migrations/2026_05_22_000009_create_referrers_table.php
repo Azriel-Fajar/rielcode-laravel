@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('referrers')) return;
         Schema::create('referrers', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->string('name', 100);

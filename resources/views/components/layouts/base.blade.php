@@ -20,6 +20,7 @@
     <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}" />
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta property="og:title" content="{{ $title }}" />
     <meta property="og:description" content="{{ $description }}" />
     <meta property="og:type" content="website" />

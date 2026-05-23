@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('audit_log')) return;
         Schema::create('audit_log', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('event_code', 32)->index();

@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->json('selected_addons')->nullable()->after('custom_config');
-        });
+        if (!Schema::hasColumn('orders', 'selected_addons')) {
+            Schema::table('orders', function (Blueprint $table) {
+                $table->json('selected_addons')->nullable();
+            });
+        }
     }
 
     public function down(): void

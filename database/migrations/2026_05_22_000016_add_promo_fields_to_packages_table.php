@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('packages', function (Blueprint $table) {
+        if (!Schema::hasColumn('packages', 'slug')) Schema::table('packages', function (Blueprint $table) {
             $table->string('slug', 30)->nullable()->unique()->after('id');
             $table->integer('original_idr')->nullable()->after('idr_price');
             $table->decimal('original_us', 10, 2)->nullable()->after('us_price');

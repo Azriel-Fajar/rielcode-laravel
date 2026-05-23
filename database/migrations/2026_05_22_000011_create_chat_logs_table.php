@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('chat_logs')) return;
         Schema::create('chat_logs', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->text('user_message');

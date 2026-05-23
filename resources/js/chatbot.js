@@ -327,7 +327,7 @@
     try {
       res = await fetch(PROXY_URL_STREAM, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "text/event-stream" },
+        headers: { "Content-Type": "application/json", "Accept": "text/event-stream", "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')?.content ?? "" },
         body: JSON.stringify({ message: text, source: "chatbot" }),
         signal: controller.signal,
       });
@@ -423,7 +423,7 @@
     try {
       res = await fetch(PROXY_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')?.content ?? "" },
         body: JSON.stringify({ message: text, source: "chatbot" }),
         signal: controller.signal,
       });

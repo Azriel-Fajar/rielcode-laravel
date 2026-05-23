@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('order_payments', function (Blueprint $table) {
+        if (!Schema::hasTable('order_payments')) Schema::create('order_payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('order_id')->index();
             $table->enum('stage', ['deposit', 'final']);
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unique(['order_id', 'stage']);
         });
 
-        Schema::create('invoice_counter', function (Blueprint $table) {
+        if (!Schema::hasTable('invoice_counter')) Schema::create('invoice_counter', function (Blueprint $table) {
             $table->year('year')->primary();
             $table->integer('last_number')->default(0);
         });

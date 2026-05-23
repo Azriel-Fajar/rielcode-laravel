@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('rate_limits')) return;
         Schema::create('rate_limits', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('ip_address', 45)->index();

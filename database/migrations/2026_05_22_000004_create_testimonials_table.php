@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('testimonials')) return;
         Schema::create('testimonials', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->string('client_name', 80);

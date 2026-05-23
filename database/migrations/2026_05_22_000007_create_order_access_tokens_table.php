@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('order_access_tokens')) return;
         Schema::create('order_access_tokens', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->integer('order_id');
