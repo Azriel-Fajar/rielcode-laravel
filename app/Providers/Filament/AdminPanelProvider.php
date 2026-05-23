@@ -37,6 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2rem')
             ->favicon(asset('favicon.ico'))
             ->darkMode(false)
+            ->spa()
             ->theme(asset('css/filament/admin/theme.css'))
             ->colors([
                 'primary' => Color::hex('#2d4a3a'),
