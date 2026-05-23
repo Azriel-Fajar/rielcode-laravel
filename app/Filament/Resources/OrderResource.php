@@ -151,7 +151,7 @@ class OrderResource extends Resource
                             'order_id' => $record->id,
                             'token' => $token,
                         ]);
-                        $url = 'https://progress.rielcode.com/?t=' . $token;
+                        $url = config('app.portal_urls.progress') . '/progress?t=' . $token;
                         Notification::make()
                             ->title('Token generated')
                             ->body($url)

@@ -117,7 +117,7 @@ class CheckoutController extends Controller
             'token'    => $progressToken,
         ]);
 
-        $progressUrl = 'https://progress.rielcode.com/?t=' . $progressToken;
+        $progressUrl = config('app.portal_urls.progress') . '/progress?t=' . $progressToken;
 
         // Send confirmation email
         try {
@@ -140,7 +140,7 @@ class CheckoutController extends Controller
     {
         $progressToken  = $request->session()->get('progress_token');
         $progressOrderId = $request->session()->get('progress_order_id');
-        $progressUrl     = $progressToken ? 'https://progress.rielcode.com/?t=' . $progressToken : null;
+        $progressUrl     = $progressToken ? config('app.portal_urls.progress') . '/progress?t=' . $progressToken : null;
 
         $request->session()->forget(['progress_token', 'progress_order_id', 'order_id', 'custom_total']);
 

@@ -123,4 +123,10 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'portal_urls' => [
+        'progress'    => env('PROGRESS_URL', env('APP_URL')),
+        'brief'       => env('BRIEF_URL', env('APP_URL')),
+        'testimonial' => env('TESTIMONIAL_URL', env('APP_URL')),
+    ],
+
 ];

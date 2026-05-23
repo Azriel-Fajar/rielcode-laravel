@@ -48,7 +48,7 @@ class TestimonialInviteResource extends Resource
                     ->label('Copy Invite Link')
                     ->icon('heroicon-o-clipboard')
                     ->action(function (TestimonialInvite $record) {
-                        $url = 'https://testimonials.rielcode.com/?t=' . $record->token;
+                        $url = config('app.portal_urls.testimonial') . '/testimonial?t=' . $record->token;
                         Notification::make()
                             ->title('Invite link')
                             ->body($url)
@@ -76,9 +76,4 @@ class TestimonialInviteResource extends Resource
         ];
     }
 
-    public static function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['token'] = Str::random(64);
-        return $data;
-    }
 }
