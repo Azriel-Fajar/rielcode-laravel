@@ -1,7 +1,5 @@
-<x-layouts.base
-    title="Rielcode – Websites with uncommon polish"
-    description="A solo studio in Salatiga building editorial-grade websites, landing pages, and simple e-commerce for international and Indonesian SMB clients."
->
+<x-layouts.base title="Rielcode – Websites with uncommon polish"
+    description="A solo studio in Salatiga building editorial-grade websites, landing pages, and simple e-commerce for international and Indonesian SMB clients.">
     {{-- Hero --}}
     <section class="rc-hero">
         <div class="rc-container rc-hero__inner">
@@ -16,7 +14,8 @@
                     <span class="rc-hero__word" style="--i:3"> polish.</span>
                 </span>
             </h1>
-            <p class="rc-hero__body">A solo studio building editorial-grade sites, landing pages, and simple e-commerce — designed and developed end-to-end from Salatiga, Indonesia.</p>
+            <p class="rc-hero__body">A solo studio building editorial-grade sites, landing pages, and simple e-commerce
+                — designed and developed end-to-end from Salatiga, Indonesia.</p>
             <div class="rc-hero__ctas">
                 <a class="rc-btn rc-btn--fill rc-btn--lg" href="/order">Start a project</a>
                 <a class="rc-btn rc-btn--underline rc-btn--md" href="/work">See the work</a>
@@ -40,10 +39,12 @@
                 @foreach ($featuredWork as $i => $project)
                     <a class="rc-workcard rc-workcard--{{ $i === 0 ? 'lg' : 'sm' }}" href="/work/{{ $project->slug }}">
                         <div class="rc-workcard__media">
-                            <img src="{{ $project->image_path ? asset('storage/' . $project->image_path) : asset('IMG/og-default.png') }}" alt="{{ $project->title }}" loading="lazy" />
+                            <img src="{{ $project->image_path ? asset('storage/' . $project->image_path) : asset('IMG/og-default.png') }}"
+                                alt="{{ $project->title }}" loading="lazy" />
                         </div>
                         <div class="rc-workcard__meta">
-                            <span class="rc-label">{{ substr($project->created_at, 0, 4) }} · {{ $project->tags_array[0] ?? 'Custom website' }}</span>
+                            <span class="rc-label">{{ substr($project->created_at, 0, 4) }} ·
+                                {{ $project->tags_array[0] ?? 'Custom website' }}</span>
                             <h2 class="rc-workcard__title">{{ $project->title }}</h2>
                         </div>
                     </a>
@@ -69,7 +70,8 @@
             <div class="rc-home-studio">
                 <div class="rc-home-studio__media">
                     @if ($studioPortraitImage)
-                        <img class="rc-home-studio__portrait" src="{{ $studioPortraitImage }}" alt="Azriel — Rielcode Studio" loading="lazy" />
+                        <img class="rc-home-studio__portrait" src="{{ $studioPortraitImage }}"
+                            alt="Azriel — Rielcode Studio" loading="lazy" />
                     @else
                         <div class="rc-home-studio__portrait" aria-hidden="true"></div>
                     @endif
@@ -77,7 +79,8 @@
                 <div class="rc-home-studio__copy">
                     <span class="rc-label">The studio</span>
                     <h2><em>A solo studio</em> in Salatiga, building for the world.</h2>
-                    <p>Rielcode is run by Azriel — a developer and informatics engineering student who treats each website as an editorial product, not a template fill.</p>
+                    <p>Rielcode is run by Azriel — a developer and informatics engineering student who treats each
+                        website as an editorial product, not a template fill.</p>
                     <ul class="rc-home-studio__stats">
                         <li><strong>4+</strong><span>years writing for the web</span></li>
                         <li><strong>20+</strong><span>projects shipped</span></li>
@@ -98,7 +101,8 @@
             <div class="rc-home-services">
                 <a class="rc-svccard" href="/services#landing">
                     <h3 class="rc-svccard__title">Landing</h3>
-                    <p class="rc-svccard__desc">A single high-conversion page. Copy, design, build, ship — in two weeks.</p>
+                    <p class="rc-svccard__desc">A single high-conversion page. Copy, design, build, ship — in two weeks.
+                    </p>
                     <div class="rc-svccard__price">
                         <span class="rc-label">From</span>
                         <strong>IDR 4M</strong>
@@ -118,7 +122,8 @@
                 </a>
                 <a class="rc-svccard" href="/services#ecom">
                     <h3 class="rc-svccard__title">E-commerce</h3>
-                    <p class="rc-svccard__desc">Simple storefronts for small catalogues. Payment + inventory included.</p>
+                    <p class="rc-svccard__desc">Simple storefronts for small catalogues. Payment + inventory included.
+                    </p>
                     <div class="rc-svccard__price">
                         <span class="rc-label">From</span>
                         <strong>IDR 15M+</strong>
@@ -150,26 +155,31 @@
                     <div class="rc-testimonial-slider" id="testimonialSlider" data-autoplay="6000">
                         <div class="rc-testimonial-slider__track">
                             @foreach ($testimonials as $t)
-                            <figure class="rc-home-quote rc-testimonial-slider__slide">
-                                <blockquote class="rc-home-quote__body">
-                                    <p><em>"{{ $t->headline }}"</em></p>
-                                    <p class="rc-home-quote__detail">{{ $t->recommendation }}</p>
-                                </blockquote>
-                                <figcaption class="rc-home-quote__cite">
-                                    <strong>{{ $t->client_name }}</strong>
-                                    <span>{{ $t->role_title }}, {{ $t->business_name }}</span>
-                                </figcaption>
-                            </figure>
+                                <figure class="rc-home-quote rc-testimonial-slider__slide">
+                                    <blockquote class="rc-home-quote__body">
+                                        <p><em>"{{ $t->headline }}"</em></p>
+                                        <p class="rc-home-quote__detail">{{ $t->recommendation }}</p>
+                                    </blockquote>
+                                    <figcaption class="rc-home-quote__cite">
+                                        <strong>{{ $t->client_name }}</strong>
+                                        <span>{{ $t->role_title }}, {{ $t->business_name }}</span>
+                                    </figcaption>
+                                </figure>
                             @endforeach
                         </div>
                         <div class="rc-testimonial-slider__controls">
-                            <button class="rc-testimonial-slider__arrow rc-testimonial-slider__arrow--prev" aria-label="Previous">&larr;</button>
+                            <button class="rc-testimonial-slider__arrow rc-testimonial-slider__arrow--prev"
+                                aria-label="Previous">&larr;</button>
                             <div class="rc-testimonial-slider__dots">
                                 @foreach ($testimonials as $i => $t)
-                                    <button class="rc-testimonial-slider__dot{{ $i === 0 ? ' rc-testimonial-slider__dot--active' : '' }}" data-index="{{ $i }}" aria-label="Testimonial {{ $i + 1 }}"></button>
+                                    <button
+                                        class="rc-testimonial-slider__dot{{ $i === 0 ? ' rc-testimonial-slider__dot--active' : '' }}"
+                                        data-index="{{ $i }}"
+                                        aria-label="Testimonial {{ $i + 1 }}"></button>
                                 @endforeach
                             </div>
-                            <button class="rc-testimonial-slider__arrow rc-testimonial-slider__arrow--next" aria-label="Next">&rarr;</button>
+                            <button class="rc-testimonial-slider__arrow rc-testimonial-slider__arrow--next"
+                                aria-label="Next">&rarr;</button>
                         </div>
                     </div>
                 @endif
