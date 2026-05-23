@@ -40,6 +40,16 @@ code, kbd, pre,
 /* Sidebar -- ink bg */
 .fi-sidebar {
     background-color: var(--rc-ink) !important;
+    scrollbar-width: none;
+}
+
+.fi-sidebar::-webkit-scrollbar,
+.fi-sidebar *::-webkit-scrollbar {
+    display: none;
+}
+
+.fi-sidebar * {
+    scrollbar-width: none;
 }
 
 .fi-sidebar .fi-sidebar-nav-groups {
@@ -138,4 +148,97 @@ code, kbd, pre,
     color: var(--rc-cream) !important;
     font-size: 1.1rem;
     font-weight: 600;
+}
+
+/* ============================================================
+   Skeleton / shimmer loading
+   ============================================================ */
+
+@keyframes rc-shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+}
+
+.rc-skeleton-block {
+    background: linear-gradient(
+        90deg,
+        rgba(200, 200, 200, 0.15) 25%,
+        rgba(200, 200, 200, 0.30) 50%,
+        rgba(200, 200, 200, 0.15) 75%
+    );
+    background-size: 800px 100%;
+    animation: rc-shimmer 1.4s ease-in-out infinite;
+    border-radius: 6px;
+}
+
+/* Overlay container that replaces page content during navigation */
+.rc-skeleton-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    padding: 1.5rem;
+    background: var(--fi-body-bg, #f9fafb);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    pointer-events: none;
+}
+
+/* Skeleton variants */
+.rc-skeleton-header {
+    height: 2rem;
+    width: 35%;
+}
+
+.rc-skeleton-toolbar {
+    height: 2.5rem;
+    width: 100%;
+}
+
+/* Table skeleton */
+.rc-skeleton-table-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.rc-skeleton-table-cell {
+    height: 1.25rem;
+    flex: 1;
+}
+
+.rc-skeleton-table-cell.narrow {
+    flex: 0 0 6rem;
+}
+
+/* Form skeleton */
+.rc-skeleton-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 0.5rem;
+}
+
+.rc-skeleton-label {
+    height: 0.85rem;
+    width: 8rem;
+}
+
+.rc-skeleton-input {
+    height: 2.5rem;
+    width: 100%;
+}
+
+/* Widget / dashboard skeleton */
+.rc-skeleton-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.rc-skeleton-widget-card {
+    height: 8rem;
+    border-radius: 0.75rem;
 }
