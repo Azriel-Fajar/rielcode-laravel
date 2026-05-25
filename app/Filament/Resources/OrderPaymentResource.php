@@ -28,7 +28,17 @@ class OrderPaymentResource extends Resource
     {
         return $form->schema([
             Forms\Components\Select::make('order_id')
-                ->relationship('order', 'order_name')
+                ->label('Order')
+                ->relationship(
+                    'order',
+                    'order_name',
+                    fn ($query) => $query->whereIn('invoice_status', ['Unpaid', 'Partial'])->orderBy('created_at', 'desc')
+                )
+                ->getOptionLabelFromRecordUsing(fn ($record) =>
+                    "{$record->order_name} — {$record->invoice_status} ({$record->invoice_currency} " .
+                    number_format($record->final_price, 0, ',', '.') . ")"
+                )
+                ->helperText('Only shows orders with Unpaid or Partial invoice status.')
                 ->required()
                 ->searchable(),
             Forms\Components\Select::make('stage')

@@ -121,7 +121,7 @@
     </div>
 
     <div class="stage-banner">
-        <strong>{{ $payment->stageLabel() }}</strong> &mdash; {{ $payment->stageTagline() }}
+        <strong>{{ $payment->stageLabel() }}</strong>: {{ $payment->stageTagline() }}
     </div>
 
     <div class="card">
@@ -195,21 +195,6 @@
                     <div class="bank-k">Account Name</div>
                     <div class="bank-v">{{ $cfg['bank_name_account'] }}</div>
                 </div>
-            </div>
-        @else
-            <div class="bank-card">
-                <div class="card-label" style="margin-bottom:12px;">International Wire Transfer (SWIFT)</div>
-                <div class="bank-row"><div class="bank-k">Beneficiary Name</div><div class="bank-v">{{ $cfg['intl']['beneficiary_name'] }}</div></div>
-                <div class="bank-row"><div class="bank-k">Beneficiary Address</div><div class="bank-v">{{ $cfg['intl']['beneficiary_address'] }}</div></div>
-                <div class="bank-row"><div class="bank-k">Bank Name</div><div class="bank-v">{{ $cfg['intl']['bank_name'] }}</div></div>
-                <div class="bank-row"><div class="bank-k">Bank Address</div><div class="bank-v">{{ $cfg['intl']['bank_address'] }}</div></div>
-                <div class="bank-row"><div class="bank-k">Account Number / IBAN</div><div class="bank-v">{{ $cfg['intl']['account_number'] }}</div></div>
-                <div class="bank-row"><div class="bank-k">SWIFT / BIC</div><div class="bank-v">{{ $cfg['intl']['swift_code'] }}</div></div>
-                @if($cfg['intl']['intermediary_bank'])
-                    <div class="bank-row"><div class="bank-k">Intermediary Bank</div><div class="bank-v">{{ $cfg['intl']['intermediary_bank'] }}</div></div>
-                    <div class="bank-row"><div class="bank-k">Intermediary SWIFT</div><div class="bank-v">{{ $cfg['intl']['intermediary_swift'] }}</div></div>
-                @endif
-                <div style="color:rgba(255,255,255,.3);font-size:11px;margin-top:10px;">Wire fees borne by sender. Reference invoice number ({{ $payment->invoice_number }}) in the wire message field.</div>
             </div>
         @endif
 

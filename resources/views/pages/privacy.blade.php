@@ -14,10 +14,10 @@
         <div class="rc-container">
             <div class="rc-prose">
                 <h2>1. Who we are</h2>
-                <p>Rielcode is a solo web development practice operated by Azriel, based in Salatiga, Indonesia. We build websites for clients in Indonesia and internationally. Contact: <a href="mailto:info@rielcode.com">info@rielcode.com</a>.</p>
+                <p>Rielcode is a web development practice based in Indonesia. We build websites for clients in Indonesia and internationally. Contact: <a href="mailto:info@rielcode.com">info@rielcode.com</a>.</p>
 
                 <h2>2. What we collect</h2>
-                <p>When you submit the contact form, we collect your name, email address, and message. We do not collect payment information — payments are handled externally via bank transfer. We do not use analytics cookies or tracking scripts on this site.</p>
+                <p>When you submit the contact form, we collect your name, email address, and message. We do not collect payment information. Payments are handled externally via bank transfer. We do not use analytics cookies or tracking scripts on this site.</p>
 
                 <h2>3. How we use your data</h2>
                 <p>Contact form submissions are used solely to respond to your inquiry. We do not sell, rent, or share your personal data with third parties except where required by law.</p>

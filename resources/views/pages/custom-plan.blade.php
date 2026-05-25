@@ -1,6 +1,6 @@
 <x-layouts.base
     title="Custom Plan | Rielcode"
-    description="Build your own custom website plan with Rielcode. Choose exactly what you need — pages, chatbot, CMS, login system, maintenance, and more."
+    description="Build your own custom website plan with Rielcode. Choose exactly what you need: pages, chatbot, CMS, login system, maintenance, and more."
     bodyClass="rc-redesign"
 >
 @push('head')
@@ -10,9 +10,9 @@
 <div class="cp-page">
 
     @if ($incompleteOrder)
-    <div class="popup-background">
+    <div class="popup-background" role="dialog" aria-modal="true" aria-labelledby="popup-title">
         <div class="popup-container">
-            <h3>Incomplete Order</h3>
+            <h3 id="popup-title">Incomplete Order</h3>
             <div class="personal-info">
                 <div class="order-name">
                     <p>Billed to: <b>{{ strtoupper($incompleteOrder->order_name) }}</b></p>
@@ -24,10 +24,10 @@
                 </div>
             </div>
             <p>Do you wish to continue this order?</p>
-            <form method="post" action="{{ route('custom-plan.store') }}">
+            <form method="post" action="{{ route('custom-plan.resume') }}">
                 @csrf
-                <button type="submit" name="continue" class="cp-popup-btn">Yes</button>
-                <button type="submit" name="no" class="cp-popup-btn">No</button>
+                <button type="submit" name="continue" value="1" class="rc-btn rc-btn--fill">Yes</button>
+                <button type="submit" class="rc-btn rc-btn--outline">No</button>
             </form>
         </div>
     </div>
@@ -43,13 +43,13 @@
         </div>
 
         <div class="cp-presets">
-            <a href="{{ route('custom-plan.create', ['preset' => 'blank']) }}" class="cp-preset-card {{ $activePreset === 'blank' ? 'is-active' : '' }}" data-preset="blank">
+            <a href="{{ route('custom-plan.create', ['preset' => 'blank']) }}" class="cp-preset-card {{ $activePreset === 'blank' ? 'is-active' : '' }}" data-preset="blank" {{ $activePreset === 'blank' ? 'aria-current="true"' : '' }}>
                 <div class="cp-preset-card__icon"><i class="bi bi-file-earmark"></i></div>
                 <div class="cp-preset-card__name">Blank</div>
                 <div class="cp-preset-card__price">from Rp500.000</div>
                 <div class="cp-preset-card__desc">Start from scratch, full control.</div>
             </a>
-            <a href="{{ route('custom-plan.create', ['preset' => 'copy']) }}" class="cp-preset-card {{ $activePreset === 'copy' ? 'is-active' : '' }}" data-preset="copy">
+            <a href="{{ route('custom-plan.create', ['preset' => 'copy']) }}" class="cp-preset-card {{ $activePreset === 'copy' ? 'is-active' : '' }}" data-preset="copy" {{ $activePreset === 'copy' ? 'aria-current="true"' : '' }}>
                 <div class="cp-preset-card__icon"><i class="bi bi-files"></i></div>
                 <div class="cp-preset-card__name">Copy Website</div>
                 <div class="cp-preset-card__price">from Rp500.000</div>
@@ -60,7 +60,7 @@
         <div class="cp-layout">
             <div class="cp-options">
                 <div class="cp-section cp-base-info">
-                    <div class="cp-section-title"><i class="bi bi-box-seam"></i> Base Package — <span id="base-price-label">Rp500.000</span></div>
+                    <div class="cp-section-title"><i class="bi bi-box-seam"></i> Base Package: <span id="base-price-label">Rp500.000</span></div>
                     <div class="cp-base-list" id="base-items-list"></div>
                 </div>
 
@@ -83,10 +83,10 @@
                                 <div class="cp-toggle-price" id="chatbot-price-label">+ Rp1.500.000</div>
                             </div>
                         </label>
-                        <div class="cp-toggle-item cp-toggle-item--expandable" data-feature="cms" id="cms-toggle-item">
-                            <input type="checkbox" id="feat-cms" onchange="cpCalc()">
+                        <div class="cp-toggle-item cp-toggle-item--expandable" data-feature="cms" id="cms-toggle-item" role="checkbox" aria-checked="false" aria-labelledby="cms-toggle-name" tabindex="0">
+                            <input type="checkbox" id="feat-cms" onchange="cpCalc()" tabindex="-1">
                             <div class="cp-toggle-body">
-                                <div class="cp-toggle-name">CMS / Admin Panel</div>
+                                <div class="cp-toggle-name" id="cms-toggle-name">CMS / Admin Panel</div>
                                 <div class="cp-toggle-desc">Manage your content from a dashboard</div>
                                 <div class="cp-toggle-price" id="cms-price-label">+ Rp800.000 – Rp1.600.000</div>
                                 <div class="cp-difficulty-row" id="cms-difficulty" style="display:none;">
@@ -107,10 +107,10 @@
                                 <div class="cp-toggle-price" id="login-price-label">+ Rp500.000</div>
                             </div>
                         </label>
-                        <div class="cp-toggle-item cp-toggle-item--expandable" data-feature="ecom" id="ecom-toggle-item">
-                            <input type="checkbox" id="feat-ecom" onchange="cpCalc()">
+                        <div class="cp-toggle-item cp-toggle-item--expandable" data-feature="ecom" id="ecom-toggle-item" role="checkbox" aria-checked="false" aria-labelledby="ecom-toggle-name" tabindex="0">
+                            <input type="checkbox" id="feat-ecom" onchange="cpCalc()" tabindex="-1">
                             <div class="cp-toggle-body">
-                                <div class="cp-toggle-name">E-Commerce</div>
+                                <div class="cp-toggle-name" id="ecom-toggle-name">E-Commerce</div>
                                 <div class="cp-toggle-desc">Product catalog, cart &amp; order management</div>
                                 <div class="cp-toggle-price" id="ecom-price-label">+ Rp1.000.000 – Rp3.000.000</div>
                                 <div class="cp-difficulty-row" id="ecom-difficulty" style="display:none;">
@@ -137,10 +137,10 @@
                 <div class="cp-section">
                     <div class="cp-section-title"><i class="bi bi-file-earmark-code"></i> Number of Pages</div>
                     <div class="cp-stepper-row">
-                        <button type="button" class="cp-stepper-btn" onclick="cpStep('pages', -1)">&#8722;</button>
+                        <button type="button" class="cp-stepper-btn" onclick="cpStep('pages', -1)" aria-label="Remove a page">&#8722;</button>
                         <span class="cp-stepper-val" id="val-pages">1</span>
-                        <button type="button" class="cp-stepper-btn" onclick="cpStep('pages', 1)">+</button>
-                        <span class="cp-stepper-label">page(s) &mdash; <span class="cp-unit-price" id="pages-unit-price">Rp150.000 / page</span></span>
+                        <button type="button" class="cp-stepper-btn" onclick="cpStep('pages', 1)" aria-label="Add a page">+</button>
+                        <span class="cp-stepper-label">page(s) · <span class="cp-unit-price" id="pages-unit-price">Rp150.000 / page</span></span>
                     </div>
                     <div class="cp-preset-btns">
                         <span class="cp-preset-label">Quick:</span>
@@ -155,10 +155,10 @@
                 <div class="cp-section">
                     <div class="cp-section-title"><i class="bi bi-tools"></i> Maintenance Support</div>
                     <div class="cp-stepper-row">
-                        <button type="button" class="cp-stepper-btn" onclick="cpStep('maintenance', -1)">&#8722;</button>
+                        <button type="button" class="cp-stepper-btn" onclick="cpStep('maintenance', -1)" aria-label="Remove a maintenance month">&#8722;</button>
                         <span class="cp-stepper-val" id="val-maintenance">0</span>
-                        <button type="button" class="cp-stepper-btn" onclick="cpStep('maintenance', 1)">+</button>
-                        <span class="cp-stepper-label">month(s) &mdash; <span class="cp-unit-price" id="maintenance-unit-price">Rp300.000 / month</span></span>
+                        <button type="button" class="cp-stepper-btn" onclick="cpStep('maintenance', 1)" aria-label="Add a maintenance month">+</button>
+                        <span class="cp-stepper-label">month(s) · <span class="cp-unit-price" id="maintenance-unit-price">Rp300.000 / month</span></span>
                     </div>
                 </div>
 
@@ -166,7 +166,7 @@
                     <i class="bi bi-globe"></i>
                     <div>
                         <strong>Free Hosting &amp; .COM Domain</strong>
-                        <span id="hosting-status">Spend at least Rp2.000.000 to unlock this bonus.</span>
+                        <span id="hosting-status">Spend at least Rp1.000.000 to unlock this bonus.</span>
                     </div>
                     <span class="cp-hosting-badge" id="hosting-badge">Locked</span>
                 </div>
@@ -176,28 +176,34 @@
                 <div class="cp-summary-inner">
                     <div class="cp-summary-title">
                         Your Custom Plan
-                        <button type="button" class="cp-currency-toggle" id="currencyToggle" onclick="toggleCurrency()">$ USD</button>
+                        <button type="button" class="cp-currency-toggle" id="currencyToggle" onclick="toggleCurrency()" aria-label="Switch to USD">$ USD</button>
                     </div>
-                    <div class="cp-currency-hint">Click to switch currency</div>
                     <div class="cp-summary-lines" id="summary-lines"></div>
                     <div class="cp-summary-divider"></div>
                     <div class="cp-summary-total-row">
                         <span>Total</span>
-                        <span class="cp-summary-total" id="summary-total">Rp500.000</span>
+                        <span class="cp-summary-total" id="summary-total" aria-live="polite">Rp500.000</span>
                     </div>
-                    <div id="plan-cap-badge" style="display:none;margin-top:8px;margin-bottom:8px;padding:6px 10px;background:rgba(58,123,255,0.12);border:1px solid rgba(58,123,255,0.3);border-radius:6px;font-size:12px;color:#6fa3ff;line-height:1.4;"></div>
+                    <div id="plan-cap-badge" class="cp-plan-cap-badge" style="display:none;"></div>
                     <div class="cp-hosting-unlock" id="hosting-unlock-bar"></div>
-                    <button type="button" class="cp-order-btn" onclick="scrollToOrderForm()">Fill In Your Details &rarr;</button>
-                    <p class="cp-order-note">Happy with your plan? Scroll down to complete your order.</p>
+                    <button type="button" class="rc-btn rc-btn--fill" onclick="scrollToOrderForm()">Fill In Your Details &rarr;</button>
                 </div>
             </div>
         </div>
+
+        @if ($errors->any())
+        <div class="err-banner">
+            @foreach ($errors->all() as $err)
+                <p>{{ $err }}</p>
+            @endforeach
+        </div>
+        @endif
 
         <div class="cp-order-form" id="cp-order-form">
             <div class="cp-form-header">
                 <div class="cp-tag">// Your Details</div>
                 <h2>Complete Your Order</h2>
-                <p>Your plan is locked in above &mdash; just fill in your contact info.</p>
+                <p>Your plan is locked in above. Fill in your contact info below.</p>
             </div>
 
             <form method="post" action="{{ route('custom-plan.store') }}" id="customOrderForm">
@@ -258,7 +264,7 @@
                     <div class="cp-form-total-preview">
                         Order total: <strong id="form-total-display">Rp500.000</strong>
                     </div>
-                    <button type="submit" name="submit" value="1" class="cp-submit-btn">Proceed to Checkout &rarr;</button>
+                    <button type="submit" name="action" value="checkout" class="rc-btn rc-btn--fill rc-btn--lg">Proceed to Checkout &rarr;</button>
                 </div>
             </form>
         </div>
@@ -290,23 +296,43 @@
     ['cms-toggle-item','ecom-toggle-item'].forEach(function (id) {
         const item = document.getElementById(id);
         const cb = item.querySelector('input[type="checkbox"]');
+        function toggleItem() { cb.checked = !cb.checked; item.setAttribute('aria-checked', cb.checked); cb.dispatchEvent(new Event('change')); }
         item.addEventListener('click', function (e) {
             if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') return;
             if (e.target.closest('.cp-difficulty-row')) return;
-            cb.checked = !cb.checked; cb.dispatchEvent(new Event('change'));
+            toggleItem();
         });
+        item.addEventListener('keydown', function (e) {
+            if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleItem(); }
+        });
+        cb.addEventListener('change', function () { item.setAttribute('aria-checked', cb.checked); });
     });
 
+    function updateStepperDisabled(key) {
+        const mins = { pages: 1, maintenance: 0 }, maxs = { pages: 50, maintenance: 24 };
+        const row = document.getElementById('val-' + key).closest('.cp-stepper-row');
+        if (!row) return;
+        const [decBtn, , incBtn] = row.querySelectorAll('.cp-stepper-btn');
+        if (decBtn) decBtn.disabled = state[key] <= mins[key];
+        if (incBtn) incBtn.disabled = state[key] >= maxs[key];
+    }
     window.cpStep = function (key, delta) {
         const mins = { pages: 1, maintenance: 0 }, maxs = { pages: 50, maintenance: 24 };
         state[key] = Math.max(mins[key], Math.min(maxs[key], state[key] + delta));
         document.getElementById('val-' + key).textContent = state[key];
+        updateStepperDisabled(key);
         if (key === 'pages') updatePresetBtns();
         cpCalc();
     };
-    window.cpSetPages = function (n) { state.pages = n; document.getElementById('val-pages').textContent = n; updatePresetBtns(); cpCalc(); };
+    window.cpSetPages = function (n) { state.pages = n; document.getElementById('val-pages').textContent = n; updateStepperDisabled('pages'); updatePresetBtns(); cpCalc(); };
     function updatePresetBtns() { document.querySelectorAll('.cp-preset-btn').forEach(function (btn) { btn.classList.toggle('active', parseInt(btn.dataset.pages) === state.pages); }); }
-    window.toggleCurrency = function () { currency = currency === 'IDR' ? 'USD' : 'IDR'; document.getElementById('currencyToggle').textContent = currency === 'IDR' ? '$ USD' : 'Rp IDR'; cpCalc(); };
+    window.toggleCurrency = function () {
+        currency = currency === 'IDR' ? 'USD' : 'IDR';
+        const btn = document.getElementById('currencyToggle');
+        if (currency === 'IDR') { btn.textContent = '$ USD'; btn.setAttribute('aria-label', 'Switch to USD'); }
+        else { btn.textContent = 'Rp IDR'; btn.setAttribute('aria-label', 'Switch to IDR'); }
+        cpCalc();
+    };
 
     function updateStaticPrices() {
         const ids = [{ id: 'priority-price-label', p: PRICES.priority }, { id: 'chatbot-price-label', p: PRICES.chatbot }, { id: 'login-price-label', p: PRICES.login }, { id: 'seo-price-label', p: PRICES.seo }];
@@ -390,6 +416,8 @@
 
     cpCalc();
     updatePresetBtns();
+    updateStepperDisabled('pages');
+    updateStepperDisabled('maintenance');
 })();
 </script>
 @endpush

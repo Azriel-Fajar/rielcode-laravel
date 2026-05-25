@@ -27,8 +27,8 @@
             <p>Do you wish to continue this order?</p>
             <form method="post" action="{{ route('order.resume') }}">
                 @csrf
-                <button type="submit" name="continue" value="1" class="btn btn-glow">Yes</button>
-                <button type="submit" class="btn btn-glow">No</button>
+                <button type="submit" name="continue" value="1" class="rc-btn rc-btn--fill">Yes</button>
+                <button type="submit" class="rc-btn rc-btn--outline">No</button>
             </form>
         </div>
     </div>
@@ -42,7 +42,7 @@
     </div>
     @endif
 
-    <a href="/" class="btn">Back</a>
+    <a href="/" class="btn"><span class="btn-arrow" aria-hidden="true">&#8592;</span> Back to Home</a>
 
     <div class="form-container">
         <form method="post" action="{{ route('order.store') }}" id="orderForm">
@@ -125,6 +125,7 @@
             @if ($addons->isNotEmpty())
             <div class="package-details-container" id="addonsSection">
                 <h2>Add-ons <span style="font-weight:400;font-size:.9em;">(optional)</span></h2>
+                <div class="rc-addons-table-wrap">
                 <table class="rc-addons-table rc-addons-table--order">
                     <thead>
                         <tr>
@@ -155,6 +156,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
             @endif
 
@@ -165,7 +167,7 @@
             </div>
 
             <div class="submit-container flex justify-center items-center">
-                <button type="submit" name="submit" value="1" class="btn btn-glow">Checkout</button>
+                <button type="submit" name="submit" value="1" class="rc-btn rc-btn--fill rc-btn--lg">Checkout</button>
             </div>
         </form>
     </div>

@@ -1,16 +1,16 @@
 <x-layouts.base
     title="Studio · Rielcode"
-    description="A solo studio in Salatiga building editorial websites for the world. About Rielcode, process, values, and FAQ."
+    description="Rielcode builds editorial websites for the world. About our process, values, and FAQ."
 >
     {{-- Hero --}}
     <section class="rc-studio-hero">
         <div class="rc-container rc-studio-hero__inner">
-            <span class="rc-label">N°01 — The studio</span>
+            <span class="rc-label">N°01 · The studio</span>
             <h1 class="rc-studio-hero__title">
-                <em>A solo studio</em> in Salatiga,<br />building for the world.
+                <em>Editorial websites</em><br />built for the world.
             </h1>
             <p class="rc-studio-hero__body">
-                Rielcode is run by Azriel — a developer and informatics engineering student who treats each website as an editorial product, not a template fill.
+                Rielcode treats each website as an editorial product, not a template fill.
             </p>
             @if ($studioHeroImage)
                 <div class="rc-studio-hero__media">
@@ -41,7 +41,7 @@
                 <li class="rc-process__item">
                     <span class="rc-process__num rc-label">03</span>
                     <h3 class="rc-process__title">Build</h3>
-                    <p class="rc-process__body">Static Astro builds for marketing sites. Custom stacks for more complex projects. Pixel-precise implementation — no template drift.</p>
+                    <p class="rc-process__body">Static Astro builds for marketing sites. Custom stacks for more complex projects. Pixel-precise implementation. No template drift.</p>
                 </li>
                 <li class="rc-process__item">
                     <span class="rc-process__num rc-label">04</span>

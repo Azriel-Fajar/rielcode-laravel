@@ -21,19 +21,20 @@ class CustomPlanController extends Controller
         return view('pages.custom-plan', compact('activePreset', 'incompleteOrder'));
     }
 
-    public function store(StoreCustomPlanRequest $request)
+    public function resume(Request $request)
     {
         if ($request->has('continue')) {
             return redirect()->route('checkout.show');
         }
-        if ($request->has('no')) {
-            if ($request->session()->has('order_id')) {
-                Order::where('id', $request->session()->get('order_id'))->delete();
-            }
-            $request->session()->forget(['order_id', 'custom_total']);
-            return redirect()->route('custom-plan.create');
+        if ($request->session()->has('order_id')) {
+            Order::where('id', $request->session()->get('order_id'))->delete();
         }
+        $request->session()->forget(['order_id', 'custom_total']);
+        return redirect()->route('custom-plan.create');
+    }
 
+    public function store(StoreCustomPlanRequest $request)
+    {
         $pkg = Package::where('package_name', 'Custom Plan')->first();
         $customPreset  = $request->input('custom_preset', 'blank');
         $customConfig  = $request->input('custom_config');

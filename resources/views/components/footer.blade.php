@@ -3,9 +3,9 @@
 <footer class="rc-footer">
     <div class="rc-container rc-footer__inner">
         <div class="rc-footer__brand">
-            <span class="rc-label">N°01 — Rielcode Studio</span>
+            <span class="rc-label">N°01 · Rielcode Studio</span>
             <p class="rc-footer__tag">
-                Websites with uncommon polish, made from Salatiga for the world.
+                Websites with uncommon polish.
             </p>
         </div>
 

@@ -1,6 +1,6 @@
 @props([
     'title' => 'Rielcode',
-    'description' => 'Rielcode builds custom websites, landing pages, and simple e-commerce — designed and developed end-to-end.',
+    'description' => 'Rielcode builds custom websites, landing pages, and simple e-commerce, designed and developed end-to-end.',
     'canonical' => null,
     'ogImage' => '/IMG/og-default.png',
     'bodyClass' => '',

@@ -1,6 +1,6 @@
 <x-layouts.base
     title="Work · Rielcode"
-    description="Case studies from Rielcode — editorial websites, landing pages, and e-commerce built end-to-end."
+    description="Case studies from Rielcode: editorial websites, landing pages, and e-commerce built end-to-end."
 >
     <section class="rc-work-hero">
         <div class="rc-container rc-work-hero__inner">

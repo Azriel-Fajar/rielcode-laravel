@@ -47,11 +47,11 @@ class TestimonialInviteResource extends Resource
                 Tables\Actions\Action::make('copy_link')
                     ->label('Copy Invite Link')
                     ->icon('heroicon-o-clipboard')
-                    ->action(function (TestimonialInvite $record) {
+                    ->action(function (TestimonialInvite $record, $livewire) {
                         $url = config('app.portal_urls.testimonial') . '/testimonial?t=' . $record->token;
+                        $livewire->js('navigator.clipboard.writeText(' . json_encode($url) . ').catch(()=>{})');
                         Notification::make()
-                            ->title('Invite link')
-                            ->body($url)
+                            ->title('Invite link copied to clipboard')
                             ->success()
                             ->send();
                     }),

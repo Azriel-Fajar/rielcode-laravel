@@ -28,7 +28,7 @@
             Open Progress Portal
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
         </a>
-        <p class="progress-reveal__warn">Save this link — we've also sent it to your email. Anyone with this link can view your project status.</p>
+        <p class="progress-reveal__warn">Save this link. We've also sent it to your email. Anyone with this link can view your project status.</p>
     </div>
     @endif
 

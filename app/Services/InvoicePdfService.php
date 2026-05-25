@@ -7,7 +7,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoicePdfService
 {
-    public function __construct(private QrService $qr) {}
+    public function __construct() {}
 
     public function download(OrderPayment $payment): \Symfony\Component\HttpFoundation\Response
     {
@@ -24,15 +24,15 @@ class InvoicePdfService
     private function buildHtml(OrderPayment $payment): string
     {
         $order      = $payment->order;
-        $cfg        = config('payment');
+        $cfg        = config('payment', []);
         $amountFmt  = $payment->amountFormatted();
         $totalFmt   = $payment->currency === 'IDR'
-            ? 'Rp ' . number_format($order->final_price, 0, ',', '.')
-            : '$' . number_format($order->final_price, 2);
+            ? 'Rp ' . number_format((float) $order->final_price, 0, ',', '.')
+            : '$' . number_format((float) $order->final_price, 2);
 
-        $logoPath   = public_path('IMG/Rielcode Logo Square Transparent.svg');
-        $logoTag    = file_exists($logoPath)
-            ? '<div style="font-size:22px;font-weight:bold;color:#2d4a3a;">Rielcode</div>'
+        $logoPath = public_path('IMG/Rielcode Logo Square Transparent.svg');
+        $logoTag  = file_exists($logoPath)
+            ? '<img src="data:image/svg+xml;base64,' . base64_encode(file_get_contents($logoPath)) . '" style="height:40px;display:block;margin-bottom:4px;" alt="Rielcode">'
             : '<div style="font-size:22px;font-weight:bold;color:#2d4a3a;">Rielcode</div>';
 
         $paymentSection = $payment->currency === 'IDR' ? $this->idrSection($cfg) : $this->usdSection($cfg, $payment);
@@ -111,10 +111,16 @@ HTML;
 
     private function idrSection(array $cfg): string
     {
+        $qrisPath = public_path('IMG/QRIS.jpeg');
+        $qrisTag  = file_exists($qrisPath)
+            ? '<div style="text-align:center;margin-bottom:14px;"><img src="data:image/jpeg;base64,' . base64_encode(file_get_contents($qrisPath)) . '" style="width:160px;height:160px;object-fit:contain;border-radius:6px;" alt="QRIS"><div style="color:#888;font-size:9px;margin-top:4px;">GoPay · OVO · DANA · BCA · all banking apps</div></div>'
+            : '';
+
         return <<<HTML
 <div class="bank-box">
   <div class="label">Payment &mdash; QRIS or Bank Transfer (Indonesia)</div>
-  <div style="color:#555;font-size:10px;margin-bottom:10px;">Transfer to:</div>
+  {$qrisTag}
+  <div style="color:#555;font-size:10px;margin-bottom:10px;">Bank Transfer:</div>
   <div class="bank-row"><span class="bank-k">Bank Name</span><br><span class="bank-v">{$cfg['bank_name']}</span></div>
   <div class="bank-row"><span class="bank-k">Account Number</span><br><span class="bank-v" style="font-size:14px;letter-spacing:1px;">{$cfg['bank_number']}</span></div>
   <div class="bank-row"><span class="bank-k">Account Name</span><br><span class="bank-v">{$cfg['bank_name_account']}</span></div>
@@ -124,23 +130,14 @@ HTML;
 
     private function usdSection(array $cfg, OrderPayment $payment): string
     {
-        $intl = $cfg['intl'];
-        $intermediary = $intl['intermediary_bank']
-            ? "<div class=\"bank-row\"><span class=\"bank-k\">Intermediary Bank</span><br><span class=\"bank-v\">{$intl['intermediary_bank']}</span></div>
-               <div class=\"bank-row\"><span class=\"bank-k\">Intermediary SWIFT</span><br><span class=\"bank-v\">{$intl['intermediary_swift']}</span></div>"
-            : '';
+        $paypalUrl = rtrim($cfg['paypal_me'], '/') . '/' . number_format($payment->amount, 2, '.', '');
 
         return <<<HTML
-<div class="bank-box">
-  <div class="label">Payment &mdash; International Wire Transfer (SWIFT)</div>
-  <div class="bank-row"><span class="bank-k">Beneficiary Name</span><br><span class="bank-v">{$intl['beneficiary_name']}</span></div>
-  <div class="bank-row"><span class="bank-k">Beneficiary Address</span><br><span class="bank-v">{$intl['beneficiary_address']}</span></div>
-  <div class="bank-row"><span class="bank-k">Bank Name</span><br><span class="bank-v">{$intl['bank_name']}</span></div>
-  <div class="bank-row"><span class="bank-k">Bank Address</span><br><span class="bank-v">{$intl['bank_address']}</span></div>
-  <div class="bank-row"><span class="bank-k">Account Number / IBAN</span><br><span class="bank-v">{$intl['account_number']}</span></div>
-  <div class="bank-row"><span class="bank-k">SWIFT / BIC</span><br><span class="bank-v">{$intl['swift_code']}</span></div>
-  {$intermediary}
-  <div style="color:#777;font-size:10px;margin-top:10px;">Wire fees borne by sender. Reference invoice number ({$payment->invoice_number}) in the wire message field.</div>
+<div class="bank-box" style="text-align:center;">
+  <div class="label" style="margin-bottom:12px;">Payment &mdash; PayPal</div>
+  <div style="font-size:13px;color:#333;margin-bottom:8px;">Visit the link below or scan to pay:</div>
+  <div style="font-size:11px;color:#0070ba;word-break:break-all;">{$paypalUrl}</div>
+  <div style="color:#777;font-size:10px;margin-top:10px;">Amount pre-filled. After payment, send confirmation via WhatsApp.</div>
 </div>
 HTML;
     }

@@ -211,7 +211,7 @@
 .message {
   max-width: 82%;
   padding: 10px 14px;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   font-family: var(--rc-font-body);
   font-size: var(--fs-body-sm);
   font-weight: 400;
@@ -447,7 +447,16 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  animation: chatIconSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.chatbot-greeting.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .chatbot-greeting-close {

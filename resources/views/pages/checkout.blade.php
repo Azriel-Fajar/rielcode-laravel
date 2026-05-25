@@ -103,14 +103,21 @@
             <div style="margin-bottom:16px;">
                 <label for="referral_code" style="display:block;font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:6px;">Referral Code (optional)</label>
                 <input type="text" name="referral_code" id="referral_code" class="referral-input" placeholder="e.g. BUDI10" value="{{ old('referral_code', $rawCode) }}">
-                <p style="color:#475569;font-size:12px;margin-top:6px;">Code applied at confirmation.</p>
+                <p style="color:rgba(255,255,255,0.45);font-size:12px;margin-top:6px;">Code applied at confirmation.</p>
             </div>
             <div class="checkbox">
                 <input type="checkbox" name="terms" id="terms" required>
                 <label for="terms">I agree to the <a href="{{ route('terms') }}">terms &amp; conditions</a> as set out by the user agreement.</label>
             </div>
-            <button class="btn" id="checkoutBtn" type="submit">Confirm</button>
+            <button class="rc-btn rc-btn--fill rc-btn--lg" id="checkoutBtn" type="submit">Confirm</button>
         </form>
+        <script>
+        document.getElementById('checkoutForm').addEventListener('submit', function() {
+            var btn = document.getElementById('checkoutBtn');
+            btn.disabled = true;
+            btn.textContent = 'Processing…';
+        });
+        </script>
     </div>
 </div>
 </x-layouts.base>

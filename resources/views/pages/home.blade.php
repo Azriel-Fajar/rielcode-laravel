@@ -1,5 +1,5 @@
 <x-layouts.base title="Rielcode – Websites with uncommon polish"
-    description="A solo studio in Salatiga building editorial-grade websites, landing pages, and simple e-commerce for international and Indonesian SMB clients.">
+    description="Rielcode builds editorial-grade websites, landing pages, and simple e-commerce for international and Indonesian clients.">
     {{-- Hero --}}
     <section class="rc-hero">
         <div class="rc-container rc-hero__inner">
@@ -14,8 +14,7 @@
                     <span class="rc-hero__word" style="--i:3"> polish.</span>
                 </span>
             </h1>
-            <p class="rc-hero__body">A solo studio building editorial-grade sites, landing pages, and simple e-commerce
-                — designed and developed end-to-end from Salatiga, Indonesia.</p>
+            <p class="rc-hero__body">Editorial-grade websites, landing pages, and simple e-commerce, designed and developed end-to-end.</p>
             <div class="rc-hero__ctas">
                 <a class="rc-btn rc-btn--fill rc-btn--lg" href="/order">Start a project</a>
                 <a class="rc-btn rc-btn--underline rc-btn--md" href="/work">See the work</a>
@@ -71,16 +70,15 @@
                 <div class="rc-home-studio__media">
                     @if ($studioPortraitImage)
                         <img class="rc-home-studio__portrait" src="{{ $studioPortraitImage }}"
-                            alt="Azriel — Rielcode Studio" loading="lazy" />
+                            alt="Rielcode Studio" loading="lazy" />
                     @else
                         <div class="rc-home-studio__portrait" aria-hidden="true"></div>
                     @endif
                 </div>
                 <div class="rc-home-studio__copy">
                     <span class="rc-label">The studio</span>
-                    <h2><em>A solo studio</em> in Salatiga, building for the world.</h2>
-                    <p>Rielcode is run by Azriel — a developer and informatics engineering student who treats each
-                        website as an editorial product, not a template fill.</p>
+                    <h2>Built for clients who <em>notice the details.</em></h2>
+                    <p>Rielcode treats each website as an editorial product, not a template fill.</p>
                     <ul class="rc-home-studio__stats">
                         <li><strong>4+</strong><span>years writing for the web</span></li>
                         <li><strong>20+</strong><span>projects shipped</span></li>
@@ -101,8 +99,7 @@
             <div class="rc-home-services">
                 <a class="rc-svccard" href="/services#landing">
                     <h3 class="rc-svccard__title">Landing</h3>
-                    <p class="rc-svccard__desc">A single high-conversion page. Copy, design, build, ship — in two weeks.
-                    </p>
+                    <p class="rc-svccard__desc">A single high-conversion page. Copy, design, build, ship. In two weeks.</p>
                     <div class="rc-svccard__price">
                         <span class="rc-label">From</span>
                         <strong>IDR 4M</strong>

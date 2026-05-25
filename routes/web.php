@@ -43,6 +43,7 @@ Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 Route::post('/order/resume', [OrderController::class, 'resume'])->name('order.resume');
 
 Route::get('/custom-plan', [CustomPlanController::class, 'create'])->name('custom-plan.create');
+Route::post('/custom-plan/resume', [CustomPlanController::class, 'resume'])->name('custom-plan.resume');
 Route::post('/custom-plan', [CustomPlanController::class, 'store'])->name('custom-plan.store');
 
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');

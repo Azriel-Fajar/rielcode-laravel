@@ -26,7 +26,10 @@ class SiteSettingResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('key')->required()->disabledOn('edit'),
+                Forms\Components\TextInput::make('key')
+                    ->required()
+                    ->disabledOn('edit')
+                    ->helperText('Internal identifier used in templates as SiteSetting::get(\'this_key\'). Cannot be changed after saving.'),
                 Forms\Components\Select::make('value_type')
                     ->options([
                         'string' => 'String',
@@ -36,23 +39,29 @@ class SiteSettingResource extends Resource
                     ])->required()->reactive(),
                 Forms\Components\TextInput::make('group')->required(),
                 Forms\Components\TextInput::make('label')->required(),
-                Forms\Components\TextInput::make('hint')->columnSpanFull(),
+                Forms\Components\TextInput::make('hint')
+                    ->columnSpanFull()
+                    ->helperText('Describe what this setting does and where it appears on the site. This note is shown when editing the value.'),
 
                 Forms\Components\TextInput::make('value')
                     ->columnSpanFull()
+                    ->helperText(fn ($get) => $get('hint') ?: null)
                     ->visible(fn ($get) => $get('value_type') === 'string'),
 
                 Forms\Components\Textarea::make('value')
                     ->rows(6)
                     ->columnSpanFull()
+                    ->helperText(fn ($get) => $get('hint') ?: null)
                     ->visible(fn ($get) => in_array($get('value_type'), ['html', 'json'])),
 
                 Forms\Components\FileUpload::make('value')
                     ->image()
+                    ->imagePreviewHeight('120')
                     ->disk('public')
                     ->directory('site-settings')
                     ->maxSize(4096)
                     ->columnSpanFull()
+                    ->helperText(fn ($get) => $get('hint') ?: null)
                     ->visible(fn ($get) => $get('value_type') === 'image'),
             ]);
     }

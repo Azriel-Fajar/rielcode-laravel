@@ -80,6 +80,63 @@ class ViewOrder extends ViewRecord
                         ->success()
                         ->send();
                 }),
+
+            Actions\Action::make('mark_deposit_sent')
+                ->label('Mark Deposit Sent')
+                ->icon('heroicon-o-paper-airplane')
+                ->color('warning')
+                ->visible(fn () => ($p = $this->record->depositPayment) && in_array($p->status, ['draft', 'overdue']))
+                ->requiresConfirmation()
+                ->modalDescription('This will mark the deposit invoice as sent to the client.')
+                ->action(function () {
+                    $this->record->depositPayment->update(['status' => 'sent', 'sent_at' => now()]);
+                    Notification::make()->title('Deposit marked as sent')->success()->send();
+                    $this->redirect(static::getResource()::getUrl('view', ['record' => $this->record]));
+                }),
+
+            Actions\Action::make('mark_deposit_paid')
+                ->label('Mark Deposit Paid')
+                ->icon('heroicon-o-check-circle')
+                ->color('success')
+                ->visible(fn () => ($p = $this->record->depositPayment) && in_array($p->status, ['sent', 'overdue']))
+                ->requiresConfirmation()
+                ->modalDescription('This will mark the deposit as paid and move the order to On Progress.')
+                ->action(function () {
+                    $deposit = $this->record->depositPayment;
+                    $deposit->update(['status' => 'paid', 'paid_at' => now()]);
+                    if ($this->record->status === 'Pending') {
+                        $this->record->update(['status' => 'On Progress']);
+                    }
+                    Notification::make()->title('Deposit marked as paid — order is now On Progress')->success()->send();
+                    $this->redirect(static::getResource()::getUrl('view', ['record' => $this->record]));
+                }),
+
+            Actions\Action::make('mark_final_sent')
+                ->label('Mark Final Sent')
+                ->icon('heroicon-o-paper-airplane')
+                ->color('warning')
+                ->visible(fn () => ($p = $this->record->finalPayment) && in_array($p->status, ['draft', 'overdue']))
+                ->requiresConfirmation()
+                ->modalDescription('This will mark the final invoice as sent to the client.')
+                ->action(function () {
+                    $this->record->finalPayment->update(['status' => 'sent', 'sent_at' => now()]);
+                    Notification::make()->title('Final invoice marked as sent')->success()->send();
+                    $this->redirect(static::getResource()::getUrl('view', ['record' => $this->record]));
+                }),
+
+            Actions\Action::make('mark_final_paid')
+                ->label('Mark Final Paid')
+                ->icon('heroicon-o-check-circle')
+                ->color('success')
+                ->visible(fn () => ($p = $this->record->finalPayment) && in_array($p->status, ['sent', 'overdue']))
+                ->requiresConfirmation()
+                ->modalDescription('This will mark the final payment as paid and complete the order.')
+                ->action(function () {
+                    $this->record->finalPayment->update(['status' => 'paid', 'paid_at' => now()]);
+                    $this->record->update(['status' => 'Done', 'invoice_status' => 'Paid']);
+                    Notification::make()->title('Final payment received — order marked as Done')->success()->send();
+                    $this->redirect(static::getResource()::getUrl('view', ['record' => $this->record]));
+                }),
         ];
     }
 

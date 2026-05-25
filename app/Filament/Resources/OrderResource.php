@@ -145,17 +145,19 @@ class OrderResource extends Resource
                 Tables\Actions\Action::make('generate_token')
                     ->label('Generate Progress Token')
                     ->icon('heroicon-o-key')
-                    ->action(function (Order $record) {
+                    ->action(function (Order $record, $livewire) {
                         $token = Str::random(64);
                         OrderAccessToken::create([
                             'order_id' => $record->id,
                             'token' => $token,
                         ]);
                         $url = config('app.portal_urls.progress') . '/progress?t=' . $token;
+                        $livewire->js('navigator.clipboard.writeText(' . json_encode($url) . ').catch(()=>{})');
                         Notification::make()
-                            ->title('Token generated')
+                            ->title('Token generated — URL copied to clipboard')
                             ->body($url)
                             ->success()
+                            ->persistent()
                             ->send();
                     }),
                 Tables\Actions\ViewAction::make(),
