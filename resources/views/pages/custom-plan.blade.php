@@ -31,7 +31,7 @@
             </div>
         @endif
 
-        <a href="/" class="back-btn">Back</a>
+        <a href="/" class="back-btn">&#8592; Back</a>
 
         <div class="cp-wrapper">
             <div class="cp-header">
@@ -122,7 +122,7 @@
                                 <div class="cp-toggle-body">
                                     <div class="cp-toggle-name">Login / Member System</div>
                                     <div class="cp-toggle-desc">User registration, login &amp; profile pages</div>
-                                    <div class="cp-toggle-price" id="login-price-label">+ Rp500.000</div>
+                                    <div class="cp-toggle-price" id="login-price-label">+ Rp550.000</div>
                                 </div>
                             </label>
                             <div class="cp-toggle-item cp-toggle-item--expandable" data-feature="ecom"
@@ -207,6 +207,14 @@
                             <span class="cp-stepper-label">month(s) · <span class="cp-unit-price"
                                     id="maintenance-unit-price">Rp300.000 / month</span></span>
                         </div>
+                        <div class="cp-preset-btns">
+                            <span class="cp-preset-label">Quick:</span>
+                            <button type="button" class="cp-maint-btn active" data-months="0" onclick="cpSetMaintenance(0)">0</button>
+                            <button type="button" class="cp-maint-btn" data-months="1" onclick="cpSetMaintenance(1)">1</button>
+                            <button type="button" class="cp-maint-btn" data-months="3" onclick="cpSetMaintenance(3)">3</button>
+                            <button type="button" class="cp-maint-btn" data-months="6" onclick="cpSetMaintenance(6)">6</button>
+                            <button type="button" class="cp-maint-btn" data-months="12" onclick="cpSetMaintenance(12)">12</button>
+                        </div>
                     </div>
 
                     <div class="cp-hosting-note" id="hosting-note">
@@ -234,8 +242,7 @@
                         </div>
                         <div id="plan-cap-badge" class="cp-plan-cap-badge" style="display:none;"></div>
                         <div class="cp-hosting-unlock" id="hosting-unlock-bar"></div>
-                        <button type="button" class="rc-btn rc-btn--fill" onclick="scrollToOrderForm()">Fill In Your
-                            Details &rarr;</button>
+                        <button type="button" class="rc-btn rc-btn--fill" onclick="scrollToOrderForm()">Fill In Details &rarr;</button>
                     </div>
                 </div>
             </div>
@@ -249,6 +256,8 @@
             @endif
 
             <div class="cp-order-form" id="cp-order-form">
+                <div class="cp-form-recap" id="cp-form-recap" aria-label="Your selected plan summary"></div>
+
                 <div class="cp-form-header">
                     <div class="cp-tag">// Your Details</div>
                     <h2>Complete Your Order</h2>
@@ -440,6 +449,7 @@
                     document.getElementById('val-' + key).textContent = state[key];
                     updateStepperDisabled(key);
                     if (key === 'pages') updatePresetBtns();
+                    if (key === 'maintenance') updateMaintBtns();
                     cpCalc();
                 };
                 window.cpSetPages = function(n) {
@@ -449,10 +459,22 @@
                     updatePresetBtns();
                     cpCalc();
                 };
+                window.cpSetMaintenance = function(n) {
+                    state.maintenance = n;
+                    document.getElementById('val-maintenance').textContent = n;
+                    updateStepperDisabled('maintenance');
+                    updateMaintBtns();
+                    cpCalc();
+                };
 
                 function updatePresetBtns() {
                     document.querySelectorAll('.cp-preset-btn').forEach(function(btn) {
                         btn.classList.toggle('active', parseInt(btn.dataset.pages) === state.pages);
+                    });
+                }
+                function updateMaintBtns() {
+                    document.querySelectorAll('.cp-maint-btn').forEach(function(btn) {
+                        btn.classList.toggle('active', parseInt(btn.dataset.months) === state.maintenance);
                     });
                 }
                 window.toggleCurrency = function() {
@@ -636,6 +658,16 @@
                     }
                     const td = document.getElementById('form-total-display');
                     if (td) td.textContent = fmt(total);
+
+                    const recap = document.getElementById('cp-form-recap');
+                    if (recap) {
+                        const featureChips = lines.slice(1).filter(function(l) { return l.amount > 0; }).map(function(l) {
+                            return '<span class="cp-recap-chip">' + l.label + ' · ' + fmt(l.amount) + '</span>';
+                        });
+                        recap.innerHTML = '<div class="cp-recap-label">Your plan</div><div class="cp-recap-chips">' +
+                            (featureChips.length ? featureChips.join('') : '<span class="cp-recap-chip cp-recap-chip--base">Base package only</span>') +
+                            '</div><div class="cp-recap-total">' + fmt(total) + '</div>';
+                    }
                     ['priority', 'chatbot', 'cms', 'login', 'ecom', 'seo'].forEach(function(id) {
                         const cb = document.getElementById('feat-' + id);
                         const item = cb ? cb.closest('.cp-toggle-item') : null;
@@ -677,6 +709,7 @@
 
                 cpCalc();
                 updatePresetBtns();
+                updateMaintBtns();
                 updateStepperDisabled('pages');
                 updateStepperDisabled('maintenance');
             })();

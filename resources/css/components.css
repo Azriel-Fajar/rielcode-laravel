@@ -1926,6 +1926,11 @@ textarea.rc-input { resize: vertical; min-height: 160px; }
   transition: color var(--transition-fast);
 }
 .rc-redesign .cp-page .back-btn:hover { color: var(--rc-text); }
+.rc-redesign .cp-page .back-btn:focus-visible {
+  outline: 2px solid var(--rc-accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
 
 .rc-redesign .cp-wrapper {
   max-width: 1100px;
@@ -2665,6 +2670,74 @@ textarea.rc-input { resize: vertical; min-height: 160px; }
   font-size: var(--fs-h3);
   font-weight: 700;
   color: var(--rc-text);
+}
+
+/* Maintenance quick-select buttons — same style as .cp-preset-btn */
+.rc-redesign .cp-maint-btn {
+  padding: 5px 14px;
+  border: 1px solid var(--rc-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-body-sm);
+  font-weight: 500;
+  color: var(--rc-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.rc-redesign .cp-maint-btn:hover {
+  border-color: var(--rc-border-strong);
+  color: var(--rc-text);
+}
+.rc-redesign .cp-maint-btn.active {
+  background: var(--rc-accent);
+  border-color: var(--rc-accent);
+  color: var(--rc-on-accent);
+}
+
+/* Order form recap bar */
+.rc-redesign .cp-form-recap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: color-mix(in oklab, var(--rc-accent) 6%, var(--rc-bg));
+  border: 1px solid color-mix(in oklab, var(--rc-accent) 25%, transparent);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+.rc-redesign .cp-recap-label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--rc-text-muted);
+  white-space: nowrap;
+}
+.rc-redesign .cp-recap-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  flex: 1;
+}
+.rc-redesign .cp-recap-chip {
+  font-size: var(--fs-label);
+  padding: 3px 10px;
+  background: color-mix(in oklab, var(--rc-accent) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--rc-accent) 28%, transparent);
+  border-radius: var(--radius-pill);
+  color: var(--rc-text-muted);
+}
+.rc-redesign .cp-recap-chip--base {
+  color: var(--rc-text-faint);
+  background: transparent;
+  border-color: var(--rc-border);
+}
+.rc-redesign .cp-recap-total {
+  font-family: var(--rc-font-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  color: var(--rc-text);
+  white-space: nowrap;
 }
 
 /* Responsive */
