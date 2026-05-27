@@ -25,12 +25,60 @@ class PackageSeeder extends Seeder
                 'is_popular'            => false,
                 'badge_color'           => 'green',
                 'features_json'         => [
-                    '1 page website (single page)',
-                    'Responsive design',
-                    'Contact form + CTA section',
-                    'Basic SEO setup',
-                    'Social media + WhatsApp integration',
-                    '1x minor revision',
+                    'sections' => [
+                        [
+                            'title' => 'Domain',
+                            'items' => [
+                                ['label' => 'Free .com / .net / .org', 'included' => false],
+                                ['label' => 'Free .id / .my.id', 'included' => false],
+                                ['label' => 'Free .co.id', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Hosting & SSL',
+                            'items' => [
+                                ['label' => 'Free hosting 1 year', 'included' => false],
+                                ['label' => 'Free SSL certificate', 'included' => true],
+                                ['label' => 'Daily backup', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Security',
+                            'items' => [
+                                ['label' => 'Firewall protection', 'included' => false],
+                                ['label' => 'Malware scan', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Pages & CMS',
+                            'items' => [
+                                ['label' => '1 page', 'included' => true],
+                                ['label' => 'Up to 5 custom pages', 'included' => false],
+                                ['label' => 'Up to 10 custom pages', 'included' => false],
+                                ['label' => 'CMS / Admin panel', 'included' => false],
+                                ['label' => 'AI chatbot', 'included' => false],
+                                ['label' => 'E-commerce', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'SEO & Performance',
+                            'items' => [
+                                ['label' => 'Basic on-page SEO', 'included' => true],
+                                ['label' => 'Advanced SEO', 'included' => false],
+                                ['label' => 'Performance optimization', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Support',
+                            'items' => [
+                                ['label' => '1 design revision', 'included' => true],
+                                ['label' => '2 design revisions', 'included' => false],
+                                ['label' => '5 design revisions', 'included' => false],
+                                ['label' => '1 month support', 'included' => false],
+                                ['label' => '2 months support', 'included' => false],
+                            ],
+                        ],
+                    ],
                 ],
                 'is_visible'            => true,
                 'sort_order'            => 1,
@@ -50,12 +98,60 @@ class PackageSeeder extends Seeder
                 'is_popular'            => false,
                 'badge_color'           => 'blue',
                 'features_json'         => [
-                    'Landing page website (1 page)',
-                    'Responsive layout',
-                    'Modern and clean design',
-                    'Social media links integration',
-                    'Basic SEO setup',
-                    '1 Design revision',
+                    'sections' => [
+                        [
+                            'title' => 'Domain',
+                            'items' => [
+                                ['label' => 'Free .com / .net / .org', 'included' => true],
+                                ['label' => 'Free .id / .my.id', 'included' => false],
+                                ['label' => 'Free .co.id', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Hosting & SSL',
+                            'items' => [
+                                ['label' => 'Free hosting 1 year', 'included' => true],
+                                ['label' => 'Free SSL certificate', 'included' => true],
+                                ['label' => 'Daily backup', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Security',
+                            'items' => [
+                                ['label' => 'Firewall protection', 'included' => true],
+                                ['label' => 'Malware scan', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Pages & CMS',
+                            'items' => [
+                                ['label' => '1 page', 'included' => true],
+                                ['label' => 'Up to 5 custom pages', 'included' => false],
+                                ['label' => 'Up to 10 custom pages', 'included' => false],
+                                ['label' => 'CMS / Admin panel', 'included' => false],
+                                ['label' => 'AI chatbot', 'included' => false],
+                                ['label' => 'E-commerce', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'SEO & Performance',
+                            'items' => [
+                                ['label' => 'Basic on-page SEO', 'included' => true],
+                                ['label' => 'Advanced SEO', 'included' => false],
+                                ['label' => 'Performance optimization', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Support',
+                            'items' => [
+                                ['label' => '1 design revision', 'included' => true],
+                                ['label' => '2 design revisions', 'included' => false],
+                                ['label' => '5 design revisions', 'included' => false],
+                                ['label' => '1 month support', 'included' => false],
+                                ['label' => '2 months support', 'included' => false],
+                            ],
+                        ],
+                    ],
                 ],
                 'is_visible'            => true,
                 'sort_order'            => 2,
@@ -75,13 +171,60 @@ class PackageSeeder extends Seeder
                 'is_popular'            => true,
                 'badge_color'           => 'blue',
                 'features_json'         => [
-                    'All in Starter, plus:',
-                    'Up to 5 custom pages',
-                    'Custom UI/UX design request',
-                    'Content Management System (CMS)',
-                    'Advanced SEO setup',
-                    '2 Design revisions',
-                    '1 month of technical support',
+                    'sections' => [
+                        [
+                            'title' => 'Domain',
+                            'items' => [
+                                ['label' => 'Free .com / .net / .org', 'included' => true],
+                                ['label' => 'Free .id / .my.id', 'included' => true],
+                                ['label' => 'Free .co.id', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Hosting & SSL',
+                            'items' => [
+                                ['label' => 'Free hosting 1 year', 'included' => true],
+                                ['label' => 'Free SSL certificate', 'included' => true],
+                                ['label' => 'Daily backup', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Security',
+                            'items' => [
+                                ['label' => 'Firewall protection', 'included' => true],
+                                ['label' => 'Malware scan', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Pages & CMS',
+                            'items' => [
+                                ['label' => '1 page', 'included' => false],
+                                ['label' => 'Up to 5 custom pages', 'included' => true],
+                                ['label' => 'Up to 10 custom pages', 'included' => false],
+                                ['label' => 'CMS / Admin panel', 'included' => true],
+                                ['label' => 'AI chatbot', 'included' => false],
+                                ['label' => 'E-commerce', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'SEO & Performance',
+                            'items' => [
+                                ['label' => 'Basic on-page SEO', 'included' => true],
+                                ['label' => 'Advanced SEO', 'included' => true],
+                                ['label' => 'Performance optimization', 'included' => false],
+                            ],
+                        ],
+                        [
+                            'title' => 'Support',
+                            'items' => [
+                                ['label' => '1 design revision', 'included' => false],
+                                ['label' => '2 design revisions', 'included' => true],
+                                ['label' => '5 design revisions', 'included' => false],
+                                ['label' => '1 month support', 'included' => true],
+                                ['label' => '2 months support', 'included' => false],
+                            ],
+                        ],
+                    ],
                 ],
                 'is_visible'            => true,
                 'sort_order'            => 3,
@@ -101,15 +244,60 @@ class PackageSeeder extends Seeder
                 'is_popular'            => false,
                 'badge_color'           => 'amber',
                 'features_json'         => [
-                    'All in Pro, plus:',
-                    'Up to 10 custom pages',
-                    'AI Chatbot Integration',
-                    'Custom UI/UX design request',
-                    'Advanced custom-coded Admin Panel',
-                    'Complete SEO setup',
-                    '5 design revisions',
-                    '2 months of technical support',
-                    'Performance optimization',
+                    'sections' => [
+                        [
+                            'title' => 'Domain',
+                            'items' => [
+                                ['label' => 'Free .com / .net / .org', 'included' => true],
+                                ['label' => 'Free .id / .my.id', 'included' => true],
+                                ['label' => 'Free .co.id', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Hosting & SSL',
+                            'items' => [
+                                ['label' => 'Free hosting 1 year', 'included' => true],
+                                ['label' => 'Free SSL certificate', 'included' => true],
+                                ['label' => 'Daily backup', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Security',
+                            'items' => [
+                                ['label' => 'Firewall protection', 'included' => true],
+                                ['label' => 'Malware scan', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Pages & CMS',
+                            'items' => [
+                                ['label' => '1 page', 'included' => false],
+                                ['label' => 'Up to 5 custom pages', 'included' => false],
+                                ['label' => 'Up to 10 custom pages', 'included' => true],
+                                ['label' => 'CMS / Admin panel', 'included' => true],
+                                ['label' => 'AI chatbot', 'included' => true],
+                                ['label' => 'E-commerce', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'SEO & Performance',
+                            'items' => [
+                                ['label' => 'Basic on-page SEO', 'included' => true],
+                                ['label' => 'Advanced SEO', 'included' => true],
+                                ['label' => 'Performance optimization', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Support',
+                            'items' => [
+                                ['label' => '1 design revision', 'included' => false],
+                                ['label' => '2 design revisions', 'included' => false],
+                                ['label' => '5 design revisions', 'included' => true],
+                                ['label' => '1 month support', 'included' => false],
+                                ['label' => '2 months support', 'included' => true],
+                            ],
+                        ],
+                    ],
                 ],
                 'is_visible'            => true,
                 'sort_order'            => 4,
@@ -117,7 +305,7 @@ class PackageSeeder extends Seeder
             [
                 'slug'                  => 'custom',
                 'package_name'          => 'Custom Plan',
-                'blurb'                 => 'Build your own plan, only pay for what you actually need.',
+                'blurb'                 => 'Starting from IDR 500k. Pay only for what you actually need.',
                 'idr_price'             => 500000,
                 'us_price'              => 30.00,
                 'original_idr'          => null,
@@ -129,14 +317,60 @@ class PackageSeeder extends Seeder
                 'is_popular'            => false,
                 'badge_color'           => 'gray',
                 'features_json'         => [
-                    'Any number of pages',
-                    'Chatbot integration',
-                    'Login / member system',
-                    'CMS / Admin Panel',
-                    'E-Commerce',
-                    'Maintenance (per month)',
-                    'Priority delivery',
-                    'Free hosting and domain from IDR 1jt',
+                    'sections' => [
+                        [
+                            'title' => 'Domain',
+                            'items' => [
+                                ['label' => 'Free .com / .net / .org', 'included' => true],
+                                ['label' => 'Free .id / .my.id', 'included' => true],
+                                ['label' => 'Free .co.id', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Hosting & SSL',
+                            'items' => [
+                                ['label' => 'Free hosting 1 year', 'included' => true],
+                                ['label' => 'Free SSL certificate', 'included' => true],
+                                ['label' => 'Daily backup', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Security',
+                            'items' => [
+                                ['label' => 'Firewall protection', 'included' => true],
+                                ['label' => 'Malware scan', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Pages & CMS',
+                            'items' => [
+                                ['label' => '1 page', 'included' => true],
+                                ['label' => 'Up to 5 custom pages', 'included' => true],
+                                ['label' => 'Up to 10 custom pages', 'included' => true],
+                                ['label' => 'CMS / Admin panel', 'included' => true],
+                                ['label' => 'AI chatbot', 'included' => true],
+                                ['label' => 'E-commerce', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'SEO & Performance',
+                            'items' => [
+                                ['label' => 'Basic on-page SEO', 'included' => true],
+                                ['label' => 'Advanced SEO', 'included' => true],
+                                ['label' => 'Performance optimization', 'included' => true],
+                            ],
+                        ],
+                        [
+                            'title' => 'Support',
+                            'items' => [
+                                ['label' => '1 design revision', 'included' => true],
+                                ['label' => '2 design revisions', 'included' => true],
+                                ['label' => '5 design revisions', 'included' => true],
+                                ['label' => '1 month support', 'included' => true],
+                                ['label' => '2 months support', 'included' => true],
+                            ],
+                        ],
+                    ],
                 ],
                 'is_visible'            => true,
                 'sort_order'            => 5,
