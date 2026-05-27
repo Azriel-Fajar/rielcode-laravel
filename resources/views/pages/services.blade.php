@@ -14,6 +14,9 @@
             </p>
         </div>
     </section>
+    <div style="text-align:center;margin-top:var(--space-8)">
+        <x-wa-consult-btn />
+    </div>
 
     {{-- Packages --}}
     <section class="rc-section rc-section--pad-default" id="packages">
@@ -94,6 +97,9 @@
             </div>
         </div>
     </section>
+    <div style="text-align:center;margin-top:var(--space-8)">
+        <x-wa-consult-btn />
+    </div>
 
     {{-- Add-ons --}}
     <section class="rc-section rc-section--bg-elev rc-section--pad-default" id="addons">

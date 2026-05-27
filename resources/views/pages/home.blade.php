@@ -18,6 +18,7 @@
             <div class="rc-hero__ctas">
                 <a class="rc-btn rc-btn--fill rc-btn--lg" href="/order">Start a project</a>
                 <a class="rc-btn rc-btn--underline rc-btn--md" href="/work">See the work</a>
+                <x-wa-consult-btn size="lg" />
             </div>
             <div class="rc-hero__chips">
                 <span>Booking · Q3 2026</span>
@@ -130,6 +131,9 @@
             </div>
         </div>
     </section>
+    <div style="text-align:center;margin-top:var(--space-8)">
+        <x-wa-consult-btn />
+    </div>
 
     {{-- Testimonials --}}
     @if ($testimonials->isNotEmpty())

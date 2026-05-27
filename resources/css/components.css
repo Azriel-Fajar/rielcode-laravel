@@ -2775,3 +2775,5 @@ textarea.rc-input { resize: vertical; min-height: 160px; }
   .rc-redesign .cp-section { padding: var(--space-5); }
   .rc-redesign .cp-order-form { padding: var(--space-5); }
 }
+.rc-btn--wa { display: inline-flex; align-items: center; gap: var(--space-2); }
+.rc-btn--wa:hover { border-color: #25D366; color: #25D366; }
