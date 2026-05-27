@@ -97,34 +97,33 @@
                 <h2>Three ways to work together.</h2>
             </div>
             <div class="rc-home-services">
-                <a class="rc-svccard" href="/services#landing">
-                    <h3 class="rc-svccard__title">Landing</h3>
-                    <p class="rc-svccard__desc">A single high-conversion page. Copy, design, build, ship. In two weeks.</p>
+                <a class="rc-svccard" href="/services#starter">
+                    <h3 class="rc-svccard__title">Starter</h3>
+                    <p class="rc-svccard__desc">Clean focused landing page to launch your idea.</p>
                     <div class="rc-svccard__price">
                         <span class="rc-label">From</span>
-                        <strong>IDR 4M</strong>
-                        <span class="rc-svccard__alt">/ $260</span>
+                        <strong>IDR 999k</strong>
+                        <span class="rc-svccard__alt">/ $59</span>
                     </div>
                     <span class="rc-svccard__arrow" aria-hidden="true">→</span>
                 </a>
-                <a class="rc-svccard" href="/services#custom">
-                    <h3 class="rc-svccard__title">Custom</h3>
-                    <p class="rc-svccard__desc">A bespoke multi-page site, designed and developed end-to-end.</p>
+                <a class="rc-svccard" href="/services#pro">
+                    <h3 class="rc-svccard__title">Pro</h3>
+                    <p class="rc-svccard__desc">Multi-page business site built to grow.</p>
                     <div class="rc-svccard__price">
                         <span class="rc-label">From</span>
-                        <strong>IDR 8–12M</strong>
-                        <span class="rc-svccard__alt">/ $520–780</span>
+                        <strong>IDR 2.499k</strong>
+                        <span class="rc-svccard__alt">/ $148</span>
                     </div>
                     <span class="rc-svccard__arrow" aria-hidden="true">→</span>
                 </a>
-                <a class="rc-svccard" href="/services#ecom">
-                    <h3 class="rc-svccard__title">E-commerce</h3>
-                    <p class="rc-svccard__desc">Simple storefronts for small catalogues. Payment + inventory included.
-                    </p>
+                <a class="rc-svccard" href="/services#premium">
+                    <h3 class="rc-svccard__title">Premium</h3>
+                    <p class="rc-svccard__desc">Full platform with e-commerce and admin tooling.</p>
                     <div class="rc-svccard__price">
                         <span class="rc-label">From</span>
-                        <strong>IDR 15M+</strong>
-                        <span class="rc-svccard__alt">/ $980+</span>
+                        <strong>IDR 4.999k</strong>
+                        <span class="rc-svccard__alt">/ $295</span>
                     </div>
                     <span class="rc-svccard__arrow" aria-hidden="true">→</span>
                 </a>
