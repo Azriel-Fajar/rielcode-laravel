@@ -69,12 +69,19 @@
                     @endif
                     @if ($pkg->features_json)
                         <ul class="rc-pkg-card__list">
-                            @foreach ($pkg->features_json as $feature)
-                            <li class="rc-pkg-card__item">
-                                <span aria-hidden="true" class="rc-pkg-card__check">&#10003;</span>
-                                {{ $feature }}
+                          @foreach ($pkg->features_json['sections'] ?? [] as $section)
+                            <li class="rc-pkg-card__section">
+                              <span class="rc-pkg-card__section-title">{{ $section['title'] }}</span>
+                              <ul class="rc-pkg-card__sublist">
+                                @foreach ($section['items'] as $row)
+                                  <li class="rc-pkg-card__item {{ $row['included'] ? '' : 'rc-pkg-card__item--off' }}">
+                                    <span class="rc-pkg-card__check">{{ $row['included'] ? '✓' : '—' }}</span>
+                                    {{ $row['label'] }}
+                                  </li>
+                                @endforeach
+                              </ul>
                             </li>
-                            @endforeach
+                          @endforeach
                         </ul>
                     @endif
                     @if ($pkg->slug === 'custom')
