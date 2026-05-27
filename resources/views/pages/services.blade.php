@@ -23,7 +23,7 @@
         <div class="rc-container">
             <div class="rc-svc-grid rc-svc-grid--5col">
                 @foreach ($packages as $pkg)
-                <div class="rc-pkg-card{{ $pkg->is_popular ? ' rc-pkg-card--popular' : '' }}" id="{{ $pkg->slug }}">
+                <div class="rc-pkg-card{{ $pkg->is_popular ? ' rc-pkg-card--popular' : '' }}{{ $loop->index >= 2 ? ' rc-pkg-card--hidden-mobile' : '' }}" id="{{ $pkg->slug }}">
                     @if ($pkg->is_popular)
                         <span class="rc-pkg-card__popular-badge">Most popular</span>
                     @endif
@@ -94,6 +94,11 @@
                     @endif
                 </div>
                 @endforeach
+            </div>
+            <div class="rc-svc-plans-expand" id="svc-plans-expand-wrap">
+                <button class="rc-btn rc-btn--outline rc-btn--md" id="svc-plans-expand-btn" onclick="rcExpandPlans()">
+                    Show all plans
+                </button>
             </div>
         </div>
     </section>
@@ -167,4 +172,13 @@
             <a href="/order" class="rc-btn rc-btn--fill rc-btn--lg">Start a project</a>
         </div>
     </section>
+<script>
+function rcExpandPlans() {
+    document.querySelectorAll('.rc-pkg-card--hidden-mobile').forEach(function(el) {
+        el.classList.remove('rc-pkg-card--hidden-mobile');
+    });
+    var wrap = document.getElementById('svc-plans-expand-wrap');
+    if (wrap) wrap.style.display = 'none';
+}
+</script>
 </x-layouts.base>
