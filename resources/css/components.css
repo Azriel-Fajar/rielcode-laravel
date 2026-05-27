@@ -986,6 +986,39 @@
 }
 .rc-addons-table__price { color: var(--rc-text-muted); }
 
+@media (max-width: 599px) {
+  .rc-addons-table:not(.rc-addons-table--order) thead { display: none; }
+  .rc-addons-table:not(.rc-addons-table--order) tbody tr {
+    display: block;
+    padding-block: var(--space-4);
+    border-bottom: 1px solid var(--rc-border);
+  }
+  .rc-addons-table:not(.rc-addons-table--order) tbody td {
+    display: block;
+    padding-block: var(--space-1);
+    border-bottom: none;
+    text-align: left;
+  }
+  .rc-addons-table:not(.rc-addons-table--order) tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: var(--fs-label);
+    font-weight: 600;
+    color: var(--rc-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+  }
+  .rc-addons-table:not(.rc-addons-table--order) tbody td:last-child {
+    text-align: left;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .rc-addons-table:not(.rc-addons-table--order) thead th,
+  .rc-addons-table:not(.rc-addons-table--order) tbody td { padding-inline: var(--space-3); }
+}
+
 @media (max-width: 899px) {
   .rc-svc-grid { grid-template-columns: 1fr; }
 }

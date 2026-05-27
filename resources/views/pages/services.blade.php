@@ -108,6 +108,7 @@
                 <span class="rc-label">Add-ons</span>
                 <h2>Extend any package.</h2>
             </div>
+            <div class="rc-addons-table-wrap">
             <table class="rc-addons-table">
                 <thead>
                     <tr>
@@ -126,13 +127,14 @@
                                 <span class="rc-addons-table__desc">{{ $addon->description }}</span>
                             @endif
                         </td>
-                        <td class="rc-addons-table__type">{{ str_replace('_', ' ', $addon->type) }}</td>
-                        <td class="rc-addons-table__price">IDR {{ number_format($addon->price_idr / 1000) }}k</td>
-                        <td class="rc-addons-table__price">${{ number_format($addon->price_usd) }}</td>
+                        <td class="rc-addons-table__type" data-label="Type">{{ str_replace('_', ' ', $addon->type) }}</td>
+                        <td class="rc-addons-table__price" data-label="IDR">IDR {{ number_format($addon->price_idr / 1000) }}k</td>
+                        <td class="rc-addons-table__price" data-label="USD">${{ number_format($addon->price_usd) }}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            </div>
         </div>
     </section>
 
