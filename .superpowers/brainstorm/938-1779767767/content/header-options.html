@@ -1,0 +1,121 @@
+<style>
+  .chatbox-mockup {
+    width: 300px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #2d2d2d;
+    font-family: system-ui, sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    background: #141414;
+    margin: 0 auto;
+  }
+  .chat-header-mock {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .chat-header-mock.option-a { background: #181818; }
+  .chat-header-mock.option-b { background: #181818; }
+  .chat-header-mock.option-c { background: #181818; }
+
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #4a7c5f; flex-shrink: 0; }
+  .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: #4a7c5f; flex-shrink: 0; box-shadow: 0 0 6px rgba(74,124,95,0.7); }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, #2d4a3a, #4a7c5f);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: #f4f1ea; flex-shrink: 0;
+  }
+  .name { font-size: 13px; font-weight: 500; color: #e8e4dc; letter-spacing: -0.01em; }
+  .status { font-size: 10px; color: #7a7a7a; text-transform: uppercase; letter-spacing: 0.06em; display: flex; align-items: center; gap: 4px; }
+  .close-x { width: 26px; height: 26px; border-radius: 6px; border: 1px solid #2a2a2a; background: transparent; display: flex; align-items: center; justify-content: center; color: #555; font-size: 12px; cursor: pointer; }
+
+  .chat-body-mock { background: #0f0f0f; padding: 12px; min-height: 80px; }
+  .msg-bot { background: #1c1c1c; border: 1px solid #2a2a2a; color: #ccc; font-size: 11px; padding: 8px 10px; border-radius: 10px 10px 10px 3px; max-width: 80%; line-height: 1.4; }
+
+  .split { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+  .option-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .option-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+
+  /* Option A: Minimal — just name + inline status dot */
+  .header-a-left { display: flex; align-items: center; gap: 8px; }
+  .header-a-name { font-size: 14px; font-weight: 500; color: #e8e4dc; letter-spacing: -0.01em; font-style: italic; }
+  .header-a-status { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #7a7a7a; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* Option B: Avatar-led */
+  .header-b-left { display: flex; align-items: center; gap: 10px; }
+  .header-b-text { display: flex; flex-direction: column; gap: 2px; }
+
+  /* Option C: Centered name, status badge */
+  .header-c-center { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+  .header-c-badge { background: rgba(74,124,95,0.15); border: 1px solid rgba(74,124,95,0.3); color: #4a7c5f; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; }
+</style>
+
+<h2>Chat Header — Which feels right?</h2>
+<p class="subtitle">All three remove the duplicate dots and reduce clutter in the top-left</p>
+
+<div class="split" style="margin-top: 28px;">
+
+  <!-- Option A: Minimal inline -->
+  <div class="option-wrap">
+    <div class="chatbox-mockup option" data-choice="a" onclick="toggleSelect(this)" style="cursor:pointer">
+      <div class="chat-header-mock option-a">
+        <div class="header-a-left">
+          <div class="pulse-dot"></div>
+          <div>
+            <div class="header-a-name">RielBot</div>
+            <div class="header-a-status">online</div>
+          </div>
+        </div>
+        <div class="close-x">✕</div>
+      </div>
+      <div class="chat-body-mock">
+        <div class="msg-bot">Hi, I'm <strong>RielBot</strong>…</div>
+      </div>
+    </div>
+    <div class="option-label">A — Minimal (one dot, stacked text)</div>
+  </div>
+
+  <!-- Option B: Avatar-led -->
+  <div class="option-wrap">
+    <div class="chatbox-mockup option" data-choice="b" onclick="toggleSelect(this)" style="cursor:pointer">
+      <div class="chat-header-mock option-b">
+        <div class="header-b-left">
+          <div class="avatar">R</div>
+          <div class="header-b-text">
+            <div class="name">RielBot</div>
+            <div class="status"><div class="pulse-dot"></div> online</div>
+          </div>
+        </div>
+        <div class="close-x">✕</div>
+      </div>
+      <div class="chat-body-mock">
+        <div class="msg-bot">Hi, I'm <strong>RielBot</strong>…</div>
+      </div>
+    </div>
+    <div class="option-label">B — Avatar-led (personality, clear hierarchy)</div>
+  </div>
+
+  <!-- Option C: Centered / badge status -->
+  <div class="option-wrap">
+    <div class="chatbox-mockup option" data-choice="c" onclick="toggleSelect(this)" style="cursor:pointer">
+      <div class="chat-header-mock option-c" style="justify-content: space-between;">
+        <div style="width:26px"></div>
+        <div class="header-c-center">
+          <div class="name" style="font-style:italic; font-size:14px;">RielBot</div>
+          <div class="header-c-badge">● online</div>
+        </div>
+        <div class="close-x">✕</div>
+      </div>
+      <div class="chat-body-mock">
+        <div class="msg-bot">Hi, I'm <strong>RielBot</strong>…</div>
+      </div>
+    </div>
+    <div class="option-label">C — Centered name + status badge</div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top: 24px; text-align:center;">Click a mockup to select. Tell me in the terminal which direction you want.</p>

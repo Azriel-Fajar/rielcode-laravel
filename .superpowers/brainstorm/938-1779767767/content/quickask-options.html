@@ -1,0 +1,118 @@
+<style>
+  body { font-family: system-ui, sans-serif; }
+  .preview-area {
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 16px 14px 12px;
+    width: 280px;
+    margin: 0 auto;
+  }
+  .quick-section { padding: 6px 0; }
+
+  /* Option A: Accent gradient pill button */
+  .qa-a {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 9px 14px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2d4a3a 0%, #3d6b50 100%);
+    border: 1px solid rgba(74,124,95,0.45);
+    color: #c8ddd0;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(45,74,58,0.35), inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+  .qa-a svg { opacity: 0.85; }
+
+  /* Option B: Ghost with accent border + icon left */
+  .qa-b {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 9px 14px;
+    border-radius: 8px;
+    background: rgba(74,124,95,0.08);
+    border: 1px solid rgba(74,124,95,0.35);
+    color: #4a7c5f;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* Option C: Split label + arrow — label left, chevron right */
+  .qa-c {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 9px 14px;
+    border-radius: 8px;
+    background: #1c1c1c;
+    border: 1px solid #2d2d2d;
+    color: #c0bdb6;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+    cursor: pointer;
+  }
+  .qa-c .qa-c-right { display: flex; align-items: center; gap: 5px; color: #4a7c5f; }
+
+  .divider { border: none; border-top: 1px solid #222; margin: 18px 0 10px; }
+  .opt-label { text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #666; margin-top: 8px; }
+
+  .chips-preview { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .chip { font-size: 10px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+    background: rgba(74,124,95,0.1); border: 1px solid rgba(74,124,95,0.25); color: #4a7c5f;
+    padding: 5px 10px; border-radius: 20px; }
+</style>
+
+<h2>Quick Ask Button — Which style?</h2>
+<p class="subtitle">Chips design stays the same — just the toggle button changes</p>
+
+<div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 28px;">
+
+  <!-- Option A -->
+  <div>
+    <div class="preview-area">
+      <div class="chips-preview">
+        <div class="chip">View Packages</div>
+        <div class="chip">Check Pricing</div>
+      </div>
+      <div style="height: 8px"></div>
+      <button class="qa-a option" data-choice="a" onclick="toggleSelect(this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        Quick Ask
+      </button>
+    </div>
+    <div class="opt-label">A — Accent gradient (prominent, branded)</div>
+  </div>
+
+  <!-- Option B -->
+  <div>
+    <div class="preview-area">
+      <div class="chips-preview">
+        <div class="chip">View Packages</div>
+        <div class="chip">Check Pricing</div>
+      </div>
+      <div style="height: 8px"></div>
+      <button class="qa-b option" data-choice="b" onclick="toggleSelect(this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        Quick Ask
+      </button>
+    </div>
+    <div class="opt-label">B — Ghost accent (subtle but clearly clickable)</div>
+  </div>
+
+  <!-- Option C -->
+  <div>
+    <div class="preview-area">
+      <div class="chips-preview">
+        <div class="chip">View Packages</div>
+        <div class="chip">Check Pricing</div>
+      </div>
+      <div style="height: 8px"></div>
+      <button class="qa-c option" data-choice="c" onclick="toggleSelect(this)">
+        <span>Quick Ask</span>
+        <span class="qa-c-right">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        </span>
+      </button>
+    </div>
+    <div class="opt-label">C — Split label + accent chevron (structured)</div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top: 24px; text-align:center;">Click to select. Tell me in terminal which you prefer.</p>
