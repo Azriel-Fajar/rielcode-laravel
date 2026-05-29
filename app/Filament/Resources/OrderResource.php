@@ -37,14 +37,31 @@ class OrderResource extends Resource
 
                 Forms\Components\Section::make('Package')
                     ->schema([
-                        Forms\Components\TextInput::make('package')->required(),
+                        Forms\Components\TextInput::make('package')
+                            ->label('Plan name (display)')
+                            ->required()
+                            ->helperText('The plan label shown to the client (e.g. "Pro Plan"). Free text. For Custom Plan orders, type exactly "Custom Plan" so the custom specs render.'),
                         Forms\Components\Select::make('package_id')
+                            ->label('Linked package')
                             ->relationship('package', 'package_name')
-                            ->required(),
-                        Forms\Components\TextInput::make('custom_preset'),
-                        Forms\Components\TextInput::make('copy_source_url')->maxLength(500),
-                        Forms\Components\Textarea::make('custom_config')->columnSpanFull(),
-                        Forms\Components\Textarea::make('description')->columnSpanFull(),
+                            ->required()
+                            ->helperText('The actual package record this order is tied to (drives pricing/relations). Pick the matching package.'),
+                        Forms\Components\Select::make('custom_preset')
+                            ->label('Custom preset')
+                            ->options([
+                                'blank' => 'Blank — build from scratch',
+                                'copy' => 'Copy — clone an existing site',
+                            ])
+                            ->helperText('Only for Custom Plan orders. "Blank" = built from scratch. "Copy" = clone the site at Copy source url. Leave empty for normal plans.'),
+                        Forms\Components\TextInput::make('copy_source_url')
+                            ->maxLength(500)
+                            ->helperText('Only when preset = Copy: the website URL to clone/reference. Leave empty otherwise.'),
+                        Forms\Components\Textarea::make('custom_config')
+                            ->columnSpanFull()
+                            ->helperText('Custom Plan spec as JSON. Keys: pages (number), maintenance (months), features (list of strings). Example: {"pages":5,"maintenance":3,"features":["SEO","Blog"]}. Leave empty for normal plans.'),
+                        Forms\Components\Textarea::make('description')
+                            ->columnSpanFull()
+                            ->helperText('Free notes about this order/project. Internal — not shown to client.'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Project Status')
@@ -53,17 +70,17 @@ class OrderResource extends Resource
                             ->options([
                                 'Pending' => 'Pending',
                                 'On Progress' => 'On Progress',
-                                'Revision' => 'Revision',
-                                'Done' => 'Done',
-                                'Cancelled' => 'Cancelled',
+                                'Staging Ready' => 'Staging Ready',
+                                'Completed' => 'Completed',
                             ])->required(),
                         Forms\Components\Select::make('project_stage')
                             ->options([
-                                'kickoff' => 'Kickoff',
+                                'pending' => 'Pending',
                                 'design' => 'Design',
                                 'development' => 'Development',
-                                'review' => 'Review',
-                                'launch' => 'Launch',
+                                'qa' => 'QA',
+                                'delivered' => 'Delivered',
+                                'closed' => 'Closed',
                             ])->required(),
                         Forms\Components\TextInput::make('staging_url')->maxLength(255),
                     ])->columns(3),
@@ -75,12 +92,17 @@ class OrderResource extends Resource
                             ->options(['IDR' => 'IDR', 'USD' => 'USD'])->required(),
                         Forms\Components\Select::make('invoice_status')
                             ->options([
-                                'Unpaid' => 'Unpaid',
-                                'Partial' => 'Partial',
-                                'Paid' => 'Paid',
+                                'draft' => 'Draft',
+                                'sent' => 'Sent',
+                                'paid' => 'Paid',
+                                'void' => 'Void',
                             ])->required(),
                         Forms\Components\Select::make('invoice_sent')
-                            ->options(['yes' => 'Yes', 'no' => 'No'])->required(),
+                            ->options([
+                                'pending' => 'Pending',
+                                'sent' => 'Sent',
+                                'failed' => 'Failed',
+                            ])->required(),
                         Forms\Components\TextInput::make('invoice_amount')->numeric(),
                         Forms\Components\DatePicker::make('invoice_due_date'),
                         Forms\Components\TextInput::make('package_price')->numeric()->default(0)->required(),
@@ -88,8 +110,12 @@ class OrderResource extends Resource
                         Forms\Components\TextInput::make('final_price')->numeric()->default(0)->required(),
                         Forms\Components\TextInput::make('payment_method')->maxLength(50)->default('Bank Transfer'),
                         Forms\Components\TextInput::make('referral_code')->maxLength(20),
-                        Forms\Components\Textarea::make('invoice_notes')->columnSpanFull(),
-                        Forms\Components\Textarea::make('invoice_line_items')->columnSpanFull(),
+                        Forms\Components\Textarea::make('invoice_notes')
+                            ->columnSpanFull()
+                            ->helperText('Free-text notes printed on the invoice PDF (terms, payment instructions, etc.).'),
+                        Forms\Components\Textarea::make('invoice_line_items')
+                            ->columnSpanFull()
+                            ->helperText('Optional JSON array of invoice rows, stored on the order. Suggested shape: [{"description":"Pro Plan","qty":1,"price":5000000}]. Currently stored only (no template renders it yet) — safe to leave empty.'),
                     ])->columns(3),
             ]);
     }
@@ -161,6 +187,7 @@ class OrderResource extends Resource
                 Tables\Actions\Action::make('generate_brief_token')
                     ->label('Generate Brief Token')
                     ->icon('heroicon-o-document-text')
+                    ->visible(fn (Order $record) => $record->brief_submitted_at === null)
                     ->action(function (Order $record, $livewire) {
                         $token = Str::random(64);
                         OrderAccessToken::create([
@@ -256,7 +283,9 @@ class OrderResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            OrderResource\RelationManagers\ProgressNotesRelationManager::class,
+        ];
     }
 
     public static function getEloquentQuery(): Builder

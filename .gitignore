@@ -22,3 +22,10 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Playwright / QA artifacts
+/test-results
+/tests/e2e/report
+/tests/e2e/.qa-fixtures.json
+/tests/e2e/.admin-state.json
+/storage/qa-backup-*.sql

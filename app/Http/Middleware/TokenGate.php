@@ -72,7 +72,7 @@ class TokenGate
 
     private function checkTestimonialToken(Request $request): ?object
     {
-        $token = trim($request->query('t', ''));
+        $token = trim($request->query('t') ?? $request->input('t', ''));
 
         if ($token === '' || strlen($token) > 128) {
             return null;

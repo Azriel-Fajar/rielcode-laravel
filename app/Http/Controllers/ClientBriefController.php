@@ -19,6 +19,10 @@ class ClientBriefController extends Controller
         $row = $request->attributes->get('token.gate.row');
         $order = Order::findOrFail($row->order_id);
 
+        if ($order->brief_submitted_at !== null) {
+            return view('pages.brief-thanks');
+        }
+
         return view('pages.brief', [
             'order' => $order,
             'token' => $request->query('t'),
@@ -31,6 +35,10 @@ class ClientBriefController extends Controller
         $row = $request->attributes->get('token.gate.row');
         $order = Order::findOrFail($row->order_id);
 
+        if ($order->brief_submitted_at !== null) {
+            return redirect()->route('brief.thanks');
+        }
+
         $data = $request->validate([
             'business' => ['required', 'string', 'max:5000'],
             'goals' => ['required', 'string', 'max:5000'],
@@ -40,7 +48,7 @@ class ClientBriefController extends Controller
         ]);
 
         try {
-            Mail::to(config('mail.from.address'))->send(new ClientBriefMail($order, $data));
+            Mail::to('support@rielcode.com')->send(new ClientBriefMail($order, $data));
         } catch (\Throwable $e) {
             AuditLogger::log('CLIENT_BRIEF_MAIL_FAIL', 'error', $order->email, [
                 'order_id' => $order->id,
@@ -63,6 +71,9 @@ class ClientBriefController extends Controller
                 ]);
             }
         }
+
+        $order->brief_submitted_at = now();
+        $order->save();
 
         AuditLogger::log('CLIENT_BRIEF_SUBMITTED', 'info', $order->email, [
             'order_id' => $order->id,

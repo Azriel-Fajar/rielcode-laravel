@@ -39,7 +39,7 @@ class ContactController extends Controller
         ContactSubmission::create($data);
 
         try {
-            Mail::to(config('mail.from.address'))
+            Mail::to('support@rielcode.com')
                 ->send(new ContactMail($data));
         } catch (\Throwable) {
             // DB is source of truth; mail failure is non-fatal

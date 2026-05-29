@@ -41,6 +41,9 @@
         .brief-q textarea:focus { outline: none; border-color: var(--rc-accent); box-shadow: 0 0 0 3px rgba(45,74,58,.18); }
         .brief-submit { display: inline-flex; align-items: center; background: var(--rc-accent); color: var(--rc-on-accent); border: 2px solid var(--rc-accent); border-radius: 8px; padding: 13px 28px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .15s, border-color .15s; }
         .brief-submit:hover { background: var(--rc-accent-hover); border-color: var(--rc-accent-hover); }
+        .brief-submit:disabled { opacity: .75; cursor: progress; }
+        .brief-spinner { width: 16px; height: 16px; margin-right: 10px; border: 2px solid rgba(244,241,234,.4); border-top-color: var(--rc-on-accent); border-radius: 50%; animation: brief-spin .6s linear infinite; }
+        @keyframes brief-spin { to { transform: rotate(360deg); } }
         .brief-err { background: #fbe9ec; border: 1px solid #e0a4ad; color: #8a2335; padding: 12px 16px; border-radius: 8px; margin-bottom: 22px; font-size: 14px; }
     </style>
 </head>
@@ -98,8 +101,20 @@
             <textarea id="brand_style" name="brand_style" required maxlength="5000">{{ old('brand_style') }}</textarea>
         </div>
 
-        <button type="submit" class="brief-submit">Submit brief</button>
+        <button type="submit" class="brief-submit" id="briefSubmit"><span class="brief-label">Submit brief</span></button>
     </form>
 </div>
+<script>
+    (function () {
+        var form = document.querySelector('form');
+        var btn = document.getElementById('briefSubmit');
+        if (!form || !btn) return;
+        form.addEventListener('submit', function () {
+            if (btn.disabled) return;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="brief-spinner"></span><span class="brief-label">Submitting&hellip;</span>';
+        });
+    })();
+</script>
 </body>
 </html>

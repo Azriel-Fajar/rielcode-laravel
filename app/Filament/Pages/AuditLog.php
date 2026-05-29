@@ -45,10 +45,10 @@ class AuditLog extends Page implements HasTable
                         default => 'gray',
                     })
                     ->label('Severity'),
-                TextColumn::make('actor')->searchable()->label('Actor'),
-                TextColumn::make('ip_address')->label('IP'),
-                TextColumn::make('ref_table')->label('Table'),
-                TextColumn::make('message')->limit(60)->label('Message'),
+                TextColumn::make('actor')->searchable()->limit(24)->label('Actor'),
+                TextColumn::make('ip_address')->label('IP')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('ref_table')->label('Table')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('message')->limit(60)->wrap()->label('Message'),
             ])
             ->filters([
                 Filter::make('event_code')
@@ -86,6 +86,8 @@ class AuditLog extends Page implements HasTable
                     ->icon('heroicon-o-arrow-down-tray')
                     ->action(fn () => $this->exportCsv()),
             ])
+
+            ->striped()
             ->paginated([50, 100, 250])
             ->defaultPaginationPageOption(50)
             ->recordUrl(null);

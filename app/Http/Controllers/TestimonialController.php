@@ -29,7 +29,7 @@ class TestimonialController extends Controller
         $invite = $request->attributes->get('token.gate.row');
 
         // Honeypot
-        if ($request->input('website', '') !== '') {
+        if (!empty($request->input('website'))) {
             abort(400);
         }
 

@@ -73,6 +73,7 @@ class SiteSettingResource extends Resource
                 Tables\Columns\TextColumn::make('group')->sortable(),
                 Tables\Columns\TextColumn::make('key')->searchable(),
                 Tables\Columns\TextColumn::make('label')->limit(40),
+                Tables\Columns\TextColumn::make('hint')->label('Where it appears')->limit(60)->wrap()->placeholder('—'),
                 Tables\Columns\BadgeColumn::make('value_type'),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime()->since(),
             ])
