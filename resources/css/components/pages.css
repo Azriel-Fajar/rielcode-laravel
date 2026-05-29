@@ -1,0 +1,206 @@
+/* Prose pages, 404, EditorialHero, Section - split from components.css */
+
+/* Prose pages (privacy, terms) */
+.rc-prose-hero {
+    padding-block: var(--space-24) var(--space-12);
+    background: var(--rc-bg);
+}
+.rc-prose-hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+.rc-prose-hero__title {
+    font-family: var(--rc-font-display);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--rc-text);
+}
+.rc-prose-hero__title em {
+    font-style: italic;
+}
+.rc-prose-hero__meta {
+    color: var(--rc-text-muted);
+}
+.rc-prose-body {
+    padding-block: var(--space-12) var(--space-24);
+}
+.rc-prose {
+    max-width: 72ch;
+}
+.rc-prose h2 {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    font-style: italic;
+    font-weight: 400;
+    margin: var(--space-12) 0 var(--space-4) 0;
+    color: var(--rc-text);
+}
+.rc-prose h2:first-child {
+    margin-top: 0;
+}
+.rc-prose p {
+    color: var(--rc-text-muted);
+    font-size: var(--fs-body-md);
+    line-height: var(--lh-body-lg);
+    margin: 0 0 var(--space-4) 0;
+}
+.rc-prose a {
+    color: var(--rc-accent);
+}
+.rc-prose a:hover {
+    color: var(--rc-accent-hover);
+}
+
+/* 404 page */
+.rc-404 {
+    min-height: calc(100vh - 72px - 200px);
+    display: flex;
+    align-items: center;
+    background: var(--rc-bg);
+}
+.rc-404__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-block: var(--space-24);
+}
+.rc-404__title {
+    font-family: var(--rc-font-display);
+    font-weight: 400;
+    font-size: clamp(56px, 10vw, 140px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0;
+    color: var(--rc-text);
+}
+.rc-404__title em {
+    font-style: italic;
+}
+.rc-404__body {
+    font-size: var(--fs-body-lg);
+    color: var(--rc-text-muted);
+    max-width: 48ch;
+    margin: 0;
+    line-height: var(--lh-body-lg);
+}
+.rc-404__links {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: var(--space-4);
+}
+
+/* EditorialHero */
+.rc-hero {
+    padding-block: var(--space-24) var(--space-16);
+    background: var(--rc-bg);
+}
+.rc-hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    align-items: flex-start;
+}
+.rc-hero__eyebrow {
+    color: var(--rc-text-muted);
+}
+.rc-hero__title {
+    font-family: var(--rc-font-display);
+    font-weight: 400;
+    font-size: clamp(48px, 9vw, 128px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--rc-text);
+    max-width: 14ch;
+}
+.rc-hero__italic {
+    display: block;
+    font-style: italic;
+}
+.rc-hero__roman {
+    display: block;
+}
+.rc-hero__word {
+    display: inline-block;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.25em);
+    opacity: 0;
+    animation: rc-hero-word 700ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation-delay: calc(var(--i) * 80ms + 120ms);
+    white-space: pre;
+}
+@keyframes rc-hero-word {
+    to {
+        clip-path: inset(0 0 0 0);
+        transform: none;
+        opacity: 1;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .rc-hero__word {
+        animation: none;
+        clip-path: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+.rc-hero__body {
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-body-lg);
+    color: var(--rc-text-muted);
+    max-width: 50ch;
+    margin: 0;
+}
+.rc-hero__ctas {
+    display: flex;
+    gap: var(--space-6);
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: var(--space-4);
+}
+.rc-hero__chips {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-top: var(--space-6);
+    color: var(--rc-text-muted);
+    font-size: var(--fs-body-sm);
+}
+
+/* Section */
+.rc-section--bg-default {
+    background: var(--rc-bg);
+    color: var(--rc-text);
+}
+.rc-section--bg-elev {
+    background: var(--rc-bg-elev);
+    color: var(--rc-text);
+}
+.rc-section--bg-accent {
+    background: var(--rc-accent);
+    color: var(--rc-on-accent);
+}
+.rc-section--pad-default {
+    padding-block: var(--section-py-mobile);
+}
+.rc-section--pad-tight {
+    padding-block: var(--space-12);
+}
+.rc-section--pad-none {
+    padding-block: 0;
+}
+@media (min-width: 900px) {
+    .rc-section--pad-default {
+        padding-block: var(--section-py-desktop);
+    }
+    .rc-section--pad-tight {
+        padding-block: var(--space-16);
+    }
+}
+

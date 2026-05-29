@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Services\AuditLogger;
-use App\Support\ErrorCodes;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +36,8 @@ class TokenGate
                 'type' => $type,
                 'token' => $request->query('t') ?? $request->query('code') ?? '',
             ]);
-            abort(403, ErrorCodes::userMsg('RC-TOKEN-001'));
+
+            return redirect('/');
         }
 
         $request->attributes->set('token.gate.row', $result);
@@ -64,7 +64,7 @@ class TokenGate
         }
 
         if ($row->deactivated_at !== null) {
-            abort(403, ErrorCodes::userMsg('RC-TOKEN-003'));
+            return null;
         }
 
         return $row;
@@ -87,7 +87,7 @@ class TokenGate
         }
 
         if ($row->used_at !== null) {
-            abort(403, ErrorCodes::userMsg('RC-TOKEN-002'));
+            return null;
         }
 
         return $row;

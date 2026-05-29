@@ -1,0 +1,1307 @@
+/* Checkout, Custom Plan, popups, progress reveal - split from components.css */
+
+/* =========================================================
+   Checkout success page
+   ========================================================= */
+.rc-redesign .popup {
+    max-width: 560px;
+    margin-inline: auto;
+    padding-block: var(--space-16);
+    padding-inline: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+/* Checkmark circle */
+.rc-redesign .popup .circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--rc-accent) 14%, transparent);
+    border: 1.5px solid color-mix(in oklab, var(--rc-accent) 40%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-2);
+}
+
+.rc-redesign .popup .checkmark {
+    width: 22px;
+    height: 12px;
+    border-left: 2.5px solid var(--rc-accent-pale);
+    border-bottom: 2.5px solid var(--rc-accent-pale);
+    transform: rotate(-45deg) translateY(-3px);
+}
+
+/* Progress reveal card */
+.rc-redesign .progress-reveal {
+    width: 100%;
+    margin-top: var(--space-4);
+    padding: var(--space-6);
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.rc-redesign .progress-reveal__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rc-text-faint);
+}
+
+.rc-redesign .progress-reveal h3 {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    color: var(--rc-text);
+    margin: 0;
+    font-weight: 600;
+}
+
+.rc-redesign .progress-reveal > p {
+    margin: 0;
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+    line-height: 1.6;
+}
+
+/* URL copy box */
+.rc-redesign .progress-reveal__urlbox {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.rc-redesign .progress-reveal__urlbox input {
+    flex: 1;
+    padding: 9px 12px;
+    background: var(--rc-bg);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-sm);
+    color: var(--rc-text-muted);
+    font-family: var(--rc-font-mono);
+    font-size: 12px;
+    min-width: 0;
+    cursor: text;
+}
+
+.rc-redesign .progress-reveal__copy {
+    padding: 9px 16px;
+    background: var(--rc-accent);
+    color: var(--rc-on-accent);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--rc-font-body);
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background var(--transition-fast);
+    flex-shrink: 0;
+}
+.rc-redesign .progress-reveal__copy:hover {
+    background: var(--rc-accent-hover);
+}
+
+/* Open portal link */
+.rc-redesign .progress-reveal__open {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--fs-body-sm);
+    color: var(--rc-accent-pale);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-fast);
+}
+.rc-redesign .progress-reveal__open:hover {
+    color: var(--rc-text);
+}
+
+/* Warning note */
+.rc-redesign .progress-reveal__warn {
+    margin: 0;
+    font-size: 12px;
+    color: var(--rc-text-faint);
+    line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+    .rc-redesign .popup {
+        padding-inline: var(--space-4);
+    }
+    .rc-redesign .progress-reveal__urlbox {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* =========================================================
+   Incomplete order popup (order form)
+   ========================================================= */
+.rc-redesign .popup-background {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-6);
+}
+
+.rc-redesign .popup-container {
+    width: 100%;
+    max-width: 520px;
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border-strong);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.rc-redesign .popup-container h3 {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    color: var(--rc-text);
+    margin: 0;
+    font-weight: 600;
+}
+
+.rc-redesign .popup-container .personal-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--rc-bg);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-md);
+}
+.rc-redesign .popup-container .personal-info p {
+    margin: 0 0 2px;
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+.rc-redesign .popup-container .personal-info b {
+    color: var(--rc-text);
+}
+.rc-redesign .popup-container .personal-info span {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-faint);
+}
+
+.rc-redesign .popup-container > p {
+    margin: 0;
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+
+.rc-redesign .popup-container form {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.rc-redesign .popup-container form .rc-btn {
+    flex: 1;
+    justify-content: center;
+}
+
+/* =========================================================
+   Checkout page
+   ========================================================= */
+.checkout-container {
+    max-width: 640px;
+    margin-inline: auto;
+    padding-block: var(--space-12);
+    padding-inline: var(--space-6);
+}
+
+.checkout-heading {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+/* Billed-to / personal info */
+.personal-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-lg);
+}
+.personal-info p {
+    margin: 0 0 var(--space-1);
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+.personal-info b {
+    color: var(--rc-text);
+}
+.personal-info span {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-faint);
+}
+
+/* Promo / warning note */
+.landing-note {
+    padding: var(--space-3) var(--space-4);
+    background: color-mix(in oklab, var(--rc-accent) 8%, transparent);
+    border: 1px solid color-mix(in oklab, var(--rc-accent) 25%, transparent);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+
+/* Purchase / discount / total sections */
+.purchase-info,
+.discount-info,
+.total-info {
+    padding: var(--space-6);
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-lg);
+}
+
+.purchase-info h3,
+.discount-info h3,
+.total-info h3 {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    color: var(--rc-text);
+    margin: 0 0 var(--space-4);
+    font-weight: 600;
+}
+
+.package-price,
+.discount-price,
+.total-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+}
+.package-price + .package-price,
+.discount-price + .discount-price {
+    margin-top: var(--space-3);
+}
+
+.package-price p,
+.discount-price p,
+.total-price p {
+    margin: 0;
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+.package-price span,
+.discount-price span {
+    font-size: var(--fs-body-md);
+    color: var(--rc-text);
+    white-space: nowrap;
+}
+
+.total-price p {
+    font-size: var(--fs-body-md);
+    font-weight: 600;
+    color: var(--rc-text);
+}
+.total-price span {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--rc-text);
+    white-space: nowrap;
+}
+
+/* Checkout form */
+.checkout-container .referral-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--rc-bg);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-sm);
+    color: var(--rc-text);
+    font-family: var(--rc-font-body);
+    font-size: var(--fs-body-sm);
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast);
+}
+.checkout-container .referral-input:focus {
+    outline: none;
+    border-color: var(--rc-accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 18%, transparent);
+}
+
+.checkout-container .checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+.checkout-container .checkbox input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid var(--rc-border-strong);
+    border-radius: var(--radius-sm);
+    background: transparent center/12px no-repeat;
+    cursor: pointer;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+.checkout-container .checkbox input[type="checkbox"]:checked {
+    background-color: var(--rc-accent);
+    border-color: var(--rc-accent);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.checkout-container .checkbox a {
+    color: var(--rc-accent-pale);
+    text-decoration: underline;
+}
+
+.checkout-container .rc-btn[type="submit"] {
+    width: 100%;
+}
+
+@media (max-width: 640px) {
+    .personal-info {
+        grid-template-columns: 1fr;
+    }
+    .checkout-container {
+        padding-inline: var(--space-4);
+    }
+}
+
+/* =========================================================
+   Custom Plan page  (/custom-plan)
+   Follows the same visual system as the Order Form
+   ========================================================= */
+
+/* Page shell */
+.rc-redesign .cp-page {
+    background: var(--rc-bg);
+    min-height: 100vh;
+    padding-block: var(--space-8) var(--space-24);
+}
+
+.rc-redesign .cp-page .back-btn {
+    display: inline-block;
+    margin-block: var(--space-4);
+    margin-inline-start: max(var(--space-6), calc((100% - 1100px) / 2));
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+.rc-redesign .cp-page .back-btn:hover {
+    color: var(--rc-text);
+}
+.rc-redesign .cp-page .back-btn:focus-visible {
+    outline: 2px solid var(--rc-accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+.rc-redesign .cp-wrapper {
+    max-width: 1100px;
+    margin-inline: auto;
+    padding-inline: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+}
+
+/* Header */
+.rc-redesign .cp-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding-bottom: var(--space-2);
+}
+.rc-redesign .cp-header .rc-h1 {
+    font-family: var(--rc-font-display);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--rc-text);
+}
+.rc-redesign .cp-header .rc-eyebrow {
+    font-size: var(--fs-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--rc-text-muted);
+    font-weight: 500;
+}
+.rc-redesign .cp-header .rc-body-lg {
+    font-size: var(--fs-body-md);
+    color: var(--rc-text-muted);
+    margin: 0;
+}
+
+/* Preset cards row */
+.rc-redesign .cp-presets {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+}
+.rc-redesign .cp-preset-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+.rc-redesign .cp-preset-card:hover {
+    border-color: var(--rc-border-strong);
+    box-shadow: var(--shadow-card);
+}
+.rc-redesign .cp-preset-card.is-active {
+    border-color: var(--rc-accent);
+    box-shadow: 0 0 0 2px var(--rc-accent);
+    background: color-mix(in oklab, var(--rc-accent) 6%, var(--rc-bg-elev));
+}
+.rc-redesign .cp-preset-card__icon {
+    font-size: 28px;
+    color: var(--rc-accent);
+    line-height: 1;
+}
+.rc-redesign .cp-preset-card__name {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h4);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--rc-text);
+}
+.rc-redesign .cp-preset-card__price {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+    font-weight: 500;
+}
+.rc-redesign .cp-preset-card__desc {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-faint);
+}
+
+/* Two-column layout */
+.rc-redesign .cp-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--space-6);
+    align-items: start;
+}
+
+/* Left: options column */
+.rc-redesign .cp-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+/* Section card — matches .customer-info-container / .package-details-container */
+.rc-redesign .cp-section {
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.rc-redesign .cp-section-title {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--rc-text);
+    border-bottom: 1px solid var(--rc-border);
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-1);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+.rc-redesign .cp-section-title span[id$="-price-label"] {
+    font-style: normal;
+    font-size: var(--fs-body-md);
+    font-weight: 600;
+    color: var(--rc-accent);
+    margin-left: auto;
+}
+
+/* Base package info */
+.rc-redesign .cp-base-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    row-gap: var(--space-2);
+}
+.rc-redesign .cp-base-item {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+    background: color-mix(in oklab, var(--rc-accent) 8%, transparent);
+    border: 1px solid color-mix(in oklab, var(--rc-accent) 22%, transparent);
+    border-radius: var(--radius-pill);
+    padding: 3px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+/* Toggle feature items */
+.rc-redesign .cp-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+.rc-redesign .cp-toggle-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    background: var(--rc-bg);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+    user-select: none;
+}
+.rc-redesign .cp-toggle-item:hover {
+    border-color: var(--rc-border-strong);
+}
+.rc-redesign .cp-toggle-item.active {
+    border-color: var(--rc-accent);
+    box-shadow: 0 0 0 2px var(--rc-accent);
+    background: color-mix(in oklab, var(--rc-accent) 5%, var(--rc-bg));
+}
+.rc-redesign .cp-toggle-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    border: 2px solid var(--rc-border-strong);
+    border-radius: var(--radius-sm);
+    background: transparent center/14px no-repeat;
+    cursor: pointer;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+.rc-redesign .cp-toggle-item input[type="checkbox"]:checked {
+    background-color: var(--rc-accent);
+    border-color: var(--rc-accent);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.rc-redesign .cp-toggle-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+.rc-redesign .cp-toggle-name {
+    font-size: var(--fs-body-md);
+    font-weight: 500;
+    color: var(--rc-text);
+}
+.rc-redesign .cp-toggle-desc {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+.rc-redesign .cp-toggle-price {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-accent);
+    font-weight: 600;
+    margin-top: var(--space-3);
+}
+
+/* CMS / Ecom difficulty sub-row */
+.rc-redesign .cp-difficulty-row {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rc-border);
+    flex-direction: column;
+    gap: var(--space-3);
+}
+.rc-redesign .cp-difficulty-label {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+    font-weight: 500;
+}
+.rc-redesign .cp-difficulty-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+.rc-redesign .cp-diff-opt {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+    transition: border-color var(--transition-fast);
+}
+.rc-redesign .cp-diff-opt:hover {
+    border-color: var(--rc-border-strong);
+}
+.rc-redesign .cp-diff-opt input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--rc-border-strong);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition:
+        border-color var(--transition-fast),
+        background var(--transition-fast);
+}
+.rc-redesign .cp-diff-opt input[type="radio"]:checked {
+    border-color: var(--rc-accent);
+    background: var(--rc-accent);
+    box-shadow: inset 0 0 0 3px var(--rc-bg-elev);
+}
+.rc-redesign .cp-diff-name {
+    font-weight: 600;
+    color: var(--rc-text);
+}
+.rc-redesign .cp-diff-info {
+    flex: 1;
+    color: var(--rc-text-muted);
+}
+.rc-redesign .cp-diff-price {
+    font-weight: 600;
+    color: var(--rc-text);
+    white-space: nowrap;
+}
+
+/* Stepper row (pages / maintenance) */
+.rc-redesign .cp-stepper-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+.rc-redesign .cp-stepper-btn {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    background: var(--rc-bg);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-sm);
+    color: var(--rc-text);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        border-color var(--transition-fast),
+        background var(--transition-fast);
+}
+.rc-redesign .cp-stepper-btn:hover {
+    border-color: var(--rc-accent);
+    color: var(--rc-accent);
+}
+.rc-redesign .cp-stepper-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.rc-redesign .cp-stepper-val {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h4);
+    font-weight: 600;
+    color: var(--rc-text);
+    min-width: 2ch;
+    text-align: center;
+    line-height: 1;
+}
+.rc-redesign .cp-stepper-label {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+.rc-redesign .cp-unit-price {
+    color: var(--rc-text-faint);
+}
+
+/* Quick preset buttons */
+.rc-redesign .cp-preset-btns {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+.rc-redesign .cp-preset-label {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-faint);
+}
+.rc-redesign .cp-preset-btn {
+    padding: 5px 14px;
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    color: var(--rc-text-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.rc-redesign .cp-preset-btn:hover {
+    border-color: var(--rc-border-strong);
+    color: var(--rc-text);
+}
+.rc-redesign .cp-preset-btn.active {
+    background: var(--rc-accent);
+    border-color: var(--rc-accent);
+    color: var(--rc-on-accent);
+}
+
+/* Hosting note bar */
+.rc-redesign .cp-hosting-note {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    background: color-mix(in oklab, #f59e0b 8%, transparent);
+    border: 1px solid color-mix(in oklab, #f59e0b 35%, transparent);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text);
+}
+.rc-redesign .cp-hosting-note i {
+    font-size: 20px;
+    flex-shrink: 0;
+    color: #f59e0b;
+}
+.rc-redesign .cp-hosting-note div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.rc-redesign .cp-hosting-note strong {
+    font-weight: 600;
+    color: var(--rc-text);
+}
+.rc-redesign .cp-hosting-note span {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+.rc-redesign .cp-hosting-note.unlocked {
+    background: color-mix(in oklab, var(--rc-accent) 8%, transparent);
+    border-color: color-mix(in oklab, var(--rc-accent) 35%, transparent);
+}
+.rc-redesign .cp-hosting-note.unlocked i {
+    color: var(--rc-accent);
+}
+.rc-redesign .cp-hosting-badge {
+    padding: 3px 12px;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: color-mix(in oklab, #f59e0b 18%, transparent);
+    color: #d97706;
+    border: 1px solid color-mix(in oklab, #f59e0b 35%, transparent);
+}
+.rc-redesign .cp-hosting-badge.unlocked {
+    background: color-mix(in oklab, var(--rc-accent) 18%, transparent);
+    color: var(--rc-accent);
+    border-color: color-mix(in oklab, var(--rc-accent) 35%, transparent);
+}
+
+/* Right: sticky summary card */
+.rc-redesign .cp-summary {
+    position: sticky;
+    top: calc(72px + var(--space-6));
+}
+.rc-redesign .cp-summary-inner {
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-7);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+.rc-redesign .cp-summary-title {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--rc-text);
+    border-bottom: 1px solid var(--rc-border);
+    padding-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.rc-redesign .cp-currency-toggle {
+    padding: 4px 12px;
+    font-size: var(--fs-label);
+    font-weight: 600;
+    border: 1px solid var(--rc-border-strong);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--rc-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.rc-redesign .cp-currency-toggle:hover {
+    border-color: var(--rc-accent);
+    color: var(--rc-accent);
+}
+.rc-redesign .cp-summary-lines {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+.rc-redesign .cp-line {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+}
+.rc-redesign .cp-line-free span:last-child {
+    color: var(--rc-accent);
+    font-weight: 500;
+}
+.rc-redesign .cp-summary-divider {
+    height: 1px;
+    background: var(--rc-border);
+}
+.rc-redesign .cp-summary-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    color: var(--rc-text-muted);
+}
+.rc-redesign .cp-summary-total {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--rc-text);
+}
+.rc-redesign .cp-summary-inner .rc-btn {
+    width: 100%;
+}
+.rc-redesign .cp-summary-inner .rc-btn:focus-visible {
+    outline: 2px solid var(--rc-accent);
+    outline-offset: 2px;
+}
+.rc-redesign .cp-order-note {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-faint);
+    text-align: center;
+    margin: 0;
+}
+.rc-redesign .cp-hosting-unlock {
+    font-size: var(--fs-body-sm);
+    text-align: center;
+}
+.rc-redesign .cp-unlock-pill {
+    display: inline-block;
+    padding: 4px 14px;
+    background: color-mix(in oklab, var(--rc-accent) 12%, transparent);
+    border: 1px solid color-mix(in oklab, var(--rc-accent) 30%, transparent);
+    border-radius: var(--radius-pill);
+    color: var(--rc-accent);
+    font-size: var(--fs-label);
+    font-weight: 600;
+}
+
+/* Order form section at bottom */
+.rc-redesign .cp-order-form {
+    background: var(--rc-bg-elev);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+.rc-redesign .cp-form-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    border-bottom: 1px solid var(--rc-border);
+    padding-bottom: var(--space-6);
+}
+.rc-redesign .cp-tag {
+    font-size: var(--fs-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--rc-text-muted);
+    font-weight: 500;
+    font-family: var(--rc-font-mono);
+}
+.rc-redesign .cp-form-header h2 {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--rc-text);
+    margin: 0;
+}
+.rc-redesign .cp-form-header p {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+    margin: 0;
+}
+
+/* Copy URL input row */
+.rc-redesign .cp-copy-url-row {
+    display: none;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+.rc-redesign .cp-copy-url-row.is-visible {
+    display: flex;
+}
+.rc-redesign .cp-copy-url-row label {
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    color: var(--rc-text);
+}
+.rc-redesign .cp-copy-url-row input[type="url"] {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--rc-bg);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-sm);
+    color: var(--rc-text);
+    font-family: var(--rc-font-body);
+    font-size: var(--fs-body-md);
+    box-sizing: border-box;
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+.rc-redesign .cp-copy-url-row input[type="url"]:focus {
+    outline: none;
+    border-color: var(--rc-accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 18%, transparent);
+}
+.rc-redesign .cp-copy-url-hint {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-faint);
+}
+
+/* Form grid — 3 columns (matches customer-info-container) */
+.rc-redesign .cp-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+}
+
+/* Individual form group */
+.rc-redesign .cp-form-group {
+    padding-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+.rc-redesign .cp-form-group--full {
+    grid-column: 1 / -1;
+}
+.rc-redesign .cp-form-group label {
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    color: var(--rc-text);
+}
+.rc-redesign .cp-form-optional {
+    font-weight: 400;
+    color: var(--rc-text-faint);
+}
+.rc-redesign .cp-form-group input,
+.rc-redesign .cp-form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--rc-bg);
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-sm);
+    color: var(--rc-text);
+    font-family: var(--rc-font-body);
+    font-size: var(--fs-body-md);
+    box-sizing: border-box;
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+.rc-redesign .cp-form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+.rc-redesign .cp-form-group input::placeholder,
+.rc-redesign .cp-form-group textarea::placeholder {
+    color: var(--rc-text-faint);
+}
+.rc-redesign .cp-form-group input:focus,
+.rc-redesign .cp-form-group textarea:focus {
+    outline: none;
+    border-color: var(--rc-accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-accent) 18%, transparent);
+}
+
+/* Domain / hosting radio group in order form section */
+.rc-redesign .cp-form-dh {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rc-border);
+}
+.rc-redesign .cp-form-dh-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+.rc-redesign .cp-form-dh-group h4 {
+    font-size: var(--fs-body-md);
+    font-weight: 500;
+    color: var(--rc-text);
+    margin: 0;
+}
+.rc-redesign .cp-dh-radios {
+    display: flex;
+    gap: var(--space-3);
+}
+.rc-redesign .cp-dh-radios input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+.rc-redesign .cp-dh-radios label {
+    padding: 8px 20px;
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--rc-text-muted);
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+.rc-redesign .cp-dh-radios label:hover {
+    border-color: var(--rc-border-strong);
+    color: var(--rc-text);
+}
+.rc-redesign .cp-dh-radios input[type="radio"]:checked + label {
+    background: var(--rc-accent);
+    border-color: var(--rc-accent);
+    color: var(--rc-on-accent);
+}
+.rc-redesign .cp-dh-radios input[type="radio"]:focus-visible + label {
+    outline: 2px solid var(--rc-accent);
+    outline-offset: 2px;
+}
+
+/* Plan cap info badge */
+.rc-redesign .cp-plan-cap-badge {
+    margin-block: var(--space-2);
+    padding: 6px 10px;
+    background: color-mix(in oklab, var(--rc-accent) 12%, transparent);
+    border: 1px solid color-mix(in oklab, var(--rc-accent) 30%, transparent);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-label);
+    color: var(--rc-accent);
+    line-height: 1.4;
+}
+
+/* Submit row */
+.rc-redesign .cp-form-submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--rc-border);
+}
+.rc-redesign .cp-form-total-preview {
+    font-size: var(--fs-body-sm);
+    color: var(--rc-text-muted);
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+.rc-redesign .cp-form-total-preview strong {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--rc-text);
+}
+
+/* Maintenance quick-select buttons — same style as .cp-preset-btn */
+.rc-redesign .cp-maint-btn {
+    padding: 5px 14px;
+    border: 1px solid var(--rc-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    color: var(--rc-text-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.rc-redesign .cp-maint-btn:hover {
+    border-color: var(--rc-border-strong);
+    color: var(--rc-text);
+}
+.rc-redesign .cp-maint-btn.active {
+    background: var(--rc-accent);
+    border-color: var(--rc-accent);
+    color: var(--rc-on-accent);
+}
+
+/* Order form recap bar */
+.rc-redesign .cp-form-recap {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    background: color-mix(in oklab, var(--rc-accent) 6%, var(--rc-bg));
+    border: 1px solid color-mix(in oklab, var(--rc-accent) 25%, transparent);
+    border-radius: var(--radius-md);
+    flex-wrap: wrap;
+}
+.rc-redesign .cp-recap-label {
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--rc-text-muted);
+    white-space: nowrap;
+}
+.rc-redesign .cp-recap-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    flex: 1;
+}
+.rc-redesign .cp-recap-chip {
+    font-size: var(--fs-label);
+    padding: 3px 10px;
+    background: color-mix(in oklab, var(--rc-accent) 12%, transparent);
+    border: 1px solid color-mix(in oklab, var(--rc-accent) 28%, transparent);
+    border-radius: var(--radius-pill);
+    color: var(--rc-text-muted);
+}
+.rc-redesign .cp-recap-chip--base {
+    color: var(--rc-text-faint);
+    background: transparent;
+    border-color: var(--rc-border);
+}
+.rc-redesign .cp-recap-total {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h4);
+    font-weight: 700;
+    color: var(--rc-text);
+    white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 899px) {
+    .rc-redesign .cp-wrapper {
+        padding-inline: var(--space-4);
+    }
+    .rc-redesign .cp-page .back-btn {
+        margin-inline-start: var(--space-4);
+    }
+    .rc-redesign .cp-layout {
+        grid-template-columns: 1fr;
+    }
+    .rc-redesign .cp-summary {
+        position: static;
+    }
+    .rc-redesign .cp-form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .rc-redesign .cp-form-grid .cp-form-group:last-of-type {
+        grid-column: 1 / -1;
+    }
+    .rc-redesign .cp-form-dh {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 599px) {
+    .rc-redesign .cp-presets {
+        grid-template-columns: 1fr;
+    }
+    .rc-redesign .cp-form-grid {
+        grid-template-columns: 1fr;
+    }
+    .rc-redesign .cp-form-submit-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .rc-redesign .cp-section {
+        padding: var(--space-5);
+    }
+    .rc-redesign .cp-order-form {
+        padding: var(--space-5);
+    }
+}
+.rc-btn--wa {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+.rc-btn--wa:hover {
+    border-color: #25d366;
+    color: #25d366;
+}

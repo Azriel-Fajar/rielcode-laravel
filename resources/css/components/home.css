@@ -1,0 +1,113 @@
+/* Home page layout - split from components.css */
+
+/* Home page layout */
+.rc-home-feat__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+    flex-wrap: wrap;
+}
+.rc-home-feat__head h2 {
+    font-family: var(--rc-font-display);
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 18ch;
+    margin: 0;
+}
+.rc-home-feat__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-12);
+    align-items: start;
+}
+.rc-home-feat__grid > :nth-child(2) {
+    margin-top: var(--space-16);
+}
+.rc-home-studio {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-16);
+    align-items: center;
+}
+.rc-home-studio__portrait {
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(135deg, var(--rc-forest), var(--rc-forest-mid));
+    border-radius: var(--radius-md);
+    width: 100%;
+}
+.rc-home-studio__copy h2 {
+    font-family: var(--rc-font-display);
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: var(--space-3) 0 var(--space-6) 0;
+}
+.rc-home-studio__copy h2 em {
+    font-style: italic;
+}
+.rc-home-studio__stats {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+.rc-home-studio__stats li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.rc-home-studio__stats strong {
+    font-family: var(--rc-font-display);
+    font-size: var(--fs-h1);
+    font-style: italic;
+}
+.rc-home-studio__stats span {
+    color: var(--rc-text-muted);
+    font-size: var(--fs-body-sm);
+}
+.rc-home-quote {
+    margin: 0 auto;
+    max-width: 60ch;
+    text-align: center;
+}
+.rc-home-quote blockquote {
+    margin: 0;
+    font-family: var(--rc-font-display);
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.2;
+    color: var(--rc-text);
+}
+.rc-home-quote__body::before {
+    content: "\201C";
+    display: block;
+    font-family: var(--rc-font-display);
+    font-size: 4.5rem;
+    line-height: 0.6;
+    color: color-mix(in oklab, var(--rc-accent) 22%, transparent);
+    margin-bottom: var(--space-2);
+}
+.rc-home-quote__detail {
+    font-family: var(--rc-font-body);
+    font-size: var(--fs-body-md);
+    color: var(--rc-text-muted);
+    line-height: var(--lh-body-md);
+    margin-top: var(--space-4);
+}
+.rc-home-quote__cite {
+    margin-top: var(--space-6);
+    color: var(--rc-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+.rc-home-quote__cite strong {
+    color: var(--rc-text);
+    font-weight: 600;
+}
+
