@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ReferralCommissionResource extends Resource
 {
@@ -46,10 +47,10 @@ class ReferralCommissionResource extends Resource
                 Tables\Columns\TextColumn::make('referrer.name')->label('Referrer')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('order.order_name')->label('Order')->searchable(),
                 Tables\Columns\TextColumn::make('order_amount')
-                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state ?? 0, 0, ',', '.'))
+                    ->formatStateUsing(fn ($state) => 'Rp '.number_format($state ?? 0, 0, ',', '.'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('commission_amount')
-                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state ?? 0, 0, ',', '.'))
+                    ->formatStateUsing(fn ($state) => 'Rp '.number_format($state ?? 0, 0, ',', '.'))
                     ->sortable(),
                 Tables\Columns\BadgeColumn::make('status')
                     ->colors(['warning' => 'pending', 'success' => 'paid', 'danger' => 'cancelled']),
@@ -73,6 +74,11 @@ class ReferralCommissionResource extends Resource
                         ->action(fn ($records) => $records->each->update(['status' => 'cancelled'])),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['referrer', 'order']);
     }
 
     public static function getRelations(): array

@@ -21,7 +21,7 @@ class ClientBriefMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Client Brief Submitted — ' . $this->order->order_name,
+            subject: 'Client Brief Submitted - '.$this->order->order_name,
         );
     }
 

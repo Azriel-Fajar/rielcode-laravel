@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ReferrerResource extends Resource
 {
@@ -41,13 +42,19 @@ class ReferrerResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('code')->searchable(),
+                Tables\Columns\TextColumn::make('referral_link')
+                    ->label('Referral Link')
+                    ->state(fn (Referrer $record) => url('/referrer?code=' . $record->code))
+                    ->copyable()
+                    ->copyMessage('Link copied!')
+                    ->limit(40),
                 Tables\Columns\TextColumn::make('commission_rate')->suffix('%')->sortable(),
                 Tables\Columns\BadgeColumn::make('status')
                     ->colors(['success' => 'active', 'danger' => 'inactive']),
                 Tables\Columns\TextColumn::make('commissions_sum_commission_amount')
                     ->label('Total Earned')
                     ->sum('commissions', 'commission_amount')
-                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state ?? 0, 0, ',', '.')),
+                    ->formatStateUsing(fn ($state) => 'Rp '.number_format($state ?? 0, 0, ',', '.')),
             ])
             ->actions([
                 Tables\Actions\Action::make('toggle_status')
@@ -57,9 +64,16 @@ class ReferrerResource extends Resource
                     ])),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->disabled(fn (Referrer $record) => $record->commissions()->count() > 0),
+                    ->disabled(fn (Referrer $record) => ($record->commissions_count ?? 0) > 0),
             ])
             ->bulkActions([]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withCount('commissions')
+            ->withSum('commissions', 'commission_amount');
     }
 
     public static function getRelations(): array

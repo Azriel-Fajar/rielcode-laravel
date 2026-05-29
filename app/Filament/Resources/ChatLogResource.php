@@ -34,6 +34,7 @@ class ChatLogResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->deferLoading()
             ->columns([
                 Tables\Columns\TextColumn::make('user_message')->limit(60)->searchable(),
                 Tables\Columns\TextColumn::make('tag')->searchable()->sortable(),

@@ -14,6 +14,7 @@ class QrService
     public function base64(string $data, int $size = 200): string
     {
         $png = $this->png($data, $size);
-        return 'data:image/png;base64,' . base64_encode($png);
+
+        return 'data:image/png;base64,'.base64_encode($png);
     }
 }

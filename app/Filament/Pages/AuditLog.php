@@ -4,9 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\AuditLog as AuditLogModel;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
@@ -23,8 +21,11 @@ class AuditLog extends Page implements HasTable
     use InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+
     protected static ?string $navigationLabel = 'Audit Log';
+
     protected static ?int $navigationSort = 99;
+
     protected static string $view = 'filament.pages.audit-log';
 
     public function table(Table $table): Table
@@ -39,9 +40,9 @@ class AuditLog extends Page implements HasTable
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'critical' => 'danger',
-                        'warning'  => 'warning',
-                        'info'     => 'success',
-                        default    => 'gray',
+                        'warning' => 'warning',
+                        'info' => 'success',
+                        default => 'gray',
                     })
                     ->label('Severity'),
                 TextColumn::make('actor')->searchable()->label('Actor'),
@@ -54,21 +55,19 @@ class AuditLog extends Page implements HasTable
                     ->form([
                         TextInput::make('event_prefix')->label('Event prefix')->placeholder('e.g. ADMIN_'),
                     ])
-                    ->query(fn (Builder $query, array $data): Builder =>
-                        $query->when($data['event_prefix'], fn ($q, $v) => $q->where('event_code', 'like', $v . '%'))
+                    ->query(fn (Builder $query, array $data): Builder => $query->when($data['event_prefix'], fn ($q, $v) => $q->where('event_code', 'like', $v.'%'))
                     ),
                 SelectFilter::make('severity')
                     ->options([
-                        'info'     => 'Info',
-                        'warning'  => 'Warning',
+                        'info' => 'Info',
+                        'warning' => 'Warning',
                         'critical' => 'Critical',
                     ]),
                 Filter::make('actor')
                     ->form([
                         TextInput::make('actor_substring')->label('Actor contains'),
                     ])
-                    ->query(fn (Builder $query, array $data): Builder =>
-                        $query->when($data['actor_substring'], fn ($q, $v) => $q->where('actor', 'like', '%' . $v . '%'))
+                    ->query(fn (Builder $query, array $data): Builder => $query->when($data['actor_substring'], fn ($q, $v) => $q->where('actor', 'like', '%'.$v.'%'))
                     ),
                 Filter::make('date_range')
                     ->form([
@@ -100,8 +99,8 @@ class AuditLog extends Page implements HasTable
             ->get(['id', 'created_at', 'event_code', 'severity', 'actor', 'ip_address', 'ref_table', 'ref_id', 'message']);
 
         $headers = [
-            'Content-Type'        => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="audit_log_' . now()->format('Ymd_His') . '.csv"',
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="audit_log_'.now()->format('Ymd_His').'.csv"',
         ];
 
         return response()->streamDownload(function () use ($rows) {
@@ -111,6 +110,6 @@ class AuditLog extends Page implements HasTable
                 fputcsv($f, $row->toArray());
             }
             fclose($f);
-        }, 'audit_log_' . now()->format('Ymd_His') . '.csv', $headers);
+        }, 'audit_log_'.now()->format('Ymd_His').'.csv', $headers);
     }
 }

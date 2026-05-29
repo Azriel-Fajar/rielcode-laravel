@@ -19,6 +19,7 @@ class PageController extends Controller
     public function sitemap()
     {
         $projects = Project::visible()->orderBy('sort_order')->get(['slug']);
+
         return response()
             ->view('pages.sitemap', compact('projects'))
             ->header('Content-Type', 'application/xml');

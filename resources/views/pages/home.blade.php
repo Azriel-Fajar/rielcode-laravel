@@ -14,14 +14,15 @@
                     <span class="rc-hero__word" style="--i:3"> polish.</span>
                 </span>
             </h1>
-            <p class="rc-hero__body">Editorial-grade websites, landing pages, and simple e-commerce, designed and developed end-to-end.</p>
+            <p class="rc-hero__body">Editorial-grade websites, landing pages, and simple e-commerce, designed and
+                developed end-to-end.</p>
             <div class="rc-hero__ctas">
                 <a class="rc-btn rc-btn--fill rc-btn--lg" href="/order">Start a project</a>
                 <a class="rc-btn rc-btn--underline rc-btn--md" href="/work">See the work</a>
                 <x-wa-consult-btn size="lg" />
             </div>
             <div class="rc-hero__chips">
-                <span>Booking · Q3 2026</span>
+                <span>Open to Projects</span>
                 <span>·</span>
                 <span>IDR / USD</span>
             </div>
@@ -70,8 +71,8 @@
             <div class="rc-home-studio">
                 <div class="rc-home-studio__media">
                     @if ($studioPortraitImage)
-                        <img class="rc-home-studio__portrait" src="{{ $studioPortraitImage }}"
-                            alt="Rielcode Studio" loading="lazy" />
+                        <img class="rc-home-studio__portrait" src="{{ $studioPortraitImage }}" alt="Rielcode Studio"
+                            loading="lazy" />
                     @else
                         <div class="rc-home-studio__portrait" aria-hidden="true"></div>
                     @endif
@@ -82,8 +83,8 @@
                     <p>Rielcode treats each website as an editorial product, not a template fill.</p>
                     <ul class="rc-home-studio__stats">
                         <li><strong>4+</strong><span>years writing for the web</span></li>
-                        <li><strong>20+</strong><span>projects shipped</span></li>
-                        <li><strong>3</strong><span>countries served</span></li>
+                        <li><strong>5+</strong><span>projects shipped</span></li>
+                        <li><strong>2</strong><span>countries served</span></li>
                     </ul>
                 </div>
             </div>
@@ -95,39 +96,61 @@
         <div class="rc-container">
             <div class="rc-home-feat__head">
                 <span class="rc-label">Services</span>
-                <h2>Three ways to work together.</h2>
+                <h2>Ways to work together.</h2>
             </div>
-            <div class="rc-home-services">
-                <a class="rc-svccard" href="/services#starter">
-                    <h3 class="rc-svccard__title">Starter</h3>
-                    <p class="rc-svccard__desc">Clean focused landing page to launch your idea.</p>
-                    <div class="rc-svccard__price">
-                        <span class="rc-label">From</span>
-                        <strong>IDR 999k</strong>
-                        <span class="rc-svccard__alt">/ $59</span>
+            <div class="rc-svc-grid rc-svc-grid--3col">
+                @foreach ($packages as $pkg)
+                    <div class="rc-pkg-card{{ $pkg->is_popular ? ' rc-pkg-card--popular' : '' }}{{ $pkg->slug === 'business' ? ' rc-pkg-card--best' : '' }}"
+                        id="{{ $pkg->slug }}">
+                        @if ($pkg->is_popular)
+                            <span class="rc-pkg-card__ribbon">Most popular</span>
+                        @elseif ($pkg->slug === 'business')
+                            <span class="rc-pkg-card__ribbon rc-pkg-card__ribbon--best">Best choice</span>
+                        @endif
+                        <div class="rc-pkg-card__top">
+                            <h2 class="rc-pkg-card__title">{{ str_replace(' Plan', '', $pkg->package_name) }}</h2>
+                            @if ($pkg->blurb)
+                                <p class="rc-pkg-card__blurb">{{ $pkg->blurb }}</p>
+                            @endif
+                        </div>
+                        <div class="rc-pkg-card__head">
+                            <div class="rc-pkg-card__price">
+                                @if ($pkg->idr_price)
+                                    <strong class="rc-pkg-card__price-main">
+                                        {{ $pkg->idrShort() }}
+                                        @if ($pkg->us_price)
+                                            <span class="rc-pkg-card__price-alt">/
+                                                ${{ number_format($pkg->us_price) }}</span>
+                                        @endif
+                                    </strong>
+                                @else
+                                    <strong class="rc-pkg-card__price-main">You choose</strong>
+                                @endif
+                            </div>
+                            @if ($pkg->delivery_days_min && $pkg->delivery_days_max)
+                                <span
+                                    class="rc-label">{{ $pkg->delivery_days_min }}&ndash;{{ $pkg->delivery_days_max }}
+                                    days</span>
+                            @endif
+                        </div>
+                        @if ($pkg->features_json)
+                            <ul class="rc-pkg-card__list">
+                                @foreach ($pkg->features() as $row)
+                                    <li
+                                        class="rc-pkg-card__item {{ $row['included'] ? '' : 'rc-pkg-card__item--off' }}">
+                                        <span class="rc-pkg-card__check">{{ $row['included'] ? '✓' : '✕' }}</span>
+                                        <span class="rc-pkg-card__item-label">{!! $row['label'] !!}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                        <a class="rc-btn rc-btn--fill rc-btn--md" href="/order?aksi={{ $pkg->slug }}">Choose
+                            plan</a>
                     </div>
-                    <span class="rc-svccard__arrow" aria-hidden="true">→</span>
-                </a>
-                <a class="rc-svccard" href="/services#pro">
-                    <h3 class="rc-svccard__title">Pro</h3>
-                    <p class="rc-svccard__desc">Multi-page business site built to grow.</p>
-                    <div class="rc-svccard__price">
-                        <span class="rc-label">From</span>
-                        <strong>IDR 2.499k</strong>
-                        <span class="rc-svccard__alt">/ $148</span>
-                    </div>
-                    <span class="rc-svccard__arrow" aria-hidden="true">→</span>
-                </a>
-                <a class="rc-svccard" href="/services#premium">
-                    <h3 class="rc-svccard__title">Premium</h3>
-                    <p class="rc-svccard__desc">Full platform with e-commerce and admin tooling.</p>
-                    <div class="rc-svccard__price">
-                        <span class="rc-label">From</span>
-                        <strong>IDR 4.999k</strong>
-                        <span class="rc-svccard__alt">/ $295</span>
-                    </div>
-                    <span class="rc-svccard__arrow" aria-hidden="true">→</span>
-                </a>
+                @endforeach
+            </div>
+            <div style="text-align:center;margin-top:var(--space-8)">
+                <a class="rc-btn rc-btn--outline rc-btn--md" href="/services">See all plans &amp; pricing &rarr;</a>
             </div>
         </div>
     </section>
@@ -190,7 +213,7 @@
     {{-- CTA Band --}}
     <section class="rc-ctaband">
         <div class="rc-container rc-ctaband__inner">
-            <span class="rc-label rc-ctaband__eyebrow">Booking Q3 2026</span>
+            <span class="rc-label rc-ctaband__eyebrow">Open to Projects</span>
             <h2 class="rc-ctaband__heading">Have a project in mind? Let's make it well.</h2>
             <a class="rc-ctaband__cta" href="/order">
                 Start a project

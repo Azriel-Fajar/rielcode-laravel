@@ -23,21 +23,21 @@ class RateLimitChat
             $code = $e->getMessage();
 
             AuditLogger::log('RATE_LIMIT_HIT', 'warn', $ip, [
-                'code'   => $code,
+                'code' => $code,
                 'bucket' => match ($code) {
                     'RC-RATE-001' => 'hour',
                     'RC-RATE-002' => 'day',
                     'RC-RATE-003' => 'tokens_day',
-                    default       => 'unknown',
+                    default => 'unknown',
                 },
             ]);
 
             $entry = ErrorCodes::errorResponse($code);
 
             return response()->json([
-                'ok'    => false,
+                'ok' => false,
                 'reply' => $entry['reply'],
-                'code'  => $code,
+                'code' => $code,
             ], $entry['http']);
         }
 

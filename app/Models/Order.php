@@ -10,7 +10,7 @@ class Order extends Model
 
     protected $fillable = [
         'order_name', 'email', 'package', 'package_id', 'custom_preset',
-        'copy_source_url', 'custom_config', 'owns_domain', 'owns_hosting',
+        'copy_source_url', 'custom_config',
         'phone_number', 'description', 'status', 'project_stage', 'staging_url',
         'invoice_number', 'invoice_file', 'invoice_sent', 'invoice_status',
         'invoice_amount', 'invoice_currency', 'invoice_due_date', 'invoice_notes',

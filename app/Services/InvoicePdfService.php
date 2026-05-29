@@ -4,35 +4,38 @@ namespace App\Services;
 
 use App\Models\OrderPayment;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Symfony\Component\HttpFoundation\Response;
 
 class InvoicePdfService
 {
     public function __construct() {}
 
-    public function download(OrderPayment $payment): \Symfony\Component\HttpFoundation\Response
+    public function download(OrderPayment $payment): Response
     {
         $html = $this->buildHtml($payment);
-        return Pdf::loadHTML($html)->setPaper('a4', 'portrait')->download($payment->invoice_number . '.pdf');
+
+        return Pdf::loadHTML($html)->setPaper('a4', 'portrait')->download($payment->invoice_number.'.pdf');
     }
 
-    public function stream(OrderPayment $payment): \Symfony\Component\HttpFoundation\Response
+    public function stream(OrderPayment $payment): Response
     {
         $html = $this->buildHtml($payment);
-        return Pdf::loadHTML($html)->setPaper('a4', 'portrait')->stream($payment->invoice_number . '.pdf');
+
+        return Pdf::loadHTML($html)->setPaper('a4', 'portrait')->stream($payment->invoice_number.'.pdf');
     }
 
     private function buildHtml(OrderPayment $payment): string
     {
-        $order      = $payment->order;
-        $cfg        = config('payment', []);
-        $amountFmt  = $payment->amountFormatted();
-        $totalFmt   = $payment->currency === 'IDR'
-            ? 'Rp ' . number_format((float) $order->final_price, 0, ',', '.')
-            : '$' . number_format((float) $order->final_price, 2);
+        $order = $payment->order;
+        $cfg = config('payment', []);
+        $amountFmt = $payment->amountFormatted();
+        $totalFmt = $payment->currency === 'IDR'
+            ? 'Rp '.number_format((float) $order->final_price, 0, ',', '.')
+            : '$'.number_format((float) $order->final_price, 2);
 
-        $logoPath = public_path('IMG/Rielcode Logo Square Transparent.svg');
-        $logoTag  = file_exists($logoPath)
-            ? '<img src="data:image/svg+xml;base64,' . base64_encode(file_get_contents($logoPath)) . '" style="height:40px;display:block;margin-bottom:4px;" alt="Rielcode">'
+        $logoPath = public_path('IMG/Rielcode Logo Inverted Transparent.png');
+        $logoTag = file_exists($logoPath)
+            ? '<img src="data:image/png;base64,'.base64_encode(file_get_contents($logoPath)).'" style="height:40px;display:block;margin-bottom:4px;" alt="Rielcode">'
             : '<div style="font-size:22px;font-weight:bold;color:#2d4a3a;">Rielcode</div>';
 
         $paymentSection = $payment->currency === 'IDR' ? $this->idrSection($cfg) : $this->usdSection($cfg, $payment);
@@ -43,22 +46,22 @@ class InvoicePdfService
 <head>
 <meta charset="UTF-8">
 <style>
-  body { font-family: DejaVu Sans, sans-serif; font-size: 12px; color: #1a1a1a; margin: 40px; }
-  .header-table { width: 100%; margin-bottom: 30px; }
+  body { font-family: DejaVu Sans, sans-serif; font-size: 12px; color: #1a1a1a; margin: 24px; }
+  .header-table { width: 100%; margin-bottom: 18px; }
   .right { text-align: right; }
   .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 6px; }
-  .stage-banner { background: #eef7f0; border: 1px solid #a8d5b5; color: #1a3d2a; padding: 10px 14px; border-radius: 6px; margin-bottom: 20px; font-size: 11px; }
-  .meta-table { width: 100%; margin-bottom: 20px; }
+  .stage-banner { background: #eef7f0; border: 1px solid #a8d5b5; color: #1a3d2a; padding: 8px 14px; border-radius: 6px; margin-bottom: 14px; font-size: 11px; }
+  .meta-table { width: 100%; margin-bottom: 14px; }
   .meta-table td { padding: 4px 0; vertical-align: top; }
-  .project-box { background: #f9f9f9; border: 1px solid #eee; border-radius: 6px; padding: 14px; margin-bottom: 20px; }
-  .total-box { background: #f0f7f2; border: 1px solid #a8d5b5; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 24px; }
+  .project-box { background: #f9f9f9; border: 1px solid #eee; border-radius: 6px; padding: 12px; margin-bottom: 14px; }
+  .total-box { background: #f0f7f2; border: 1px solid #a8d5b5; border-radius: 8px; padding: 16px; text-align: center; margin-bottom: 16px; }
   .total-amount { font-size: 22px; font-weight: bold; color: #2d4a3a; }
-  .bank-box { background: #fafafa; border: 1px solid #eee; border-radius: 6px; padding: 16px; }
-  .bank-row { padding: 6px 0; border-bottom: 1px solid #eee; }
+  .bank-box { background: #fafafa; border: 1px solid #eee; border-radius: 6px; padding: 12px; }
+  .bank-row { padding: 4px 0; border-bottom: 1px solid #eee; }
   .bank-row:last-child { border-bottom: none; }
   .bank-k { color: #777; font-size: 11px; }
   .bank-v { font-weight: bold; }
-  .footer { margin-top: 40px; font-size: 10px; color: #aaa; text-align: center; }
+  .footer { margin-top: 20px; font-size: 10px; color: #aaa; text-align: center; }
 </style>
 </head>
 <body>
@@ -72,7 +75,7 @@ class InvoicePdfService
   </td>
 </tr></table>
 
-<div class="stage-banner"><strong>{$payment->stageLabel()}</strong> &mdash; {$payment->stageTagline()}</div>
+<div class="stage-banner"><strong>{$payment->stageLabel()}</strong> - {$payment->stageTagline()}</div>
 
 <table class="meta-table"><tr>
   <td>
@@ -101,9 +104,9 @@ class InvoicePdfService
 
 {$paymentSection}
 
-<div style="color:#777;font-size:10px;margin-top:14px;">After payment, send proof via WhatsApp to confirm. The invoice will then be marked Paid.</div>
+<div style="color:#777;font-size:10px;margin-top:10px;">After payment, send proof via WhatsApp to confirm. The invoice will then be marked Paid.</div>
 
-<div class="footer">Generated by Rielcode &mdash; rielcode.com</div>
+<div class="footer">Generated by Rielcode - rielcode.com</div>
 </body>
 </html>
 HTML;
@@ -112,13 +115,13 @@ HTML;
     private function idrSection(array $cfg): string
     {
         $qrisPath = public_path('IMG/QRIS.jpeg');
-        $qrisTag  = file_exists($qrisPath)
-            ? '<div style="text-align:center;margin-bottom:14px;"><img src="data:image/jpeg;base64,' . base64_encode(file_get_contents($qrisPath)) . '" style="width:160px;height:160px;object-fit:contain;border-radius:6px;" alt="QRIS"><div style="color:#888;font-size:9px;margin-top:4px;">GoPay · OVO · DANA · BCA · all banking apps</div></div>'
+        $qrisTag = file_exists($qrisPath)
+            ? '<div style="text-align:center;margin-bottom:14px;"><img src="data:image/jpeg;base64,'.base64_encode(file_get_contents($qrisPath)).'" style="width:120px;height:auto;border-radius:6px;" alt="QRIS"><div style="color:#888;font-size:9px;margin-top:4px;">GoPay · OVO · DANA · BCA · all banking apps</div></div>'
             : '';
 
         return <<<HTML
 <div class="bank-box">
-  <div class="label">Payment &mdash; QRIS or Bank Transfer (Indonesia)</div>
+  <div class="label">Payment - QRIS or Bank Transfer (Indonesia)</div>
   {$qrisTag}
   <div style="color:#555;font-size:10px;margin-bottom:10px;">Bank Transfer:</div>
   <div class="bank-row"><span class="bank-k">Bank Name</span><br><span class="bank-v">{$cfg['bank_name']}</span></div>
@@ -130,11 +133,11 @@ HTML;
 
     private function usdSection(array $cfg, OrderPayment $payment): string
     {
-        $paypalUrl = rtrim($cfg['paypal_me'], '/') . '/' . number_format($payment->amount, 2, '.', '');
+        $paypalUrl = rtrim($cfg['paypal_me'], '/').'/'.number_format($payment->amount, 2, '.', '');
 
         return <<<HTML
 <div class="bank-box" style="text-align:center;">
-  <div class="label" style="margin-bottom:12px;">Payment &mdash; PayPal</div>
+  <div class="label" style="margin-bottom:12px;">Payment - PayPal</div>
   <div style="font-size:13px;color:#333;margin-bottom:8px;">Visit the link below or scan to pay:</div>
   <div style="font-size:11px;color:#0070ba;word-break:break-all;">{$paypalUrl}</div>
   <div style="color:#777;font-size:10px;margin-top:10px;">Amount pre-filled. After payment, send confirmation via WhatsApp.</div>

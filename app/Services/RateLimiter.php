@@ -9,8 +9,10 @@ use Throwable;
 
 class RateLimiter
 {
-    const LIMIT_HOUR_MAX   = 30;
-    const LIMIT_DAY_MAX    = 200;
+    const LIMIT_HOUR_MAX = 30;
+
+    const LIMIT_DAY_MAX = 200;
+
     const LIMIT_TOKENS_MAX = 30000;
 
     public static function isEnabled(): bool
@@ -20,22 +22,24 @@ class RateLimiter
 
     public static function check(string $ip): void
     {
-        if (!static::isEnabled()) return;
+        if (! static::isEnabled()) {
+            return;
+        }
 
         $hourWindow = now()->format('Y-m-d H:00:00');
-        $dayWindow  = now()->format('Y-m-d 00:00:00');
+        $dayWindow = now()->format('Y-m-d 00:00:00');
 
         $rows = DB::table('rate_limits')
             ->where('ip_address', $ip)
             ->where(function ($q) use ($hourWindow, $dayWindow) {
-                $q->where(fn($q2) => $q2->where('bucket', 'hour')->where('window_start', $hourWindow))
-                  ->orWhere(fn($q2) => $q2->where('bucket', 'day')->where('window_start', $dayWindow));
+                $q->where(fn ($q2) => $q2->where('bucket', 'hour')->where('window_start', $hourWindow))
+                    ->orWhere(fn ($q2) => $q2->where('bucket', 'day')->where('window_start', $dayWindow));
             })
             ->get(['bucket', 'counter'])
             ->keyBy('bucket');
 
         $hourCount = (int) ($rows->get('hour')->counter ?? 0);
-        $dayCount  = (int) ($rows->get('day')->counter ?? 0);
+        $dayCount = (int) ($rows->get('day')->counter ?? 0);
 
         if ($hourCount >= self::LIMIT_HOUR_MAX) {
             throw new RuntimeException('RC-RATE-001');
@@ -62,7 +66,9 @@ class RateLimiter
 
     public static function checkTokens(string $ip): void
     {
-        if (!static::isEnabled()) return;
+        if (! static::isEnabled()) {
+            return;
+        }
 
         $dayWindow = now()->format('Y-m-d 00:00:00');
 
@@ -100,9 +106,9 @@ class RateLimiter
         }
 
         try {
-            DB::statement("DELETE FROM rate_limits WHERE window_start < (NOW() - INTERVAL 3 DAY)");
+            DB::statement('DELETE FROM rate_limits WHERE window_start < (NOW() - INTERVAL 3 DAY)');
         } catch (Throwable $e) {
-            error_log('RateLimiter::gc failed: ' . $e->getMessage());
+            error_log('RateLimiter::gc failed: '.$e->getMessage());
         }
     }
 }

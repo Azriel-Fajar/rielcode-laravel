@@ -12,6 +12,7 @@ class ContactController extends Controller
     public function show(Request $request)
     {
         $sent = $request->query('sent') === '1';
+
         return view('pages.contact', compact('sent'));
     }
 
@@ -23,14 +24,14 @@ class ContactController extends Controller
         }
 
         $validated = $request->validate([
-            'name'         => ['required', 'string', 'max:255'],
-            'email'        => ['required', 'email', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
             'project_type' => ['nullable', 'string', 'max:100'],
-            'message'      => ['required', 'string', 'max:5000'],
+            'message' => ['required', 'string', 'max:5000'],
         ]);
 
         $data = array_merge($validated, [
-            'ip'         => $request->ip(),
+            'ip' => $request->ip(),
             'user_agent' => $request->userAgent(),
             'created_at' => now(),
         ]);

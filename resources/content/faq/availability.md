@@ -3,4 +3,4 @@ question: What is your availability?
 order: 8
 ---
 
-Currently taking limited projects. Use the contact form to check Q3 availability. First-come, first-served for project slots.
+Always open to new projects. Feel free to reach out anytime — no waitlist, no slots to fill. Just get in touch and we'll take it from there.

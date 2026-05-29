@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     public $timestamps = false;
+
     protected $table = 'projects';
+
     protected $guarded = [];
 
     public function scopeVisible($query)

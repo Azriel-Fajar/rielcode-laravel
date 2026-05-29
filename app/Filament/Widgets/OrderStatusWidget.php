@@ -5,18 +5,21 @@ namespace App\Filament\Widgets;
 use App\Models\Order;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Facades\Cache;
 
 class OrderStatusWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
 
+    protected static bool $isLazy = true;
+
     protected function getStats(): array
     {
-        $counts = Order::query()
+        $counts = Cache::remember('widget.order_status', 60, fn () => Order::query()
             ->selectRaw('status, count(*) as total')
             ->groupBy('status')
             ->pluck('total', 'status')
-            ->toArray();
+            ->toArray());
 
         $total = array_sum($counts);
 

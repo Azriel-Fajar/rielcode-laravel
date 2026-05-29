@@ -23,6 +23,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>{{ url('/order') }}</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>{{ url('/custom-plan') }}</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>{{ url('/contact') }}</loc>
         <changefreq>yearly</changefreq>
         <priority>0.7</priority>

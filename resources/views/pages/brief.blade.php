@@ -9,22 +9,39 @@
     <link rel="preload" href="/fonts/Inter-VariableFont.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/Fraunces-VariableFont.woff2" as="font" type="font/woff2" crossorigin />
     <style>
+        :root {
+            --rc-cream: #f4f1ea;
+            --rc-cream-elev: #ebe7dc;
+            --rc-ink: #1a1a1a;
+            --rc-forest: #2d4a3a;
+            --rc-forest-mid: #4a6b58;
+            --rc-bg: var(--rc-cream);
+            --rc-bg-elev: var(--rc-cream-elev);
+            --rc-text: var(--rc-ink);
+            --rc-text-muted: rgba(26, 26, 26, 0.72);
+            --rc-text-faint: rgba(26, 26, 26, 0.62);
+            --rc-accent: var(--rc-forest);
+            --rc-accent-hover: var(--rc-forest-mid);
+            --rc-on-accent: var(--rc-cream);
+            --rc-border: rgba(26, 26, 26, 0.12);
+            --rc-border-strong: rgba(26, 26, 26, 0.24);
+        }
         *, *::before, *::after { box-sizing: border-box; }
-        body { background: #0b0d12; color: #e7e9ee; font-family: 'Inter', system-ui, sans-serif; margin: 0; }
+        body { background: var(--rc-bg); color: var(--rc-text); font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; margin: 0; }
         .brief-wrap { max-width: 720px; margin: 0 auto; padding: 56px 22px 80px; }
-        .brief-eyebrow { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: .12em; color: #8ab4ff; text-transform: uppercase; }
-        .brief-title { font-size: 38px; line-height: 1.1; margin: 8px 0 12px; font-weight: 700; }
-        .brief-sub { color: #a8adba; margin: 0 0 28px; }
-        .brief-order { background: #141822; border: 1px solid #232838; border-radius: 10px; padding: 14px 18px; margin-bottom: 32px; display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
-        .brief-order b { color: #fff; }
+        .brief-eyebrow { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: .12em; color: var(--rc-accent); text-transform: uppercase; }
+        .brief-title { font-family: 'Fraunces', Georgia, 'Times New Roman', serif; font-size: 40px; line-height: 1.15; margin: 8px 0 12px; font-weight: 700; color: var(--rc-text); }
+        .brief-sub { color: var(--rc-text-muted); margin: 0 0 28px; }
+        .brief-order { background: var(--rc-bg-elev); border: 1px solid var(--rc-border); border-radius: 8px; padding: 14px 18px; margin-bottom: 32px; display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+        .brief-order b { color: var(--rc-text); }
         .brief-q { margin-bottom: 26px; }
-        .brief-q label { display: block; font-weight: 600; margin-bottom: 8px; color: #fff; }
-        .brief-q .hint { display: block; font-size: 13px; color: #8a90a0; margin-bottom: 10px; }
-        .brief-q textarea { width: 100%; background: #141822; border: 1px solid #2a3043; border-radius: 8px; padding: 12px 14px; color: #e7e9ee; font-family: inherit; font-size: 15px; line-height: 1.55; resize: vertical; min-height: 110px; }
-        .brief-q textarea:focus { outline: none; border-color: #3a7bff; box-shadow: 0 0 0 3px rgba(58,123,255,.18); }
-        .brief-submit { display: inline-flex; align-items: center; background: #2d4a3a; color: #f4f1ea; border: 2px solid #2d4a3a; border-radius: 8px; padding: 13px 28px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .15s, border-color .15s; }
-        .brief-submit:hover { background: #4a6b58; border-color: #4a6b58; }
-        .brief-err { background: #3a1722; border: 1px solid #6b2235; color: #ffb3c1; padding: 12px 16px; border-radius: 8px; margin-bottom: 22px; font-size: 14px; }
+        .brief-q label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--rc-text); }
+        .brief-q .hint { display: block; font-size: 13px; color: var(--rc-text-faint); margin-bottom: 10px; }
+        .brief-q textarea { width: 100%; background: #fff; border: 1px solid var(--rc-border-strong); border-radius: 8px; padding: 12px 14px; color: var(--rc-text); font-family: inherit; font-size: 15px; line-height: 1.55; resize: vertical; min-height: 110px; }
+        .brief-q textarea:focus { outline: none; border-color: var(--rc-accent); box-shadow: 0 0 0 3px rgba(45,74,58,.18); }
+        .brief-submit { display: inline-flex; align-items: center; background: var(--rc-accent); color: var(--rc-on-accent); border: 2px solid var(--rc-accent); border-radius: 8px; padding: 13px 28px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .15s, border-color .15s; }
+        .brief-submit:hover { background: var(--rc-accent-hover); border-color: var(--rc-accent-hover); }
+        .brief-err { background: #fbe9ec; border: 1px solid #e0a4ad; color: #8a2335; padding: 12px 16px; border-radius: 8px; margin-bottom: 22px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -47,7 +64,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('brief.store') }}" autocomplete="off">
+    <form method="POST" action="{{ route('brief.store', ['t' => $token]) }}" autocomplete="off">
         @csrf
         <input type="hidden" name="t" value="{{ $token }}">
 

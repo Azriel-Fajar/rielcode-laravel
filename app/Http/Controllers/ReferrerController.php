@@ -34,8 +34,8 @@ class ReferrerController extends Controller
             ->get();
 
         return view('pages.referrer', [
-            'referrer'    => $referrer,
-            'stats'       => $stats,
+            'referrer' => $referrer,
+            'stats' => $stats,
             'commissions' => $commissions,
         ]);
     }

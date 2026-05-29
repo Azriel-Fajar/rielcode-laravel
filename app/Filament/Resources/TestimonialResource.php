@@ -51,7 +51,7 @@ class TestimonialResource extends Resource
                 Tables\Columns\TextColumn::make('client_name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('business_name')->searchable(),
                 Tables\Columns\TextColumn::make('rating')
-                    ->formatStateUsing(fn ($state) => str_repeat('★', (int) $state) . str_repeat('☆', 5 - (int) $state)),
+                    ->formatStateUsing(fn ($state) => str_repeat('★', (int) $state).str_repeat('☆', 5 - (int) $state)),
                 Tables\Columns\BadgeColumn::make('status')
                     ->colors([
                         'warning' => 'pending',

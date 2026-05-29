@@ -18,7 +18,7 @@ class PaymentReceivedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Payment Received — ' . $this->payment->stageLabel() . ' | Rielcode',
+            subject: 'Payment Received - '.$this->payment->stageLabel().' | Rielcode',
         );
     }
 

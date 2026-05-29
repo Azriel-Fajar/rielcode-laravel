@@ -82,7 +82,7 @@
         .bank-k { font-size: 11px; color: rgba(255,255,255,.4); margin-bottom: 2px; }
         .bank-v { font-weight: 600; font-size: 14px; }
         .qris-box { text-align: center; margin: 20px 0; }
-        .qris-box img { max-width: 200px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); }
+        .qris-box img { max-width: 200px; display: block; margin: 0 auto; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); }
         .divider { text-align: center; color: rgba(255,255,255,.3); font-size: 12px; margin: 16px 0; }
         .btn {
             display: inline-block;
@@ -98,6 +98,10 @@
         .paid-msg { color: #4ade80; font-weight: 600; margin-top: 16px; }
         .hint { color: rgba(255,255,255,.35); font-size: 12px; margin-top: 12px; }
         .no-print-note { color: rgba(255,255,255,.4); font-size: 12px; margin-top: 20px; }
+        .btn-dl { display: inline-flex; align-items: center; gap: 8px; }
+        .btn-dl.is-loading { opacity: .75; pointer-events: none; }
+        .dl-spin { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.25); border-top-color: rgba(255,255,255,.85); border-radius: 50%; animation: dl-spin .7s linear infinite; }
+        @keyframes dl-spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -202,9 +206,32 @@
     @endif
 
     <div class="no-print-note" style="margin-top:24px;">
-        <a href="{{ route('invoice.pdf', $payment->invoice_number) }}" class="btn btn-outline">Download PDF</a>
+        <a id="dlPdf" href="{{ route('invoice.pdf', $payment->invoice_number) }}" class="btn btn-outline btn-dl">
+            <span class="dl-label">Download PDF</span>
+        </a>
     </div>
 
 </div>
+<script>
+    (function () {
+        var btn = document.getElementById('dlPdf');
+        if (!btn) return;
+        var label = btn.querySelector('.dl-label');
+        var original = label.textContent;
+        btn.addEventListener('click', function () {
+            if (btn.classList.contains('is-loading')) return;
+            btn.classList.add('is-loading');
+            label.textContent = 'Preparing PDF…';
+            var spin = document.createElement('span');
+            spin.className = 'dl-spin';
+            btn.insertBefore(spin, label);
+            setTimeout(function () {
+                btn.classList.remove('is-loading');
+                spin.remove();
+                label.textContent = original;
+            }, 4000);
+        });
+    })();
+</script>
 </body>
 </html>

@@ -113,8 +113,3 @@ document.addEventListener('livewire:navigating', (event) => {
 document.addEventListener('livewire:navigated', () => {
     hideSkeleton();
 });
-
-// Safety net: clear on any Livewire component update (catches edge cases)
-document.addEventListener('livewire:update', () => {
-    hideSkeleton();
-});

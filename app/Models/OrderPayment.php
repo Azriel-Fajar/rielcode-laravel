@@ -14,9 +14,9 @@ class OrderPayment extends Model
 
     protected $casts = [
         'due_date' => 'date',
-        'sent_at'  => 'datetime',
-        'paid_at'  => 'datetime',
-        'amount'   => 'decimal:2',
+        'sent_at' => 'datetime',
+        'paid_at' => 'datetime',
+        'amount' => 'decimal:2',
     ];
 
     public function order(): BelongsTo
@@ -44,8 +44,8 @@ class OrderPayment extends Model
     public function amountFormatted(): string
     {
         return $this->currency === 'IDR'
-            ? 'Rp ' . number_format($this->amount, 0, ',', '.')
-            : '$' . number_format($this->amount, 2);
+            ? 'Rp '.number_format($this->amount, 0, ',', '.')
+            : '$'.number_format($this->amount, 2);
     }
 
     public function publicUrl(): string

@@ -18,7 +18,7 @@ class OverdueReminderMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Payment Overdue — Invoice ' . $this->payment->invoice_number . ' | Rielcode',
+            subject: 'Payment Overdue - Invoice '.$this->payment->invoice_number.' | Rielcode',
         );
     }
 

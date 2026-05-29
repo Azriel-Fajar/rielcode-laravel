@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomPlanRequest;
 use App\Models\Order;
 use App\Models\Package;
+use App\Models\PackageAddon;
 use Illuminate\Http\Request;
 
 class CustomPlanController extends Controller
@@ -18,7 +19,9 @@ class CustomPlanController extends Controller
             $incompleteOrder = Order::find($request->session()->get('order_id'));
         }
 
-        return view('pages.custom-plan', compact('activePreset', 'incompleteOrder'));
+        $addons = PackageAddon::visible()->ordered()->get();
+
+        return view('pages.custom-plan', compact('activePreset', 'incompleteOrder', 'addons'));
     }
 
     public function resume(Request $request)
@@ -30,33 +33,29 @@ class CustomPlanController extends Controller
             Order::where('id', $request->session()->get('order_id'))->delete();
         }
         $request->session()->forget(['order_id', 'custom_total']);
+
         return redirect()->route('custom-plan.create');
     }
 
     public function store(StoreCustomPlanRequest $request)
     {
         $pkg = Package::where('package_name', 'Custom Plan')->first();
-        $customPreset  = $request->input('custom_preset', 'blank');
-        $customConfig  = $request->input('custom_config');
+        $customPreset = $request->input('custom_preset', 'blank');
+        $customConfig = $request->input('custom_config');
         $configDecoded = ($customConfig && $customConfig !== 'null') ? json_decode($customConfig, true) : null;
 
-        $domain  = $request->input('domain', 'No');
-        $hosting = $request->input('hosting', 'No');
-
         $order = Order::create([
-            'order_name'      => $request->input('nama'),
-            'email'           => $request->input('email'),
-            'phone_number'    => $request->input('phone'),
-            'package'         => 'Custom Plan',
-            'package_id'      => $pkg?->id ?? 0,
-            'custom_preset'   => $customPreset,
+            'order_name' => $request->input('nama'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone'),
+            'package' => 'Custom Plan',
+            'package_id' => $pkg?->id ?? 0,
+            'custom_preset' => $customPreset,
             'copy_source_url' => $request->input('copy_source_url'),
-            'custom_config'   => $configDecoded,
-            'owns_domain'     => $domain,
-            'owns_hosting'    => $hosting,
-            'description'     => $request->input('additional', ''),
-            'status'          => 'Pending',
-            'invoice_number'  => '',
+            'custom_config' => $configDecoded,
+            'description' => $request->input('additional', ''),
+            'status' => 'Pending',
+            'invoice_number' => '',
         ]);
 
         $customTotal = max(500000, (int) $request->input('custom_total', 500000));

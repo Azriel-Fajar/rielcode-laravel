@@ -18,7 +18,7 @@ class InvoiceSentMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Invoice ' . $this->payment->invoice_number . ' from Rielcode',
+            subject: 'Invoice '.$this->payment->invoice_number.' from Rielcode',
         );
     }
 

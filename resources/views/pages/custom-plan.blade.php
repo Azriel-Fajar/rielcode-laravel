@@ -1,6 +1,7 @@
 <x-layouts.base title="Custom Plan | Rielcode"
     description="Build your own custom website plan with Rielcode. Choose exactly what you need: pages, chatbot, CMS, login system, maintenance, and more."
-    bodyClass="rc-redesign">
+    bodyClass="rc-redesign"
+    :hideChatbot="true">
     @push('head')
         <meta name="robots" content="noindex, nofollow">
     @endpush
@@ -71,102 +72,49 @@
                     <div class="cp-section">
                         <div class="cp-section-title"><i class="bi bi-toggles"></i> Features</div>
                         <div class="cp-toggles">
-                            <label class="cp-toggle-item" data-feature="priority">
-                                <input type="checkbox" id="feat-priority" onchange="cpCalc()">
-                                <div class="cp-toggle-body">
-                                    <div class="cp-toggle-name">Priority Delivery</div>
-                                    <div class="cp-toggle-desc">50% faster turnaround</div>
-                                    <div class="cp-toggle-price" id="priority-price-label">+ Rp400.000</div>
-                                </div>
-                            </label>
-                            <label class="cp-toggle-item" data-feature="chatbot">
-                                <input type="checkbox" id="feat-chatbot" onchange="cpCalc()">
-                                <div class="cp-toggle-body">
-                                    <div class="cp-toggle-name">AI Chatbot</div>
-                                    <div class="cp-toggle-desc">AI-powered chat widget on your site</div>
-                                    <div class="cp-toggle-price" id="chatbot-price-label">+ Rp1.500.000</div>
-                                </div>
-                            </label>
-                            <div class="cp-toggle-item cp-toggle-item--expandable" data-feature="cms"
-                                id="cms-toggle-item" role="checkbox" aria-checked="false"
-                                aria-labelledby="cms-toggle-name" tabindex="0">
-                                <input type="checkbox" id="feat-cms" onchange="cpCalc()" tabindex="-1">
-                                <div class="cp-toggle-body">
-                                    <div class="cp-toggle-name" id="cms-toggle-name">CMS / Admin Panel</div>
-                                    <div class="cp-toggle-desc">Manage your content from a dashboard</div>
-                                    <div class="cp-toggle-price" id="cms-price-label">+ Rp800.000 – Rp1.600.000</div>
-                                    <div class="cp-difficulty-row" id="cms-difficulty" style="display:none;">
-                                        <span class="cp-difficulty-label">Difficulty:</span>
-                                        <div class="cp-difficulty-options">
-                                            <label class="cp-diff-opt"><input type="radio" name="cms-diff"
-                                                    value="800000" checked onchange="cpCalc()"><span
-                                                    class="cp-diff-name">Basic</span><span class="cp-diff-info">Text
-                                                    &amp; image content editor</span><span class="cp-diff-price"
-                                                    data-cms-price="800000">Rp800.000</span></label>
-                                            <label class="cp-diff-opt"><input type="radio" name="cms-diff"
-                                                    value="1200000" onchange="cpCalc()"><span
-                                                    class="cp-diff-name">Standard</span><span class="cp-diff-info">+
-                                                    Media library &amp; user roles</span><span class="cp-diff-price"
-                                                    data-cms-price="1200000">Rp1.200.000</span></label>
-                                            <label class="cp-diff-opt"><input type="radio" name="cms-diff"
-                                                    value="1600000" onchange="cpCalc()"><span
-                                                    class="cp-diff-name">Advanced</span><span class="cp-diff-info">+
-                                                    Custom modules &amp; API access</span><span class="cp-diff-price"
-                                                    data-cms-price="1600000">Rp1.600.000</span></label>
+                            @foreach ($addons->where('type', 'one_time') as $a)
+                                @php $hasTiers = !empty($a->tiers); @endphp
+                                @if (!$hasTiers)
+                                    <label class="cp-toggle-item" data-feature="{{ $a->slug }}">
+                                        <input type="checkbox" id="feat-{{ $a->slug }}" onchange="cpCalc()">
+                                        <div class="cp-toggle-body">
+                                            <div class="cp-toggle-name">{{ $a->name }}</div>
+                                            <div class="cp-toggle-desc">{{ $a->description }}</div>
+                                            <div class="cp-toggle-price" id="{{ $a->slug }}-price-label"
+                                                data-price-idr="{{ $a->price_idr }}"
+                                                data-price-usd="{{ $a->price_usd }}">+ Rp{{ number_format($a->price_idr, 0, ',', '.') }}</div>
+                                        </div>
+                                    </label>
+                                @else
+                                    <div class="cp-toggle-item cp-toggle-item--expandable" data-feature="{{ $a->slug }}"
+                                        id="{{ $a->slug }}-toggle-item" role="checkbox" aria-checked="false"
+                                        aria-labelledby="{{ $a->slug }}-toggle-name" tabindex="0">
+                                        <input type="checkbox" id="feat-{{ $a->slug }}" onchange="cpCalc()" tabindex="-1">
+                                        <div class="cp-toggle-body">
+                                            <div class="cp-toggle-name" id="{{ $a->slug }}-toggle-name">{{ $a->name }}</div>
+                                            <div class="cp-toggle-desc">{{ $a->description }}</div>
+                                            <div class="cp-toggle-price" id="{{ $a->slug }}-price-label"></div>
+                                            <div class="cp-difficulty-row" id="{{ $a->slug }}-difficulty"
+                                                style="display:none;">
+                                                <span class="cp-difficulty-label">Difficulty:</span>
+                                                <div class="cp-difficulty-options">
+                                                    @foreach ($a->tiers as $i => $tier)
+                                                        <label class="cp-diff-opt"><input type="radio"
+                                                                name="{{ $a->slug }}-diff" value="{{ $tier['price_idr'] }}"
+                                                                data-price-idr="{{ $tier['price_idr'] }}"
+                                                                data-price-usd="{{ $tier['price_usd'] }}"
+                                                                {{ $i === 0 ? 'checked' : '' }} onchange="cpCalc()"><span
+                                                                class="cp-diff-name">{{ $tier['name'] }}</span><span
+                                                                class="cp-diff-info">{{ $tier['info'] }}</span><span
+                                                                class="cp-diff-price"
+                                                                data-tier-price>Rp{{ number_format($tier['price_idr'], 0, ',', '.') }}</span></label>
+                                                    @endforeach
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <label class="cp-toggle-item" data-feature="login">
-                                <input type="checkbox" id="feat-login" onchange="cpCalc()">
-                                <div class="cp-toggle-body">
-                                    <div class="cp-toggle-name">Login / Member System</div>
-                                    <div class="cp-toggle-desc">User registration, login &amp; profile pages</div>
-                                    <div class="cp-toggle-price" id="login-price-label">+ Rp550.000</div>
-                                </div>
-                            </label>
-                            <div class="cp-toggle-item cp-toggle-item--expandable" data-feature="ecom"
-                                id="ecom-toggle-item" role="checkbox" aria-checked="false"
-                                aria-labelledby="ecom-toggle-name" tabindex="0">
-                                <input type="checkbox" id="feat-ecom" onchange="cpCalc()" tabindex="-1">
-                                <div class="cp-toggle-body">
-                                    <div class="cp-toggle-name" id="ecom-toggle-name">E-Commerce</div>
-                                    <div class="cp-toggle-desc">Product catalog, cart &amp; order management</div>
-                                    <div class="cp-toggle-price" id="ecom-price-label">+ Rp1.000.000 – Rp3.000.000
-                                    </div>
-                                    <div class="cp-difficulty-row" id="ecom-difficulty" style="display:none;">
-                                        <span class="cp-difficulty-label">Difficulty:</span>
-                                        <div class="cp-difficulty-options">
-                                            <label class="cp-diff-opt"><input type="radio" name="ecom-diff"
-                                                    value="1000000" checked onchange="cpCalc()"><span
-                                                    class="cp-diff-name">Basic</span><span
-                                                    class="cp-diff-info">Product catalog, cart &amp;
-                                                    checkout</span><span class="cp-diff-price"
-                                                    data-ecom-price="1000000">Rp1.000.000</span></label>
-                                            <label class="cp-diff-opt"><input type="radio" name="ecom-diff"
-                                                    value="2000000" onchange="cpCalc()"><span
-                                                    class="cp-diff-name">Standard</span><span class="cp-diff-info">+
-                                                    Payment gateway &amp; order tracking</span><span
-                                                    class="cp-diff-price"
-                                                    data-ecom-price="2000000">Rp2.000.000</span></label>
-                                            <label class="cp-diff-opt"><input type="radio" name="ecom-diff"
-                                                    value="3000000" onchange="cpCalc()"><span
-                                                    class="cp-diff-name">Advanced</span><span class="cp-diff-info">+
-                                                    Multi-category, coupons &amp; analytics</span><span
-                                                    class="cp-diff-price"
-                                                    data-ecom-price="3000000">Rp3.000.000</span></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <label class="cp-toggle-item" data-feature="seo">
-                                <input type="checkbox" id="feat-seo" onchange="cpCalc()">
-                                <div class="cp-toggle-body">
-                                    <div class="cp-toggle-name">Advanced SEO</div>
-                                    <div class="cp-toggle-desc">Full meta, schema markup &amp; sitemap setup</div>
-                                    <div class="cp-toggle-price" id="seo-price-label">+ Rp300.000</div>
-                                </div>
-                            </label>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
 
@@ -179,7 +127,7 @@
                             <button type="button" class="cp-stepper-btn" onclick="cpStep('pages', 1)"
                                 aria-label="Add a page">+</button>
                             <span class="cp-stepper-label">page(s) · <span class="cp-unit-price"
-                                    id="pages-unit-price">Rp150.000 / page</span></span>
+                                    id="pages-unit-price">Rp{{ number_format(optional($addons->firstWhere('slug', 'extra-page'))->price_idr ?? 0, 0, ',', '.') }} / page</span></span>
                         </div>
                         <div class="cp-preset-btns">
                             <span class="cp-preset-label">Quick:</span>
@@ -205,7 +153,7 @@
                             <button type="button" class="cp-stepper-btn" onclick="cpStep('maintenance', 1)"
                                 aria-label="Add a maintenance month">+</button>
                             <span class="cp-stepper-label">month(s) · <span class="cp-unit-price"
-                                    id="maintenance-unit-price">Rp300.000 / month</span></span>
+                                    id="maintenance-unit-price">Rp{{ number_format(optional($addons->firstWhere('slug', 'maintenance'))->price_idr ?? 0, 0, ',', '.') }} / month</span></span>
                         </div>
                         <div class="cp-preset-btns">
                             <span class="cp-preset-label">Quick:</span>
@@ -220,7 +168,7 @@
                     <div class="cp-hosting-note" id="hosting-note">
                         <i class="bi bi-globe"></i>
                         <div>
-                            <strong>Free Hosting &amp; .COM Domain</strong>
+                            <strong>Free Hosting &amp; Domain (.com, .id, etc.)</strong>
                             <span id="hosting-status">Spend at least Rp1.000.000 to unlock this bonus.</span>
                         </div>
                         <span class="cp-hosting-badge" id="hosting-badge">Locked</span>
@@ -343,19 +291,38 @@
         <script>
             (function() {
                 const ACTIVE_PRESET = @json($activePreset);
+                const ADDONS = @json($addons);
+                const bySlug = {};
+                ADDONS.forEach(function(a) {
+                    a.price_idr = parseInt(a.price_idr);
+                    a.price_usd = parseFloat(a.price_usd) || 0;
+                    if (a.tiers) a.tiers.forEach(function(t) {
+                        t.price_idr = parseInt(t.price_idr);
+                        t.price_usd = parseFloat(t.price_usd) || 0;
+                    });
+                    bySlug[a.slug] = a;
+                });
+
+                // one_time addons with no tiers = simple checkbox features
+                const SIMPLE_FEATURES = ADDONS.filter(function(a) {
+                    return a.type === 'one_time' && (!a.tiers || !a.tiers.length);
+                });
+                // one_time addons with tiers = expandable difficulty features
+                const TIERED_FEATURES = ADDONS.filter(function(a) {
+                    return a.type === 'one_time' && a.tiers && a.tiers.length;
+                });
+
+                function priceOf(slug) {
+                    return bySlug[slug] ? bySlug[slug].price_idr : 0;
+                }
+
                 const PRESET_BASE = {
-                    blank: 500000,
-                    copy: 500000
+                    blank: { idr: 500000, usd: 29 },
+                    copy: { idr: 500000, usd: 29 }
                 };
-                const BASE = PRESET_BASE[ACTIVE_PRESET];
-                const PRICES = {
-                    pages: 85000,
-                    maintenance: 300000,
-                    priority: 400000,
-                    chatbot: 1500000,
-                    login: 550000,
-                    seo: 300000
-                };
+                const BASE = PRESET_BASE[ACTIVE_PRESET].idr;
+                const BASE_USD = PRESET_BASE[ACTIVE_PRESET].usd;
+                const HOSTING_MIN_USD = 58;
                 const USD_RATE = 17000;
                 let currency = 'IDR';
                 const state = {
@@ -364,23 +331,34 @@
                 };
                 const HOSTING_MIN = 1000000;
 
-                function fmt(n) {
-                    return currency === 'USD' ? '$' + Math.ceil(n / USD_RATE).toLocaleString('en-US') : 'Rp' + n
-                        .toLocaleString('id-ID');
+                function fmt(n, usd) {
+                    if (currency === 'USD') {
+                        const v = (usd && usd > 0) ? usd : Math.ceil(n / USD_RATE);
+                        return '$' + v.toLocaleString('en-US');
+                    }
+                    return 'Rp' + n.toLocaleString('id-ID');
                 }
 
-                function fmtRange(min, max) {
-                    return fmt(min) + ' – ' + fmt(max);
+                function fmtRange(minT, maxT) {
+                    return fmt(minT.price_idr, minT.price_usd) + ' – ' + fmt(maxT.price_idr, maxT.price_usd);
                 }
 
-                function getCmsDiff() {
-                    const s = document.querySelector('input[name="cms-diff"]:checked');
-                    return s ? parseInt(s.value) : 800000;
+                function priceUsdOf(slug) {
+                    return bySlug[slug] ? bySlug[slug].price_usd : 0;
                 }
 
-                function getEcomDiff() {
-                    const s = document.querySelector('input[name="ecom-diff"]:checked');
-                    return s ? parseInt(s.value) : 1000000;
+                function getTier(slug) {
+                    const a = bySlug[slug];
+                    if (!a || !a.tiers || !a.tiers.length) return null;
+                    const s = document.querySelector('input[name="' + slug + '-diff"]:checked');
+                    if (!s) return a.tiers[0];
+                    const idx = a.tiers.findIndex(function(t) { return t.price_idr === parseInt(s.value); });
+                    return idx >= 0 ? a.tiers[idx] : a.tiers[0];
+                }
+
+                function getTierPrice(slug) {
+                    const t = getTier(slug);
+                    return t ? t.price_idr : 0;
                 }
 
                 function getDiffLabel(name) {
@@ -390,15 +368,14 @@
                     return n ? n.textContent.trim() : '';
                 }
 
-                document.getElementById('feat-cms').addEventListener('change', function() {
-                    document.getElementById('cms-difficulty').style.display = this.checked ? 'flex' : 'none';
-                });
-                document.getElementById('feat-ecom').addEventListener('change', function() {
-                    document.getElementById('ecom-difficulty').style.display = this.checked ? 'flex' : 'none';
-                });
-                ['cms-toggle-item', 'ecom-toggle-item'].forEach(function(id) {
-                    const item = document.getElementById(id);
-                    const cb = item.querySelector('input[type="checkbox"]');
+                TIERED_FEATURES.forEach(function(a) {
+                    const cb = document.getElementById('feat-' + a.slug);
+                    const row = document.getElementById(a.slug + '-difficulty');
+                    if (cb && row) cb.addEventListener('change', function() {
+                        row.style.display = this.checked ? 'flex' : 'none';
+                    });
+                    const item = document.getElementById(a.slug + '-toggle-item');
+                    if (!item || !cb) return;
 
                     function toggleItem() {
                         cb.checked = !cb.checked;
@@ -491,38 +468,25 @@
                 };
 
                 function updateStaticPrices() {
-                    const ids = [{
-                        id: 'priority-price-label',
-                        p: PRICES.priority
-                    }, {
-                        id: 'chatbot-price-label',
-                        p: PRICES.chatbot
-                    }, {
-                        id: 'login-price-label',
-                        p: PRICES.login
-                    }, {
-                        id: 'seo-price-label',
-                        p: PRICES.seo
-                    }];
-                    ids.forEach(function(i) {
-                        const el = document.getElementById(i.id);
-                        if (el) el.textContent = '+ ' + fmt(i.p);
+                    SIMPLE_FEATURES.forEach(function(a) {
+                        const el = document.getElementById(a.slug + '-price-label');
+                        if (el) el.textContent = '+ ' + fmt(a.price_idr, a.price_usd);
                     });
                     const bEl = document.getElementById('base-price-label');
-                    if (bEl) bEl.textContent = fmt(BASE);
+                    if (bEl) bEl.textContent = fmt(BASE, BASE_USD);
                     const pu = document.getElementById('pages-unit-price');
-                    if (pu) pu.textContent = fmt(PRICES.pages) + ' / page';
+                    if (pu) pu.textContent = fmt(priceOf('extra-page'), priceUsdOf('extra-page')) + ' / page';
                     const mu = document.getElementById('maintenance-unit-price');
-                    if (mu) mu.textContent = fmt(PRICES.maintenance) + ' / month';
-                    const cl = document.getElementById('cms-price-label');
-                    if (cl) cl.textContent = '+ ' + fmtRange(800000, 1600000);
-                    const el2 = document.getElementById('ecom-price-label');
-                    if (el2) el2.textContent = '+ ' + fmtRange(1000000, 3000000);
-                    document.querySelectorAll('[data-cms-price]').forEach(function(el) {
-                        el.textContent = fmt(parseInt(el.dataset.cmsPrice));
-                    });
-                    document.querySelectorAll('[data-ecom-price]').forEach(function(el) {
-                        el.textContent = fmt(parseInt(el.dataset.ecomPrice));
+                    if (mu) mu.textContent = fmt(priceOf('maintenance'), priceUsdOf('maintenance')) + ' / month';
+                    TIERED_FEATURES.forEach(function(a) {
+                        const label = document.getElementById(a.slug + '-price-label');
+                        if (label) {
+                            label.textContent = '+ ' + fmtRange(a.tiers[0], a.tiers[a.tiers.length - 1]);
+                        }
+                        document.querySelectorAll('#' + a.slug + '-difficulty [data-tier-price]').forEach(function(el) {
+                            const radio = el.closest('label').querySelector('input[type="radio"]');
+                            if (radio) el.textContent = fmt(parseInt(radio.dataset.priceIdr), parseFloat(radio.dataset.priceUsd) || 0);
+                        });
                     });
                 }
 
@@ -530,95 +494,88 @@
                     let total = BASE;
                     const lines = [{
                         label: 'Base price',
-                        amount: BASE
+                        amount: BASE,
+                        usd: BASE_USD
                     }];
                     if (state.pages > 1) {
-                        const e = (state.pages - 1) * PRICES.pages;
+                        const e = (state.pages - 1) * priceOf('extra-page');
                         total += e;
                         lines.push({
                             label: state.pages + ' pages (' + (state.pages - 1) + ' extra)',
-                            amount: e
+                            amount: e,
+                            usd: (state.pages - 1) * priceUsdOf('extra-page')
                         });
                     } else lines.push({
                         label: '1 page (included)',
-                        amount: 0
+                        amount: 0,
+                        usd: 0
                     });
                     if (state.maintenance > 0) {
-                        const m = state.maintenance * PRICES.maintenance;
+                        const m = state.maintenance * priceOf('maintenance');
                         total += m;
                         lines.push({
                             label: state.maintenance + ' month(s) maintenance',
-                            amount: m
+                            amount: m,
+                            usd: state.maintenance * priceUsdOf('maintenance')
                         });
                     }
-                    [{
-                        id: 'priority',
-                        label: 'Priority delivery'
-                    }, {
-                        id: 'chatbot',
-                        label: 'AI Chatbot'
-                    }, {
-                        id: 'login',
-                        label: 'Login / Member system'
-                    }, {
-                        id: 'seo',
-                        label: 'Advanced SEO'
-                    }].forEach(function(f) {
-                        const cb = document.getElementById('feat-' + f.id);
+                    SIMPLE_FEATURES.forEach(function(a) {
+                        const cb = document.getElementById('feat-' + a.slug);
                         if (cb && cb.checked) {
-                            total += PRICES[f.id];
+                            total += a.price_idr;
                             lines.push({
-                                label: f.label,
-                                amount: PRICES[f.id]
+                                label: a.name,
+                                amount: a.price_idr,
+                                usd: a.price_usd
                             });
                         }
                     });
-                    const cmsCb = document.getElementById('feat-cms');
-                    if (cmsCb && cmsCb.checked) {
-                        const p = getCmsDiff();
-                        total += p;
-                        lines.push({
-                            label: 'CMS / Admin Panel (' + getDiffLabel('cms-diff') + ')',
-                            amount: p
-                        });
-                    }
-                    const ecomCb = document.getElementById('feat-ecom');
-                    if (ecomCb && ecomCb.checked) {
-                        const p = getEcomDiff();
-                        total += p;
-                        lines.push({
-                            label: 'E-Commerce (' + getDiffLabel('ecom-diff') + ')',
-                            amount: p
-                        });
-                    }
+                    TIERED_FEATURES.forEach(function(a) {
+                        const cb = document.getElementById('feat-' + a.slug);
+                        if (cb && cb.checked) {
+                            const t = getTier(a.slug);
+                            const p = t ? t.price_idr : 0;
+                            total += p;
+                            lines.push({
+                                label: a.name + ' (' + getDiffLabel(a.slug + '-diff') + ')',
+                                amount: p,
+                                usd: t ? t.price_usd : 0
+                            });
+                        }
+                    });
+
+                    const totalUsd = lines.reduce(function(s, l) {
+                        return s + ((l.usd && l.usd > 0) ? l.usd : Math.ceil(l.amount / USD_RATE));
+                    }, 0);
 
                     document.getElementById('summary-lines').innerHTML = lines.map(function(l) {
                         return '<div class="cp-line' + (l.amount === 0 ? ' cp-line-free' : '') + '"><span>' + l
-                            .label + '</span><span>' + (l.amount === 0 ? 'Free' : fmt(l.amount)) +
+                            .label + '</span><span>' + (l.amount === 0 ? 'Free' : fmt(l.amount, l.usd)) +
                             '</span></div>';
                     }).join('');
 
-                    const isCopy = ACTIVE_PRESET === 'copy';
-                    const unlocked = isCopy ? true : total >= HOSTING_MIN;
+                    const unlocked = total >= HOSTING_MIN;
                     const badge = document.getElementById('hosting-badge'),
                         status = document.getElementById('hosting-status'),
                         note = document.getElementById('hosting-note'),
                         bar = document.getElementById('hosting-unlock-bar'),
                         dh = document.getElementById('cp-form-dh');
-                    document.getElementById('summary-total').textContent = fmt(total);
+                    document.getElementById('summary-total').textContent = fmt(total, totalUsd);
                     document.getElementById('plan-cap-badge').style.display = 'none';
                     if (unlocked) {
                         badge.textContent = 'Unlocked ✓';
                         badge.className = 'cp-hosting-badge unlocked';
-                        status.textContent = 'Free hosting & .COM domain included!';
+                        status.textContent = 'Free hosting & domain included!';
                         note.className = 'cp-hosting-note unlocked';
                         bar.innerHTML =
-                        '<span class="cp-unlock-pill">🎉 Free Hosting &amp; .COM Domain included</span>';
+                        '<span class="cp-unlock-pill">🎉 Free Hosting &amp; Domain (.com, .id, etc.) included</span>';
                         if (dh) dh.style.display = 'none';
                     } else {
                         badge.textContent = 'Locked';
                         badge.className = 'cp-hosting-badge';
-                        status.textContent = 'Add ' + fmt(HOSTING_MIN - total) +
+                        const remainIdr = HOSTING_MIN - total;
+                        const remainUsd = HOSTING_MIN_USD - totalUsd;
+                        status.textContent = 'Add ' + fmt(remainIdr, remainUsd > 0 ? remainUsd : 0) +
                             ' more to unlock free hosting & domain.';
                         note.className = 'cp-hosting-note';
                         bar.innerHTML = '';
@@ -630,26 +587,14 @@
                     const configField = document.getElementById('form-custom-config');
                     if (configField) {
                         const allFeatures = [];
-                        [{
-                            id: 'priority',
-                            label: 'Priority delivery'
-                        }, {
-                            id: 'chatbot',
-                            label: 'AI Chatbot'
-                        }, {
-                            id: 'login',
-                            label: 'Login / Member system'
-                        }, {
-                            id: 'seo',
-                            label: 'Advanced SEO'
-                        }].forEach(function(f) {
-                            const cb = document.getElementById('feat-' + f.id);
-                            if (cb && cb.checked) allFeatures.push(f.label);
+                        SIMPLE_FEATURES.forEach(function(a) {
+                            const cb = document.getElementById('feat-' + a.slug);
+                            if (cb && cb.checked) allFeatures.push(a.name);
                         });
-                        if (cmsCb && cmsCb.checked) allFeatures.push('CMS / Admin Panel (' + getDiffLabel('cms-diff') +
-                            ')');
-                        if (ecomCb && ecomCb.checked) allFeatures.push('E-Commerce (' + getDiffLabel('ecom-diff') +
-                        ')');
+                        TIERED_FEATURES.forEach(function(a) {
+                            const cb = document.getElementById('feat-' + a.slug);
+                            if (cb && cb.checked) allFeatures.push(a.name + ' (' + getDiffLabel(a.slug + '-diff') + ')');
+                        });
                         configField.value = JSON.stringify({
                             pages: state.pages,
                             maintenance: state.maintenance,
@@ -657,19 +602,19 @@
                         });
                     }
                     const td = document.getElementById('form-total-display');
-                    if (td) td.textContent = fmt(total);
+                    if (td) td.textContent = fmt(total, totalUsd);
 
                     const recap = document.getElementById('cp-form-recap');
                     if (recap) {
                         const featureChips = lines.slice(1).filter(function(l) { return l.amount > 0; }).map(function(l) {
-                            return '<span class="cp-recap-chip">' + l.label + ' · ' + fmt(l.amount) + '</span>';
+                            return '<span class="cp-recap-chip">' + l.label + ' · ' + fmt(l.amount, l.usd) + '</span>';
                         });
                         recap.innerHTML = '<div class="cp-recap-label">Your plan</div><div class="cp-recap-chips">' +
                             (featureChips.length ? featureChips.join('') : '<span class="cp-recap-chip cp-recap-chip--base">Base package only</span>') +
-                            '</div><div class="cp-recap-total">' + fmt(total) + '</div>';
+                            '</div><div class="cp-recap-total">' + fmt(total, totalUsd) + '</div>';
                     }
-                    ['priority', 'chatbot', 'cms', 'login', 'ecom', 'seo'].forEach(function(id) {
-                        const cb = document.getElementById('feat-' + id);
+                    ADDONS.forEach(function(a) {
+                        const cb = document.getElementById('feat-' + a.slug);
                         const item = cb ? cb.closest('.cp-toggle-item') : null;
                         if (item) item.classList.toggle('active', cb.checked);
                     });

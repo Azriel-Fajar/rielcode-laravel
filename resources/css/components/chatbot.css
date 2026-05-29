@@ -65,9 +65,9 @@
   overflow: hidden;
   z-index: 1002;
   background: var(--rc-bg);
-  border: 1px solid var(--rc-border-strong);
+  border: 1px solid var(--rc-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card-hover);
+  box-shadow: 0 12px 40px color-mix(in oklab, var(--rc-text) 18%, transparent);
   transition:
     opacity var(--transition-base),
     transform var(--transition-base);
@@ -317,7 +317,7 @@
 
 .chat-input button:hover {
   transform: translateY(-1px) scale(1.05);
-  box-shadow: 0 6px 18px rgba(45, 74, 58, 0.40);
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--rc-accent) 40%, transparent);
 }
 
 .chat-input button:active { transform: scale(0.96); }

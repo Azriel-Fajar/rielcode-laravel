@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PackageResource extends Resource
 {
@@ -63,10 +64,22 @@ class PackageResource extends Resource
 
                 Forms\Components\Section::make('Features')
                     ->schema([
-                        Forms\Components\Textarea::make('features_json')
-                            ->label('Features (JSON array)')
-                            ->helperText('["Feature 1","Feature 2"]')
-                            ->rows(6)
+                        Forms\Components\Repeater::make('features_json.items')
+                            ->label('Specs')
+                            ->reorderable()
+                            ->addActionLabel('Add spec')
+                            ->itemLabel(fn (array $state): ?string => $state['label'] ?? 'New spec')
+                            ->schema([
+                                Forms\Components\TextInput::make('label')
+                                    ->required()
+                                    ->helperText('Inline HTML allowed')
+                                    ->columnSpan(3),
+                                Forms\Components\Toggle::make('included')
+                                    ->label('Included')
+                                    ->default(true)
+                                    ->columnSpan(1),
+                            ])
+                            ->columns(4)
                             ->columnSpanFull(),
                     ]),
             ]);
@@ -80,10 +93,10 @@ class PackageResource extends Resource
                 Tables\Columns\TextColumn::make('package_name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('slug')->badge(),
                 Tables\Columns\TextColumn::make('idr_price')
-                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state, 0, ',', '.'))
+                    ->formatStateUsing(fn ($state) => 'Rp '.number_format($state, 0, ',', '.'))
                     ->label('IDR'),
                 Tables\Columns\TextColumn::make('us_price')
-                    ->formatStateUsing(fn ($state) => '$' . number_format($state, 0))
+                    ->formatStateUsing(fn ($state) => '$'.number_format($state, 0))
                     ->label('USD'),
                 Tables\Columns\IconColumn::make('includes_free_hosting')->boolean()->label('Hosting'),
                 Tables\Columns\IconColumn::make('is_popular')->boolean()->label('Popular'),
@@ -94,9 +107,14 @@ class PackageResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->disabled(fn (Package $record) => $record->ordersRel()->count() > 0),
+                    ->disabled(fn (Package $record) => ($record->orders_rel_count ?? 0) > 0),
             ])
             ->bulkActions([]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->withCount('ordersRel');
     }
 
     public static function getRelations(): array

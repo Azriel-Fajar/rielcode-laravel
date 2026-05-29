@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BriefCompleteMail;
 use App\Mail\ClientBriefMail;
 use App\Models\Order;
+use App\Models\OrderAccessToken;
 use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,10 +32,10 @@ class ClientBriefController extends Controller
         $order = Order::findOrFail($row->order_id);
 
         $data = $request->validate([
-            'business'    => ['required', 'string', 'max:5000'],
-            'goals'       => ['required', 'string', 'max:5000'],
-            'audience'    => ['required', 'string', 'max:5000'],
-            'success'     => ['required', 'string', 'max:5000'],
+            'business' => ['required', 'string', 'max:5000'],
+            'goals' => ['required', 'string', 'max:5000'],
+            'audience' => ['required', 'string', 'max:5000'],
+            'success' => ['required', 'string', 'max:5000'],
             'brand_style' => ['required', 'string', 'max:5000'],
         ]);
 
@@ -42,11 +44,24 @@ class ClientBriefController extends Controller
         } catch (\Throwable $e) {
             AuditLogger::log('CLIENT_BRIEF_MAIL_FAIL', 'error', $order->email, [
                 'order_id' => $order->id,
-                'error'    => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
 
             return redirect()->route('brief.show', ['t' => $token])
                 ->withErrors(['brief' => 'Failed to send brief. Please try again.']);
+        }
+
+        $accessToken = OrderAccessToken::where('order_id', $order->id)->whereNull('deactivated_at')->first();
+        if ($accessToken) {
+            $progressUrl = config('app.portal_urls.progress').'/progress?t='.$accessToken->token;
+            try {
+                Mail::to($order->email, $order->order_name)->send(new BriefCompleteMail($order, $progressUrl));
+            } catch (\Throwable $e) {
+                AuditLogger::log('BRIEF_COMPLETE_MAIL_FAIL', 'error', $order->email, [
+                    'order_id' => $order->id,
+                    'err' => $e->getMessage(),
+                ]);
+            }
         }
 
         AuditLogger::log('CLIENT_BRIEF_SUBMITTED', 'info', $order->email, [

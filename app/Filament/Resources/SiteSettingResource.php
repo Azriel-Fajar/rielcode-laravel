@@ -33,9 +33,9 @@ class SiteSettingResource extends Resource
                 Forms\Components\Select::make('value_type')
                     ->options([
                         'string' => 'String',
-                        'image'  => 'Image',
-                        'html'   => 'HTML',
-                        'json'   => 'JSON',
+                        'image' => 'Image',
+                        'html' => 'HTML',
+                        'json' => 'JSON',
                     ])->required()->reactive(),
                 Forms\Components\TextInput::make('group')->required(),
                 Forms\Components\TextInput::make('label')->required(),
@@ -95,9 +95,9 @@ class SiteSettingResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListSiteSettings::route('/'),
+            'index' => Pages\ListSiteSettings::route('/'),
             'create' => Pages\CreateSiteSetting::route('/create'),
-            'edit'   => Pages\EditSiteSetting::route('/{record}/edit'),
+            'edit' => Pages\EditSiteSetting::route('/{record}/edit'),
         ];
     }
 }

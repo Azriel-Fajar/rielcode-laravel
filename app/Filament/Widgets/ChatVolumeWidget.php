@@ -5,16 +5,21 @@ namespace App\Filament\Widgets;
 use App\Models\ChatLog;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Facades\Cache;
 
 class ChatVolumeWidget extends BaseWidget
 {
     protected static ?int $sort = 2;
 
+    protected static bool $isLazy = true;
+
     protected function getStats(): array
     {
-        $today = ChatLog::whereDate('created_at', today())->count();
-        $week  = ChatLog::where('created_at', '>=', now()->subDays(7))->count();
-        $total = ChatLog::count();
+        [$today, $week, $total] = Cache::remember('widget.chat_volume', 60, fn () => [
+            ChatLog::whereDate('created_at', today())->count(),
+            ChatLog::where('created_at', '>=', now()->subDays(7))->count(),
+            ChatLog::count(),
+        ]);
 
         return [
             Stat::make('Chats Today', $today),

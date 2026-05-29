@@ -16,13 +16,13 @@ class OrderConfirmationMail extends Mailable
     public function __construct(
         public Order $order,
         public string $progressToken,
-        public string $progressUrl
+        public string $briefUrl
     ) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Confirmed — ' . $this->order->order_name,
+            subject: 'Order Confirmed - '.$this->order->order_name,
         );
     }
 

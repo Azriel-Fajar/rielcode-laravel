@@ -4,13 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderPaymentResource\Pages;
 use App\Models\OrderPayment;
-use App\Services\InvoiceNumberService;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class OrderPaymentResource extends Resource
 {
@@ -34,9 +34,8 @@ class OrderPaymentResource extends Resource
                     'order_name',
                     fn ($query) => $query->whereIn('invoice_status', ['Unpaid', 'Partial'])->orderBy('created_at', 'desc')
                 )
-                ->getOptionLabelFromRecordUsing(fn ($record) =>
-                    "{$record->order_name} — {$record->invoice_status} ({$record->invoice_currency} " .
-                    number_format($record->final_price, 0, ',', '.') . ")"
+                ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->order_name} - {$record->invoice_status} ({$record->invoice_currency} ".
+                    number_format($record->final_price, 0, ',', '.').')'
                 )
                 ->helperText('Only shows orders with Unpaid or Partial invoice status.')
                 ->required()
@@ -76,10 +75,10 @@ class OrderPaymentResource extends Resource
                     ->colors(['primary' => 'deposit', 'success' => 'final']),
                 Tables\Columns\BadgeColumn::make('status')
                     ->colors([
-                        'gray'    => 'draft',
+                        'gray' => 'draft',
                         'warning' => 'sent',
                         'success' => 'paid',
-                        'danger'  => 'overdue',
+                        'danger' => 'overdue',
                     ]),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Amount')
@@ -138,10 +137,12 @@ class OrderPaymentResource extends Resource
                     ->icon('heroicon-o-chat-bubble-left')
                     ->color('gray')
                     ->url(function (OrderPayment $record) {
-                        $phone   = config('payment.wa_phone');
-                        $url     = route('invoice.show', $record->invoice_number);
-                        $amount  = $record->amountFormatted();
-                        $msg     = urlencode("Hi {$record->order->order_name}, here is your invoice for {$record->stageLabel()} ({$amount}):\n{$url}");
+                        $phone = config('payment.wa_phone');
+                        $url = route('invoice.show', $record->invoice_number);
+                        $amount = $record->amountFormatted();
+                        $name = $record->order?->order_name ?? 'there';
+                        $msg = urlencode("Hi {$name}, here is your invoice for {$record->stageLabel()} ({$amount}):\n{$url}");
+
                         return "https://wa.me/{$phone}?text={$msg}";
                     })
                     ->openUrlInNewTab(),
@@ -149,6 +150,11 @@ class OrderPaymentResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('order');
     }
 
     public static function getRelations(): array
@@ -159,9 +165,9 @@ class OrderPaymentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListOrderPayments::route('/'),
+            'index' => Pages\ListOrderPayments::route('/'),
             'create' => Pages\CreateOrderPayment::route('/create'),
-            'edit'   => Pages\EditOrderPayment::route('/{record}/edit'),
+            'edit' => Pages\EditOrderPayment::route('/{record}/edit'),
         ];
     }
 }

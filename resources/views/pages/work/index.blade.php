@@ -35,7 +35,7 @@
 
     <section class="rc-ctaband">
         <div class="rc-container rc-ctaband__inner">
-            <span class="rc-label rc-ctaband__eyebrow">Booking Q3 2026</span>
+            <span class="rc-label rc-ctaband__eyebrow">Open to Projects</span>
             <h2 class="rc-ctaband__heading">Have a project in mind? Let's make it well.</h2>
             <a class="rc-ctaband__cta" href="/order">
                 Start a project

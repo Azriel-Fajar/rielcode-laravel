@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class PackageAddon extends Model
 {
     protected $fillable = [
-        'name', 'description', 'price_idr', 'price_usd', 'type',
-        'is_visible', 'sort_order',
+        'name', 'slug', 'description', 'price_idr', 'price_usd', 'type',
+        'tiers', 'is_visible', 'sort_order',
     ];
 
     protected $casts = [
         'is_visible' => 'boolean',
+        'tiers' => 'array',
     ];
 
     public function scopeVisible($q)

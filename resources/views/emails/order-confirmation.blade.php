@@ -21,7 +21,7 @@
                 Thank you for choosing <strong>Rielcode</strong> for your <strong>{{ $order->package }}</strong> project.
             </p>
             <p style="margin:0 0 16px;font-size:15px;color:#333;line-height:1.6;">
-                We've received your order. Our team will reach out within <strong>24 hours</strong> to confirm project details and send your invoice separately.
+                We've received your order. To get started, please fill in your project brief so we can understand your needs and kick things off.
             </p>
 
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;border-radius:8px;padding:16px 20px;margin:20px 0;">
@@ -40,17 +40,17 @@
             </table>
 
             <p style="margin:0 0 8px;font-size:15px;color:#333;line-height:1.6;">
-                Track your project progress anytime via your private link:
+                Fill in your project brief via your private link:
             </p>
             <p style="margin:0 0 20px;">
-                <a href="{{ $progressUrl }}" style="color:#3a7bff;font-weight:600;word-break:break-all;">{{ $progressUrl }}</a>
+                <a href="{{ $briefUrl }}" style="color:#3a7bff;font-weight:600;word-break:break-all;">{{ $briefUrl }}</a>
             </p>
 
             <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
                 <tr>
                     <td align="center">
-                        <a href="{{ $progressUrl }}" style="display:inline-block;background:#3a7bff;color:#ffffff;font-weight:600;font-size:14px;padding:12px 28px;border-radius:8px;text-decoration:none;">
-                            Open Progress Portal
+                        <a href="{{ $briefUrl }}" style="display:inline-block;background:#3a7bff;color:#ffffff;font-weight:600;font-size:14px;padding:12px 28px;border-radius:8px;text-decoration:none;">
+                            Fill in Project Brief
                         </a>
                     </td>
                 </tr>

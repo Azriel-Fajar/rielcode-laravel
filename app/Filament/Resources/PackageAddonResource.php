@@ -27,11 +27,12 @@ class PackageAddonResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required()->maxLength(100),
+                Forms\Components\TextInput::make('slug')->required()->maxLength(60)->unique(ignoreRecord: true)->helperText('Stable key used by the custom-plan page, e.g. "login", "cms". Lowercase, no spaces.'),
                 Forms\Components\Select::make('type')
                     ->options([
                         'one_time' => 'One-time fee',
                         'per_page' => 'Per page',
-                        'monthly'  => 'Monthly',
+                        'monthly' => 'Monthly',
                     ])
                     ->default('one_time')
                     ->required(),
@@ -39,6 +40,18 @@ class PackageAddonResource extends Resource
                 Forms\Components\TextInput::make('price_idr')->numeric()->required()->prefix('Rp'),
                 Forms\Components\TextInput::make('price_usd')->numeric()->required()->prefix('$')->step('0.01'),
                 Forms\Components\Toggle::make('is_visible')->default(true),
+                Forms\Components\Repeater::make('tiers')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')->required(),
+                        Forms\Components\TextInput::make('info'),
+                        Forms\Components\TextInput::make('price_idr')->numeric()->required()->prefix('Rp'),
+                        Forms\Components\TextInput::make('price_usd')->numeric()->required()->prefix('$')->step('0.01'),
+                    ])
+                    ->columns(2)
+                    ->collapsible()
+                    ->defaultItems(0)
+                    ->columnSpanFull()
+                    ->helperText('Leave empty for a simple checkbox feature. Add tiers to make it an expandable difficulty feature.'),
                 Forms\Components\TextInput::make('sort_order')->numeric()->default(0),
             ]);
     }
@@ -55,16 +68,16 @@ class PackageAddonResource extends Resource
                     'warning' => 'monthly',
                 ]),
                 Tables\Columns\TextColumn::make('price_idr')
-                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state, 0, ',', '.')),
+                    ->formatStateUsing(fn ($state) => 'Rp '.number_format($state, 0, ',', '.')),
                 Tables\Columns\TextColumn::make('price_usd')
-                    ->formatStateUsing(fn ($state) => '$' . number_format($state, 2)),
+                    ->formatStateUsing(fn ($state) => '$'.number_format($state, 2)),
                 Tables\Columns\IconColumn::make('is_visible')->boolean(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')->options([
                     'one_time' => 'One-time',
                     'per_page' => 'Per page',
-                    'monthly'  => 'Monthly',
+                    'monthly' => 'Monthly',
                 ]),
             ])
             ->actions([
@@ -83,9 +96,9 @@ class PackageAddonResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListPackageAddons::route('/'),
+            'index' => Pages\ListPackageAddons::route('/'),
             'create' => Pages\CreatePackageAddon::route('/create'),
-            'edit'   => Pages\EditPackageAddon::route('/{record}/edit'),
+            'edit' => Pages\EditPackageAddon::route('/{record}/edit'),
         ];
     }
 }

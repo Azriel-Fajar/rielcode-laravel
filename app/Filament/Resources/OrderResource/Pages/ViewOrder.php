@@ -25,25 +25,25 @@ class ViewOrder extends ViewRecord
                 ->color('warning')
                 ->visible(fn () => ! $this->record->payments()->where('stage', 'deposit')->exists())
                 ->action(function () {
-                    $order   = $this->record;
-                    $svc     = app(InvoiceNumberService::class);
-                    $invNum  = $svc->generate('deposit');
-                    $amount  = round($order->final_price * 0.20, 2);
-                    $due     = now()->addDays(3)->toDateString();
+                    $order = $this->record;
+                    $svc = app(InvoiceNumberService::class);
+                    $invNum = $svc->generate('deposit');
+                    $amount = round($order->final_price * 0.20, 2);
+                    $due = now()->addDays(3)->toDateString();
                     $currency = $order->invoice_currency ?? 'IDR';
 
                     OrderPayment::create([
-                        'order_id'       => $order->id,
-                        'stage'          => 'deposit',
+                        'order_id' => $order->id,
+                        'stage' => 'deposit',
                         'invoice_number' => $invNum,
-                        'amount'         => $amount,
-                        'currency'       => $currency,
-                        'status'         => 'draft',
-                        'due_date'       => $due,
+                        'amount' => $amount,
+                        'currency' => $currency,
+                        'status' => 'draft',
+                        'due_date' => $due,
                     ]);
 
                     Notification::make()
-                        ->title('Deposit invoice created: ' . $invNum)
+                        ->title('Deposit invoice created: '.$invNum)
                         ->success()
                         ->send();
                 }),
@@ -55,28 +55,29 @@ class ViewOrder extends ViewRecord
                 ->visible(function () {
                     $deposit = $this->record->payments()->where('stage', 'deposit')->first();
                     $finalExists = $this->record->payments()->where('stage', 'final')->exists();
+
                     return $deposit && $deposit->status === 'paid' && ! $finalExists;
                 })
                 ->action(function () {
-                    $order   = $this->record;
-                    $svc     = app(InvoiceNumberService::class);
-                    $invNum  = $svc->generate('final');
-                    $amount  = round($order->final_price * 0.80, 2);
-                    $due     = now()->addDays(7)->toDateString();
+                    $order = $this->record;
+                    $svc = app(InvoiceNumberService::class);
+                    $invNum = $svc->generate('final');
+                    $amount = round($order->final_price * 0.80, 2);
+                    $due = now()->addDays(7)->toDateString();
                     $currency = $order->invoice_currency ?? 'IDR';
 
                     OrderPayment::create([
-                        'order_id'       => $order->id,
-                        'stage'          => 'final',
+                        'order_id' => $order->id,
+                        'stage' => 'final',
                         'invoice_number' => $invNum,
-                        'amount'         => $amount,
-                        'currency'       => $currency,
-                        'status'         => 'draft',
-                        'due_date'       => $due,
+                        'amount' => $amount,
+                        'currency' => $currency,
+                        'status' => 'draft',
+                        'due_date' => $due,
                     ]);
 
                     Notification::make()
-                        ->title('Final invoice created: ' . $invNum)
+                        ->title('Final invoice created: '.$invNum)
                         ->success()
                         ->send();
                 }),
@@ -107,7 +108,7 @@ class ViewOrder extends ViewRecord
                     if ($this->record->status === 'Pending') {
                         $this->record->update(['status' => 'On Progress']);
                     }
-                    Notification::make()->title('Deposit marked as paid — order is now On Progress')->success()->send();
+                    Notification::make()->title('Deposit marked as paid - order is now On Progress')->success()->send();
                     $this->redirect(static::getResource()::getUrl('view', ['record' => $this->record]));
                 }),
 
@@ -134,7 +135,7 @@ class ViewOrder extends ViewRecord
                 ->action(function () {
                     $this->record->finalPayment->update(['status' => 'paid', 'paid_at' => now()]);
                     $this->record->update(['status' => 'Done', 'invoice_status' => 'Paid']);
-                    Notification::make()->title('Final payment received — order marked as Done')->success()->send();
+                    Notification::make()->title('Final payment received - order marked as Done')->success()->send();
                     $this->redirect(static::getResource()::getUrl('view', ['record' => $this->record]));
                 }),
         ];

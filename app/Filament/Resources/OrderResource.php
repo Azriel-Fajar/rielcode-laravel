@@ -13,6 +13,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class OrderResource extends Resource
@@ -43,7 +44,7 @@ class OrderResource extends Resource
                         Forms\Components\TextInput::make('custom_preset'),
                         Forms\Components\TextInput::make('copy_source_url')->maxLength(500),
                         Forms\Components\Textarea::make('custom_config')->columnSpanFull(),
-                        Forms\Components\Textarea::make('description')->required()->columnSpanFull(),
+                        Forms\Components\Textarea::make('description')->columnSpanFull(),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Project Status')
@@ -65,10 +66,6 @@ class OrderResource extends Resource
                                 'launch' => 'Launch',
                             ])->required(),
                         Forms\Components\TextInput::make('staging_url')->maxLength(255),
-                        Forms\Components\Select::make('owns_domain')
-                            ->options(['yes' => 'Yes', 'no' => 'No'])->required(),
-                        Forms\Components\Select::make('owns_hosting')
-                            ->options(['yes' => 'Yes', 'no' => 'No'])->required(),
                     ])->columns(3),
 
                 Forms\Components\Section::make('Invoice')
@@ -100,6 +97,7 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->deferLoading()
             ->columns([
                 Tables\Columns\TextColumn::make('order_name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
@@ -119,7 +117,7 @@ class OrderResource extends Resource
                         'success' => 'Paid',
                     ]),
                 Tables\Columns\TextColumn::make('final_price')
-                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state, 0, ',', '.'))
+                    ->formatStateUsing(fn ($state) => 'Rp '.number_format($state, 0, ',', '.'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
             ])
@@ -151,10 +149,28 @@ class OrderResource extends Resource
                             'order_id' => $record->id,
                             'token' => $token,
                         ]);
-                        $url = config('app.portal_urls.progress') . '/progress?t=' . $token;
-                        $livewire->js('navigator.clipboard.writeText(' . json_encode($url) . ').catch(()=>{})');
+                        $url = config('app.portal_urls.progress').'/progress?t='.$token;
+                        $livewire->js('navigator.clipboard.writeText('.json_encode($url).').catch(()=>{})');
                         Notification::make()
-                            ->title('Token generated — URL copied to clipboard')
+                            ->title('Token generated - URL copied to clipboard')
+                            ->body($url)
+                            ->success()
+                            ->persistent()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('generate_brief_token')
+                    ->label('Generate Brief Token')
+                    ->icon('heroicon-o-document-text')
+                    ->action(function (Order $record, $livewire) {
+                        $token = Str::random(64);
+                        OrderAccessToken::create([
+                            'order_id' => $record->id,
+                            'token' => $token,
+                        ]);
+                        $url = config('app.portal_urls.brief').'/brief?t='.$token;
+                        $livewire->js('navigator.clipboard.writeText('.json_encode($url).').catch(()=>{})');
+                        Notification::make()
+                            ->title('Brief token generated - URL copied to clipboard')
                             ->body($url)
                             ->success()
                             ->persistent()
@@ -194,13 +210,13 @@ class OrderResource extends Resource
                 ->schema([
                     Infolists\Components\TextEntry::make('package_price')
                         ->label('Package')
-                        ->formatStateUsing(fn ($state, $record) => $record->invoice_currency === 'USD' ? '$'.number_format($state,2) : 'Rp '.number_format($state,0,',','.')),
+                        ->formatStateUsing(fn ($state, $record) => $record->invoice_currency === 'USD' ? '$'.number_format($state, 2) : 'Rp '.number_format($state, 0, ',', '.')),
                     Infolists\Components\TextEntry::make('addons_total')
                         ->label('Addons')
-                        ->formatStateUsing(fn ($state, $record) => $record->invoice_currency === 'USD' ? '$'.number_format($state,2) : 'Rp '.number_format($state,0,',','.')),
+                        ->formatStateUsing(fn ($state, $record) => $record->invoice_currency === 'USD' ? '$'.number_format($state, 2) : 'Rp '.number_format($state, 0, ',', '.')),
                     Infolists\Components\TextEntry::make('final_price')
                         ->label('Total')
-                        ->formatStateUsing(fn ($state, $record) => $record->invoice_currency === 'USD' ? '$'.number_format($state,2) : 'Rp '.number_format($state,0,',','.')),
+                        ->formatStateUsing(fn ($state, $record) => $record->invoice_currency === 'USD' ? '$'.number_format($state, 2) : 'Rp '.number_format($state, 0, ',', '.')),
                     Infolists\Components\TextEntry::make('invoice_currency')->label('Currency'),
                 ])->columns(4),
 
@@ -213,11 +229,11 @@ class OrderResource extends Resource
                                 ->formatStateUsing(fn ($state) => $state === 'deposit' ? 'Deposit (20%)' : 'Final (80%)'),
                             Infolists\Components\TextEntry::make('invoice_number')->label('Invoice #')->fontFamily('mono')->copyable(),
                             Infolists\Components\TextEntry::make('status')->badge()
-                                ->color(fn ($state) => match($state) {
-                                    'paid'    => 'success',
-                                    'sent'    => 'warning',
+                                ->color(fn ($state) => match ($state) {
+                                    'paid' => 'success',
+                                    'sent' => 'warning',
                                     'overdue' => 'danger',
-                                    default   => 'gray',
+                                    default => 'gray',
                                 }),
                             Infolists\Components\TextEntry::make('amount')
                                 ->label('Amount')
@@ -243,13 +259,18 @@ class OrderResource extends Resource
         return [];
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('package');
+    }
+
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListOrders::route('/'),
+            'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
-            'view'   => Pages\ViewOrder::route('/{record}'),
-            'edit'   => Pages\EditOrder::route('/{record}/edit'),
+            'view' => Pages\ViewOrder::route('/{record}'),
+            'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }

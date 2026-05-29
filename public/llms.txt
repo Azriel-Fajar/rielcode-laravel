@@ -1,0 +1,27 @@
+# Rielcode
+
+> Rielcode builds custom websites, landing pages, and simple e-commerce, designed and developed end-to-end. Editorial-grade polish, designed and built by one studio.
+
+Rielcode is a one-person web studio. We ship three productized packages — Landing, Custom, E-commerce — plus a bespoke custom-plan track. Pricing is public and quoted in IDR and USD. Engagements are token-gated: each order issues client portals for brief intake, progress tracking, testimonial collection, and invoice viewing.
+
+## Core pages
+- [Home](https://rielcode.com/): Tagline, featured work, services overview, testimonials
+- [Services](https://rielcode.com/services): Packages, pricing, deliverables, add-ons
+- [Studio](https://rielcode.com/studio): About the studio, process, FAQ
+- [Work](https://rielcode.com/work): Portfolio of case studies
+- [Contact](https://rielcode.com/contact): General enquiry form
+
+## Start a project
+- [Order](https://rielcode.com/order): Place an order from a productized package
+- [Custom plan](https://rielcode.com/custom-plan): Bespoke enquiry for non-standard scope
+
+## Machine-readable mirrors
+- [Markdown digest](https://rielcode.com/index.md): Plain-text content mirror of the whole site
+- [Sitemap](https://rielcode.com/sitemap.xml): XML index of canonical URLs
+
+## Legal
+- [Privacy](https://rielcode.com/privacy)
+- [Terms](https://rielcode.com/terms)
+
+## Optional
+- Token-gated client portals exist at /brief, /progress, /testimonial, /referrer — these are per-order private URLs and not crawlable.

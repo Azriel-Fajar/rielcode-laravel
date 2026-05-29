@@ -29,8 +29,6 @@
         @php
             $isStudentPlan    = $order->package === 'Student Plan';
             $claimedFreePromo = str_contains($order->description ?? '', 'Free Hosting') && str_contains($order->description ?? '', 'Promo');
-            $needsDomainWarning  = !$isStudentPlan && !$claimedFreePromo && $order->owns_domain === 'No';
-            $needsHostingWarning = !$isStudentPlan && !$claimedFreePromo && $order->owns_hosting === 'No';
         @endphp
 
         @if ($isStudentPlan)
@@ -39,19 +37,27 @@
             <div class="landing-note" style="background:rgba(62,207,142,0.08);border-color:rgba(62,207,142,0.25);color:#3ecf8e;">
                 &#10003; Free hosting &amp; .COM domain included via promo.
             </div>
-        @elseif ($needsHostingWarning || $needsDomainWarning)
-            <div class="landing-note">
-                &#9888; Note: You indicated you don't have {{ collect(['hosting' => $needsHostingWarning, 'domain' => $needsDomainWarning])->filter()->keys()->implode(' or ') }}.
-                Rielcode will help set up free {{ collect(['hosting' => $needsHostingWarning, 'domain' => $needsDomainWarning])->filter()->keys()->implode(' &amp; ') }} based on your package.
-            </div>
         @endif
 
         <div class="purchase-info">
             <h3>Purchase Information</h3>
             <div class="package-price">
-                <p>Package price{{ $order->package !== 'Custom Plan' ? ' (before discount)' : '' }}</p>
-                <span>Rp{{ number_format($order->package !== 'Custom Plan' ? $displayOriginal : $packagePrice, 0, ',', '.') }}</span>
+                <p>Package price</p>
+                <span>Rp{{ number_format($packagePrice, 0, ',', '.') }}</span>
             </div>
+
+            @if (!empty($selectedAddons))
+                @foreach ($selectedAddons as $a)
+                <div class="package-price">
+                    <p>{{ $a['name'] }}@if (isset($a['tier'])) - {{ $a['tier'] }}@endif@if (!empty($a['qty']) && $a['qty'] > 1) &times;{{ $a['qty'] }}@endif</p>
+                    @if (!empty($a['included']) && (int) $a['price_idr'] === 0)
+                        <span style="color:#3ecf8e;">Included</span>
+                    @else
+                        <span>Rp{{ number_format($a['price_idr'], 0, ',', '.') }}</span>
+                    @endif
+                </div>
+                @endforeach
+            @endif
 
             @if ($order->package === 'Custom Plan' && $order->custom_config)
             @php $cfg = $order->custom_config; @endphp
@@ -70,19 +76,13 @@
             @endif
         </div>
 
-        @if ($order->package !== 'Custom Plan')
+        @if ($order->package !== 'Custom Plan' && !$isStudentPlan)
         <div class="discount-info">
-            <h3>Discount</h3>
-            <div class="discount-price">
-                <p>Introductory Price (<b>50%</b>)</p>
-                <span>-Rp{{ number_format($discountPrice, 0, ',', '.') }}</span>
-            </div>
-            @if (!$isStudentPlan)
+            <h3>Included</h3>
             <div class="discount-price" style="color:#3ecf8e;">
                 <p>Free hosting (1 year) + free .com/.id domain</p>
                 <span>Included</span>
             </div>
-            @endif
         </div>
         @endif
 
@@ -90,7 +90,7 @@
             <h3>Total</h3>
             <div class="total-price">
                 <p>Grand Total</p>
-                <span>Rp{{ number_format($packagePrice, 0, ',', '.') }}</span>
+                <span>Rp{{ number_format($grandTotal, 0, ',', '.') }}</span>
             </div>
         </div>
 
@@ -109,13 +109,23 @@
                 <input type="checkbox" name="terms" id="terms" required>
                 <label for="terms">I agree to the <a href="{{ route('terms') }}">terms &amp; conditions</a> as set out by the user agreement.</label>
             </div>
-            <button class="rc-btn rc-btn--fill rc-btn--lg" id="checkoutBtn" type="submit">Confirm</button>
+            <button class="rc-btn rc-btn--fill rc-btn--lg" id="checkoutBtn" type="submit">
+                <span id="checkoutBtnLabel">Confirm</span>
+                <svg id="checkoutSpinner" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;animation:rc-spin 0.7s linear infinite;vertical-align:middle;margin-left:8px;">
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+            </button>
         </form>
+        <style>
+        @keyframes rc-spin { to { transform: rotate(360deg); } }
+        #checkoutBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+        </style>
         <script>
         document.getElementById('checkoutForm').addEventListener('submit', function() {
             var btn = document.getElementById('checkoutBtn');
             btn.disabled = true;
-            btn.textContent = 'Processing…';
+            document.getElementById('checkoutBtnLabel').textContent = 'Processing…';
+            document.getElementById('checkoutSpinner').style.display = 'inline';
         });
         </script>
     </div>

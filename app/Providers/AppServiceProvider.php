@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\AdminAuthListener;
 use App\Models\ChatLog;
 use App\Models\ContactSubmission;
 use App\Models\Order;
@@ -11,7 +12,6 @@ use App\Models\ReferralCommission;
 use App\Models\Referrer;
 use App\Models\Testimonial;
 use App\Models\TestimonialInvite;
-use App\Listeners\AdminAuthListener;
 use App\Observers\AdminCrudObserver;
 use Filament\Events\Auth\Login as FilamentLogin;
 use Filament\Events\Auth\Logout as FilamentLogout;
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $observer = AdminCrudObserver::class;
 
-        $listener = new AdminAuthListener();
+        $listener = new AdminAuthListener;
         Event::listen(FilamentLogin::class, [$listener, 'handleLogin']);
         Event::listen(FilamentLogout::class, [$listener, 'handleLogout']);
         Event::listen(AuthFailed::class, [$listener, 'handleLoginFail']);

@@ -1,4 +1,4 @@
-{{-- Skeleton loader root — populated/cleared by filament-skeleton.js --}}
+{{-- Skeleton loader root - populated/cleared by filament-skeleton.js --}}
 <div id="rc-skeleton-root" aria-hidden="true" style="position:relative;"></div>
 
 <script>

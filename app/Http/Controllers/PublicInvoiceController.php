@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderPayment;
 use App\Services\InvoicePdfService;
-use App\Services\QrService;
-use Illuminate\Http\Request;
 
 class PublicInvoiceController extends Controller
 {

@@ -12,21 +12,21 @@ class FaqSeeder extends Seeder
         $faqs = [
             [
                 'question'         => 'How much does a Rielcode website cost?',
-                'answer'           => 'Landing pages start at IDR 4,000,000 / $260. Custom multi-page sites run IDR 8 to 12M / $520 to $780. E-commerce from IDR 15M+ / $980+. All quotes are fixed-price, no hourly billing surprises.',
+                'answer'           => 'Plans start at IDR 499,000 / $30 (Student Plan — 1 page, no hosting). The Starter Plan (1 page + free hosting & domain) is IDR 999,000 / $59. The Pro Plan (up to 5 pages + CMS) is IDR 2,499,000 / $148. The Premium Plan (up to 10 pages + e-commerce + AI chatbot) is IDR 4,999,000 / $295. All prices are fixed — no hourly billing surprises.',
                 'show_on_studio'   => true,
                 'show_on_services' => true,
                 'sort_order'       => 1,
             ],
             [
                 'question'         => 'How long does a project take?',
-                'answer'           => 'Landing pages: 1 to 2 weeks. Custom sites: 3 to 4 weeks. E-commerce: 4 to 6 weeks. Timeline depends on how quickly you provide content, feedback, and approvals.',
+                'answer'           => 'Student Plan: 2–3 days. Starter Plan: 3–5 days. Pro Plan: 7–10 days. Premium Plan: 10–14 days. Custom projects: 7–30 days depending on scope. Timeline depends on how quickly you provide content, feedback, and approvals.',
                 'show_on_studio'   => true,
                 'show_on_services' => true,
                 'sort_order'       => 2,
             ],
             [
                 'question'         => 'How many revisions are included?',
-                'answer'           => 'Two rounds of design revisions per page. Additional rounds are billed at a flat rate agreed up front.',
+                'answer'           => 'Revisions vary by plan: Student Plan includes 1 revision, Starter Plan 1 revision, Pro Plan 2 revisions, and Premium Plan 5 revisions. Additional revision rounds can be added as an addon.',
                 'show_on_studio'   => true,
                 'show_on_services' => true,
                 'sort_order'       => 3,
@@ -40,7 +40,7 @@ class FaqSeeder extends Seeder
             ],
             [
                 'question'         => 'Do you provide hosting and domain?',
-                'answer'           => 'Rielcode can set up hosting and domain on your behalf, billed at cost plus a small setup fee. You can also bring your own hosting. Most paid packages include 1 year of free hosting and domain.',
+                'answer'           => 'Rielcode can set up hosting and domain on your behalf, billed at cost plus a small setup fee. You can also bring your own hosting. The Starter, Pro, and Premium plans all include 1 year of free hosting and a free domain (Student Plan does not).',
                 'show_on_studio'   => true,
                 'show_on_services' => false,
                 'sort_order'       => 5,

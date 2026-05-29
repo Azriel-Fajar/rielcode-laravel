@@ -99,7 +99,7 @@
                     </div>
                     <div class="rc-contact-aside__block">
                         <span class="rc-label">WhatsApp</span>
-                        <a href="https://wa.me/6281295536876" target="_blank" rel="noopener" class="rc-contact-aside__link">Message on WhatsApp →</a>
+                        <a href="https://wa.me/6281295536876?text=Hi%21%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener" class="rc-contact-aside__link">Message on WhatsApp →</a>
                     </div>
                     <div class="rc-contact-aside__block">
                         <span class="rc-label">Response time</span>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="rc-contact-aside__block">
                         <span class="rc-label">Availability</span>
-                        <p class="rc-contact-aside__detail">Taking projects for Q3 2026. Slots are limited.</p>
+                        <p class="rc-contact-aside__detail">Open to new projects. Reach out anytime.</p>
                     </div>
                 </aside>
             </div>

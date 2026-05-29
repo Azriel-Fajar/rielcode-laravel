@@ -12,9 +12,11 @@ class SiteSetting extends Model
 
     public static function get(string $key, $default = null)
     {
-        $row = Cache::remember("site_setting:{$key}", 300, fn() => static::where('key', $key)->first());
+        $row = Cache::remember("site_setting:{$key}", 300, fn () => static::where('key', $key)->first());
 
-        if (!$row) return $default;
+        if (! $row) {
+            return $default;
+        }
 
         if ($row->value_type === 'image' && $row->value) {
             return Storage::disk('public')->url($row->value);
@@ -30,6 +32,7 @@ class SiteSetting extends Model
     public static function raw(string $key, $default = null)
     {
         $row = static::where('key', $key)->first();
+
         return $row ? $row->value : $default;
     }
 
@@ -41,7 +44,7 @@ class SiteSetting extends Model
 
     protected static function booted()
     {
-        static::saved(fn($m) => Cache::forget("site_setting:{$m->key}"));
-        static::deleted(fn($m) => Cache::forget("site_setting:{$m->key}"));
+        static::saved(fn ($m) => Cache::forget("site_setting:{$m->key}"));
+        static::deleted(fn ($m) => Cache::forget("site_setting:{$m->key}"));
     }
 }

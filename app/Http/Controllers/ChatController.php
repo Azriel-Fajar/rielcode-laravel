@@ -14,45 +14,46 @@ class ChatController extends Controller
     public function __construct(private OpenAIChat $chat) {}
 
     /**
-     * POST /api/chat — blocking JSON response.
+     * POST /api/chat - blocking JSON response.
      */
     public function send(Request $request): JsonResponse
     {
         $message = trim($request->input('message', ''));
-        $source  = trim($request->input('source', ''));
-        $ip      = $request->ip();
+        $source = trim($request->input('source', ''));
+        $ip = $request->ip();
 
-        if (!$message) {
+        if (! $message) {
             return response()->json([
-                'ok'    => false,
+                'ok' => false,
                 'reply' => $this->chat->userMsg('RC-CHAT-001'),
-                'code'  => 'RC-CHAT-001',
+                'code' => 'RC-CHAT-001',
             ], 400);
         }
 
-        // Identity shortcut — no API call needed
+        // Identity shortcut - no API call needed
         if ($this->chat->isIdentityQuestion($message)) {
             $reply = $this->chat->identityReply();
             $this->logChat($message, $reply, [], $ip, 'identity');
+
             return response()->json(['ok' => true, 'reply' => $reply]);
         }
 
-        $history  = $this->sessionHistory($request);
+        $history = $this->sessionHistory($request);
         $messages = $this->chat->buildMessages($history, $message);
 
         $result = $this->chat->send($messages);
 
         if ($result['error']) {
             return response()->json([
-                'ok'    => false,
+                'ok' => false,
                 'reply' => $this->chat->userMsg($result['error']),
-                'code'  => $result['error'],
+                'code' => $result['error'],
             ], 500);
         }
 
         $this->storeInSession($request, $message, $result['reply']);
 
-        if ($source === 'chatbot' && !empty($result['usage']['total'])) {
+        if ($source === 'chatbot' && ! empty($result['usage']['total'])) {
             RateLimiter::addTokens($ip, $result['usage']['total']);
         }
 
@@ -62,39 +63,43 @@ class ChatController extends Controller
     }
 
     /**
-     * GET /api/chat/stream — SSE streaming response.
+     * GET /api/chat/stream - SSE streaming response.
      */
     public function stream(Request $request): StreamedResponse
     {
         $message = trim($request->input('message', ''));
-        $ip      = $request->ip();
+        $ip = $request->ip();
 
-        if (!$message) {
+        if (! $message) {
             return $this->sseError('RC-CHAT-001', $this->chat->userMsg('RC-CHAT-001'));
         }
 
         if ($this->chat->isIdentityQuestion($message)) {
             $reply = $this->chat->identityReply();
             $this->logChat($message, $reply, [], $ip, 'identity');
+
             return new StreamedResponse(function () use ($reply) {
                 echo "event: start\ndata: {\"ok\":true}\n\n";
-                echo "event: delta\ndata: " . json_encode(['v' => $reply]) . "\n\n";
+                echo "event: delta\ndata: ".json_encode(['v' => $reply])."\n\n";
                 echo "event: done\ndata: {\"ok\":true}\n\n";
-                @ob_flush(); @flush();
+                @ob_flush();
+                @flush();
             }, 200, $this->sseHeaders());
         }
 
-        $history  = $this->sessionHistory($request);
+        $history = $this->sessionHistory($request);
         $messages = $this->chat->buildMessages($history, $message);
 
         return new StreamedResponse(function () use ($request, $message, $messages, $ip) {
             // Kill output buffering
-            while (ob_get_level() > 0) { @ob_end_flush(); }
+            while (ob_get_level() > 0) {
+                @ob_end_flush();
+            }
             @ini_set('zlib.output_compression', '0');
 
             $result = $this->chat->stream($messages);
 
-            if (!$result['error']) {
+            if (! $result['error']) {
                 $this->storeInSession($request, $message, $result['reply']);
                 RateLimiter::addTokens($ip, $result['usage']['total'] ?? 0);
                 $this->logChat($message, $result['reply'], $result['usage'], $ip, 'chat');
@@ -112,12 +117,13 @@ class ChatController extends Controller
         if (count($history) > 6) {
             $history = array_slice($history, -20);
         }
+
         return $history;
     }
 
     private function storeInSession(Request $request, string $userMsg, string $botReply): void
     {
-        $history   = $request->session()->get('rielbot_memory', []);
+        $history = $request->session()->get('rielbot_memory', []);
         $history[] = ['role' => 'user',      'content' => $userMsg];
         $history[] = ['role' => 'assistant', 'content' => $botReply];
         if (count($history) > 6) {
@@ -130,13 +136,13 @@ class ChatController extends Controller
     {
         try {
             \DB::table('chat_logs')->insert([
-                'user_message'  => $userMsg,
-                'bot_reply'     => $botReply,
-                'ip_address'    => $ip,
-                'input_tokens'  => $usage['in']  ?? null,
+                'user_message' => $userMsg,
+                'bot_reply' => $botReply,
+                'ip_address' => $ip,
+                'input_tokens' => $usage['in'] ?? null,
                 'output_tokens' => $usage['out'] ?? null,
-                'tag'           => $tag,
-                'created_at'    => now(),
+                'tag' => $tag,
+                'created_at' => now(),
             ]);
         } catch (\Throwable $e) {
             AuditLogger::log('CHAT_LOG_INSERT_FAIL', 'error', $ip, ['err' => $e->getMessage()]);
@@ -146,10 +152,10 @@ class ChatController extends Controller
     private function sseHeaders(): array
     {
         return [
-            'Content-Type'      => 'text/event-stream; charset=utf-8',
-            'Cache-Control'     => 'no-cache, no-transform',
+            'Content-Type' => 'text/event-stream; charset=utf-8',
+            'Cache-Control' => 'no-cache, no-transform',
             'X-Accel-Buffering' => 'no',
-            'Connection'        => 'keep-alive',
+            'Connection' => 'keep-alive',
         ];
     }
 
@@ -157,8 +163,9 @@ class ChatController extends Controller
     {
         return new StreamedResponse(function () use ($code, $reply) {
             echo "event: error\n";
-            echo 'data: ' . json_encode(['code' => $code, 'reply' => $reply]) . "\n\n";
-            @ob_flush(); @flush();
+            echo 'data: '.json_encode(['code' => $code, 'reply' => $reply])."\n\n";
+            @ob_flush();
+            @flush();
         }, 200, $this->sseHeaders());
     }
 }

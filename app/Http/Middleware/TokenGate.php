@@ -26,15 +26,15 @@ class TokenGate
     public function handle(Request $request, Closure $next, string $type = 'order'): Response
     {
         $result = match ($type) {
-            'order'       => $this->checkOrderToken($request),
+            'order' => $this->checkOrderToken($request),
             'testimonial' => $this->checkTestimonialToken($request),
-            'referrer'    => $this->checkReferrerCode($request),
-            default       => null,
+            'referrer' => $this->checkReferrerCode($request),
+            default => null,
         };
 
         if ($result === null) {
             AuditLogger::log('TOKEN_GATE_FAIL', 'warn', null, [
-                'type'  => $type,
+                'type' => $type,
                 'token' => $request->query('t') ?? $request->query('code') ?? '',
             ]);
             abort(403, ErrorCodes::userMsg('RC-TOKEN-001'));
@@ -50,7 +50,7 @@ class TokenGate
     {
         $token = trim($request->query('t', ''));
 
-        if ($token === '' || !preg_match('/^[a-f0-9]{64}$/', $token)) {
+        if ($token === '' || ! preg_match('/^[a-f0-9]{64}$/', $token)) {
             return null;
         }
 
@@ -59,7 +59,7 @@ class TokenGate
             ->where('t.token', $token)
             ->first();
 
-        if (!$row) {
+        if (! $row) {
             return null;
         }
 
@@ -82,7 +82,7 @@ class TokenGate
             ->where('token', $token)
             ->first();
 
-        if (!$row) {
+        if (! $row) {
             return null;
         }
 

@@ -31,6 +31,11 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+::selection {
+  background: var(--rc-forest);
+  color: var(--rc-cream);
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;

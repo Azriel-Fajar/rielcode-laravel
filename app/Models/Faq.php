@@ -13,9 +13,9 @@ class Faq extends Model
     ];
 
     protected $casts = [
-        'show_on_studio'   => 'boolean',
+        'show_on_studio' => 'boolean',
         'show_on_services' => 'boolean',
-        'is_visible'       => 'boolean',
+        'is_visible' => 'boolean',
     ];
 
     public function scopeVisible($q)
